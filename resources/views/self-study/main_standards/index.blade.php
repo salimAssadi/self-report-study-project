@@ -28,7 +28,7 @@
                         </div>
                         <div class="col-auto">
                             <a href="{{ route('admin.main-standards.create') }}" class="btn btn-secondary customModal" data-size="lg"
-                                data-url="{{ route('admin.main-standards.create') }}" data-title="{{ __('Create Standard') }}">
+                                data-url="" data-title="{{ __('Create Standard') }}">
 
                                 <i class="ti ti-circle-plus align-text-bottom"></i>
                                 {{ __('Create Standard') }}
