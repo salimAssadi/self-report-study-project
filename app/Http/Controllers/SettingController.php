@@ -13,6 +13,7 @@ use Illuminate\Validation\ValidationException;
 use PragmaRX\Google2FAQRCode\Google2FA;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class SettingController extends Controller
 {
@@ -101,8 +102,8 @@ class SettingController extends Controller
             $dir = storage_path('uploads/profile/');
             $image_path = $dir . $loginUser->avatar;
 
-            if (\File::exists($image_path)) {
-                \File::delete($image_path);
+            if (File::exists($image_path)) {
+                File::delete($image_path);
             }
 
             if (!file_exists($dir)) {
