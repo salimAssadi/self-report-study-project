@@ -219,6 +219,9 @@ function datatable() {
 
 if ($(".summernote").length) {
     "use strict";
+    var lang = document.documentElement.lang;
+    var directionality = (lang === 'ar') ? 'rtl' : 'ltr';
+
     var editor_config = {
         path_absolute: window.location.origin + "/",  // Use the current domain
         document_base_url: window.location.origin + "/",  // Use the current domain
@@ -235,7 +238,7 @@ if ($(".summernote").length) {
         convert_urls: true,
         remove_script_host: false,
         relative_urls: false,
-        directionality: 'rtl',
+        directionality:  directionality,
         file_picker_callback: function (callback, value, meta) {
             if (meta.filetype === 'image') {
                 // Open the Alexusmai file manager
