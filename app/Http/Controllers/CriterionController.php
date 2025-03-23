@@ -225,7 +225,7 @@ class CriterionController extends Controller
                         $attachment = $criterion->attachments()->find($attachmentData['id']);
                         if ($attachment) {
                             // Check if a new file is provided
-                            if (isset($attachmentData['file']) && $attachmentData['file']->isValid()) {
+                            if (isset($attachmentData['file']) && $attachmentData['file']->isValid()){
                                 // Store the new file and update the file_path
                                 $filePath = $attachmentData['file']->store('attachments', 'public');
                                 $attachment->update([

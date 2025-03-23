@@ -590,6 +590,16 @@ class SettingController extends Controller
     {
         $user = \Auth::user();
         $user->lang = $lang;
+        $direction = ($lang == 'arabic') ? 'rtl' : 'ltr';
+
+        DB::insert(
+            'insert into settings (`value`, `name`,`parent_id`) values (?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`) ',
+            [
+                $direction,
+                'theme_layout',
+                parentId(),
+            ]
+        );
         $user->save();
 
         return redirect()->back()->with('success', __('Language successfully changed.'));

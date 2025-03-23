@@ -11,6 +11,8 @@
     $profile = asset(Storage::url('upload/profile'));
     $activeTab = session('tab', 'user_profile_settings');
 @endphp
+
+
 @section('content')
     <div class="row">
         <div class="col-sm-12">
@@ -166,3 +168,8 @@
     </div>
     </div>
 @endsection
+
+@push('script-page')
+    <script src="{{ asset('assets/js/plugins/tinymce/tinymce.min.js') }}"></script>
+    
+@endpush

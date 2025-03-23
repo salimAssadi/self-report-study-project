@@ -1450,7 +1450,11 @@
   "Contact Email": "البريد الإلكتروني",
   "Contact Phone": "رقم الجوال",
   "Main Standards Count":"عدد المعاير الرئيسية",
-  "Sub Standards Count":"عدد المعاير الفرعية"
+  "Sub Standards Count":"عدد المعاير الفرعية",
+  "Enter Introduction (English)": "أدخل المقدمة (إنجليزي)",
+  "Enter Introduction (Arabic)": "أدخل المقدمة (عربي)",
+  "Enter Summary (English)": "أدخل الملخص (إنجليزي)",
+  "Enter Summary (Arabic)": "أدخل الملخص (عربي)"
 
 
 }

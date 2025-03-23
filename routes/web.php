@@ -19,6 +19,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CriterionController;
 use App\Http\Controllers\FAQController;
+use App\Http\Controllers\FileManagerController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\IsoSpecificationItemController;
 use App\Http\Controllers\IsoSystemController;
@@ -194,7 +195,7 @@ Route::prefix('admin')->middleware(['XSS'])->name('admin.')->group(function () {
         });
 
         // File Manager Route
-        // Route::get('/file-manager', [FileManagerController::class, 'index'])->name('filemanager');
+        Route::get('/file-manager', [FileManagerController::class, 'index'])->name('filemanager');
 
         // Additional Routes for Procedures
         // Route::controller(ProcedureController::class)->prefix('procedures')->name('procedures.')->group(function () {

@@ -22,7 +22,7 @@ class FileManagerController extends Controller
 
     {   
 
-        return view('iso_dic.filemanager');
+        return view('filemanager');
 
     }
 

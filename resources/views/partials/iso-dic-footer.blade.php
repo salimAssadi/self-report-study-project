@@ -45,6 +45,7 @@
 <script src="{{ asset('assets/js/plugins/dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/dataTables.bootstrap5.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/buttons.colVis.min.js') }}"></script>
+
 <script src="{{ asset('assets/js/plugins/buttons.print.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/pdfmake.min.js') }}"></script>
 {{-- <script src="{{ asset('assets/js/plugins/jszip.min.js') }}"></script> --}}

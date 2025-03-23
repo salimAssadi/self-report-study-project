@@ -11,24 +11,10 @@
     <li class="breadcrumb-item"><a href="{{ route('admin.criteria.index') }}">{{ __('Criteria') }}</a></li>
     <li class="breadcrumb-item active" aria-current="page">{{ __('Edit Criterion') }}</li>
 @endsection
-@section('action-btn')
-    <div class="pr-2">
-
-        <a href="{{ route('admin.criteria.index') }}" class="btn btn-light-secondary me-3"> <i data-feather="x-circle"
-                class="me-2"></i>{{ __('Cancel') }}</a>
-        <a type="submit" id="submit-all" class="btn btn-primary text-white"> <i data-feather="check-circle"
-                class="me-2"></i>{{ __('Save') }}</a>
-    </div>
-@endsection
-@section('filter')
-@endsection
-@push('css-page')
-    <link rel="stylesheet" href="{{ asset('custom/libs/summernote/summernote-bs4.css') }}">
-@endpush
 
 @push('script-page')
-    <script src="{{ asset('custom/libs/summernote/summernote-bs4.js') }}"></script>
-    <script>
+<script src="{{ asset('assets/js/plugins/tinymce/tinymce.min.js') }}"></script>
+<script>
 
 document.getElementById('main_standard_id').addEventListener('change', function() {
         const main_standard_id = this.value;
@@ -205,7 +191,7 @@ document.getElementById('main_standard_id').addEventListener('change', function(
                                 <select name="main_standard_id" id="main_standard_id" class="form-control" required>
                                     <option value="">{{ __('Select Standard') }}</option>
                                     @foreach ($Standards as $standard)
-                                        <option value="{{ $standard->id }}">{{ $standard->name_ar }}</option>
+                                        <option value="{{ $standard->id }}" @selected($standard->id == $criteria->standard_id)>{{ $standard->name_ar }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -215,7 +201,9 @@ document.getElementById('main_standard_id').addEventListener('change', function(
                                 {{ Form::label('standard_id', __('sub Standard'), ['class' => 'form-label']) }}
                                 <select name="sub_standard_id" id="sub_standard_id" class="form-control">
                                     <option value="">{{ __('Select Standard') }}</option>
-                                   
+                                    @foreach ($Standards as $standard)
+                                        <option value="{{ $standard->id }}" @selected($standard->id == $criteria->standard_id)>{{ $standard->name_ar }}</option>
+                                    @endforeach
                                 </select>
                             </div>
 

@@ -21,16 +21,7 @@ $(document).ready(function () {
         $(this).parents(".gridparentt").find(".data_grid").toggle();
     });
 
-    if ($(".summernote").length) {
-        $('.summernote').summernote({
-            toolbar: [
-                ['style', ['style']],
-                ['font', ['bold', 'italic', 'underline', 'strikethrough']],
-                ['list', ['ul', 'ol', 'paragraph']],
-                ['insert', ['link', 'unlink']],
-            ],
-            height: 250,
-        });
+   
         // $(".summernote-simple").summernote({
         //     dialogsInBody: !0,
         //     minHeight: 200,
@@ -45,7 +36,7 @@ $(document).ready(function () {
         //         ["para", ["ul", "ol", "paragraph"]],
         //     ],
         // });
-    }
+    // }
   
     $(document).ready(function () {
         $(".tabs-card").addClass("d-none");

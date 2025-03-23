@@ -14,7 +14,10 @@
 
     </li>
 @endsection
-
+@push('script-page')
+    <script src="{{ asset('assets/js/plugins/tinymce/tinymce.min.js') }}"></script>
+    
+@endpush
 @section('content')
     <div class="row d-none">
         <div class="col-sm-12">

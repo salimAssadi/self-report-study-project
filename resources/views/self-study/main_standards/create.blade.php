@@ -16,8 +16,8 @@
 @endsection
 
 @push('script-page')
-    <script src="{{ asset('custom/libs/summernote/summernote-bs4.js') }}"></script>
-    <script>
+<script src="{{ asset('assets/js/plugins/tinymce/tinymce.min.js') }}"></script>
+<script>
         function toggleSubStandardFields() {
             const type = document.getElementById('type').value;
             const mainStandardField = document.querySelectorAll('.main-standard-field');

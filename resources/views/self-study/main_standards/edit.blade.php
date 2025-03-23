@@ -33,12 +33,10 @@
 
 @section('filter')
 @endsection
-@push('css-page')
-    <link rel="stylesheet" href="{{ asset('custom/libs/summernote/summernote-bs4.css') }}">
-@endpush
+
 @push('script-page')
-    <script src="{{ asset('custom/libs/summernote/summernote-bs4.js') }}"></script>
-    <script>
+<script src="{{ asset('assets/js/plugins/tinymce/tinymce.min.js') }}"></script>
+<script>
         var Dropzones = function() {
             var e = $('[data-toggle="dropzone1"]'),
                 t = $(".dz-preview");
