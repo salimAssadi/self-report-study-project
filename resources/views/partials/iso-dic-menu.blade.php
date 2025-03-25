@@ -23,7 +23,7 @@
                 </li>
                 @if (Gate::check('Manage Criteria') || Gate::check('Manage Standard') )
                     <li
-                        class="pc-item pc-hasmenu {{ in_array($routeName, ['admin.main-standards', 'admin.criteria','admin.criteria.index', 'admin.criteria.create', 'admin.criteria.edit','admin.main-standards.index', 'admin.main-standards.create', 'admin.main-standards.edit']) ? 'pc-trigger active' : '' }}">
+                        class="pc-item pc-hasmenu {{ in_array($routeName, ['admin.standards', 'admin.criteria','admin.criteria.index', 'admin.criteria.create', 'admin.criteria.edit','admin.standards.index', 'admin.standards.create', 'admin.standards.edit']) ? 'pc-trigger active' : '' }}">
                         <a href="#!" class="pc-link">
                             <span class="pc-micon">
                                 <i class="ti ti-users"></i>
@@ -32,10 +32,10 @@
                             <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                         </a>
                         <ul class="pc-submenu"
-                            style="display: {{ in_array($routeName, ['admin.main-standards','admin.main-standards.index', 'admin.main-standards.create', 'admin.main-standards.edit']) ? 'block' : 'none' }}">
+                            style="display: {{ in_array($routeName, ['admin.standards','admin.standards.index', 'admin.standards.create', 'admin.standards.edit']) ? 'block' : 'none' }}">
                             @if (Gate::check('Manage Standard'))
-                                <li class="pc-item {{ in_array($routeName, ['admin.main-standards.index']) ? 'active' : '' }}">
-                                    <a class="pc-link" href="{{ route('admin.main-standards.index') }}">{{ __('Standards') }}</a>
+                                <li class="pc-item {{ in_array($routeName, ['admin.standards.index']) ? 'active' : '' }}">
+                                    <a class="pc-link" href="{{ route('admin.standards.index') }}">{{ __('Standards') }}</a>
                                 </li>
                             @endif
                             @if (Gate::check('Manage Criteria'))

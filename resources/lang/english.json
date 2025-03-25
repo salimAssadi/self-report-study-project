@@ -1422,11 +1422,11 @@
     "Select Standard": "Select Standard",
     "Matching": "Matching",
     "Not Matching": "Not Matching",
-    "Edit Criterion":"Edit Criterion",
-    "Manage":"Manage",
-    "Facility Info":"Facility Info",
-    "Contact Info":"Contact Info",
-    "General Settings":"General Settings",
+    "Edit Criterion": "Edit Criterion",
+    "Manage": "Manage",
+    "Facility Info": "Facility Info",
+    "Contact Info": "Contact Info",
+    "General Settings": "General Settings",
     "Facility Information": "Facility Information",
     "Facility Name (Arabic)": "Facility Name (Arabic)",
     "Facility Name (English)": "Facility Name (English)",
@@ -1446,7 +1446,12 @@
     "Contact Position (English)": "Contact Position (English)",
     "Contact Email": "Contact Email",
     "Contact Phone": "Contact Phone",
-    "Main Standards Count":"Main Standards Count",
-    "Sub Standards Count":"Sub Standards Count"
-
+    "Main Standards Count": "Main Standards Count",
+    "Sub Standards Count": "Sub Standards Count",
+    "Sub-N": "Sub-N",
+    "Sub-Name (Arabic)": "Sub-Name (Arabic)",
+    "Sub-Name (English)": "Sub-Name (English)",
+    "Sub-Sequence": "Sub Standards Sequence",
+    "Sub-Completion Status": "Completion Status",
+    "Sub-Created At": "Sub-Created At"
 }

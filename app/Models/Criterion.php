@@ -11,7 +11,6 @@ class Criterion extends Model
 
     protected $fillable = [
         'standard_id',
-        'standard_type',
         'sequence',
         'name_ar',
         'name_en',
@@ -27,7 +26,7 @@ class Criterion extends Model
 
     public function standard()
     {
-        return $this->morphTo();
+        return $this->belongsTo(Standard::class, 'standard_id');
     }
 
     public function links()

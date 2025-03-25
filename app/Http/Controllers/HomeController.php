@@ -13,6 +13,7 @@ use App\Models\NoticeBoard;
 use App\Models\PackageTransaction;
 use App\Models\Page;
 use App\Models\Reminder;
+use App\Models\Standard;
 use App\Models\SubCategory;
 use App\Models\Subscription;
 use App\Models\SubStandard;
@@ -23,70 +24,7 @@ use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
-    // public function index()
-    // {
-    //     if (\Auth::check()) {
-    //         if (\Auth::user()->type == 'super admin') {
-    //             $result['totalOrganization'] = User::where('type', 'owner')->count();
-    //             $result['totalSubscription'] = Subscription::count();
-    //             $result['totalTransaction'] = PackageTransaction::count();
-    //             $result['totalIncome'] = PackageTransaction::sum('amount');
-    //             $result['totalNote'] = NoticeBoard::where('parent_id', parentId())->count();
-    //             $result['totalContact'] = Contact::where('parent_id', parentId())->count();
-
-    //             $result['organizationByMonth'] = $this->organizationByMonth();
-    //             $result['paymentByMonth'] = $this->paymentByMonth();
-
-    //             return view('dashboard.super_admin', compact('result'));
-    //         } else {
-    //             $result['totalUser'] = User::where('parent_id', parentId())->count();
-    //             $result['totalDocument'] = Document::where('parent_id', parentId())->count();
-    //             $result['todayDocument'] = Document::whereDate('created_at',Carbon::today())->where('parent_id', parentId())->count();
-    //             $result['totalCategory'] = Category::where('parent_id', parentId())->count();
-    //             $result['totalReminder'] = Reminder::where('parent_id', parentId())->count();
-    //             $result['todayReminder'] = Reminder::whereDate('date',Carbon::today())->where('parent_id', parentId())->count();
-
-    //             $result['totalContact'] = Contact::where('parent_id', \Auth::user()->id)->count();
-
-    //             $result['documentByCategory'] = $this->documentByCategory();
-    //             $result['documentBySubCategory'] = $this->documentBySubCategory();
-    //             $result['settings']=settings();
-
-
-    //             return view('dashboard.index', compact('result'));
-    //         }
-    //     } else {
-    //         if (!file_exists(setup())) {
-    //             header('location:install');
-    //             die;
-    //         } else {
-
-    //             $landingPage=getSettingsValByName('landing_page');
-    //             if($landingPage=='on'){
-    //                 $subscriptions=Subscription::get();
-    //                 $menus = Page::where('enabled',1)->get();
-    //                 $FAQs = FAQ::where('enabled',1)->get();
-    //                 return view('layouts.landing',compact('subscriptions', 'menus', 'FAQs'));
-    //             }else{
-    //                 return redirect()->route('login');
-    //             }
-    //         }
-
-    //     }
-
-    // }
-
-    // public function index()
-    // {
-    //     $landingPage=getSettingsValByName('landing_page');
-    //     if($landingPage=='on'){
-    //         $subscriptions=Subscription::get();
-    //         $menus = Page::where('enabled',1)->get();
-    //         $FAQs = FAQ::where('enabled',1)->get();
-    //         return view('layouts.landing',compact('subscriptions', 'menus', 'FAQs'));
-    //     }
-
-    // }
+    
 
     public function index()
     {
@@ -94,8 +32,8 @@ class HomeController extends Controller
         if (\Auth::check()) {
 
                 $totalUsers = User::count();
-                $totalMainStandards = MainStandard::count();
-                $totalSubStandards = SubStandard::count();
+                $totalMainStandards = Standard::main()->count();
+                $totalSubStandards = Standard::sub()->count();
 
                 // Fetch total criteria
                 $totalCriteria = \App\Models\Criterion::count();

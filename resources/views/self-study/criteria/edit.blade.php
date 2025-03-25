@@ -13,55 +13,69 @@
 @endsection
 
 @push('script-page')
-<script src="{{ asset('assets/js/plugins/tinymce/tinymce.min.js') }}"></script>
-<script>
-
-document.getElementById('main_standard_id').addEventListener('change', function() {
-        const main_standard_id = this.value;
-        const standardIdDropdown = document.getElementById('sub_standard_id');
-
-        // Clear existing options
-        standardIdDropdown.innerHTML = `<option value="">{{ __('Select Standard') }}</option>`;
-
-        if (main_standard_id) {
-            $.ajax({
-                url: `{{ route('admin.api.standards') }}`, // API endpoint
-                type: 'GET',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data: {
-                    main_standard_id: main_standard_id // Pass the selected type
-                },
-                success: function(data) {
-                        // Populate the dropdown with received data
-                        data.forEach(standard => {
-                            const option = document.createElement('option');
-                            option.value = standard.id;
-                            option.textContent = standard.name_ar || standard.name_en;
-                            standardIdDropdown.appendChild(option);
-                        });
-                    },
-                    error: function(error) {
-                        console.error('Error fetching standards:', error);
-                    }
+    <script src="{{ asset('assets/js/plugins/tinymce/tinymce.min.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            const mainStandardDropdown = $('#main_standard_id');
+            const subStandardDropdown = $('#sub_standard_id');
+    
+            // Fetch sub-standards for the selected main standard
+            mainStandardDropdown.on('change', function () {
+                const mainStandardId = mainStandardDropdown.val();
+    
+                // Clear existing options in the sub-standard dropdown
+                subStandardDropdown.empty();
+                subStandardDropdown.append('<option value="">{{ __("Select Sub-Standard") }}</option>');
+    
+                if (mainStandardId) {
+                    $.ajax({
+                        url: "{{ route('admin.api.standards.children') }}",
+                        method: 'GET',
+                        dataType: 'json',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: {
+                            parent_id: mainStandardId
+                        },
+                        success: function (data) {
+                            if (data.length === 0) {
+                                // If no sub-standards are found, show a placeholder option
+                                subStandardDropdown.append(
+                                    '<option value="" disabled>{{ __("No Sub-Standards Available") }}</option>'
+                                );
+                            } else {
+                                // Populate the dropdown with sub-standards
+                                data.forEach(function (subStandard) {
+                                    const option = $('<option>', {
+                                        value: subStandard.id,
+                                        text: subStandard.sequence + '-' + subStandard.name_ar,
+                                    });
+                                    subStandardDropdown.append(option);
+                                });
+    
+                                // Re-select the previously selected sub-standard
+                                const selectedSubStandardId = "{{ $criterion->standard_id }}";
+                                subStandardDropdown.val(selectedSubStandardId);
+                            }
+                        },
+                        error: function (error) {
+                            console.error('Error fetching sub-standards:', error);
+                            // Show an error message in the dropdown if the request fails
+                            subStandardDropdown.append(
+                                '<option value="" disabled>{{ __("Error Loading Sub-Standards") }}</option>'
+                            );
+                        },
+                    });
+                }
             });
-        }
-    });
-
-        function toggleSubStandardFields() {
-            const type = document.getElementById('type').value;
-            const mainStandardField = document.querySelectorAll('.main-standard-field');
-            const subStandardField = document.querySelector('#sub-standard-field');
-            if (type === 'sub') {
-                subStandardField.classList.remove('d-none');
-                mainStandardField.forEach(field => field.classList.add('d-none'));
-            } else {
-                subStandardField.classList.add('d-none');
-                mainStandardField.forEach(field => field.classList.remove('d-none'));
-            }
-        }
-
+    
+            // Trigger the change event to populate sub-standards on page load
+            mainStandardDropdown.trigger('change');
+        });
+    </script>
+    <script>
         let linkIndex = 1;
 
         document.getElementById('add-link').addEventListener('click', function() {
@@ -125,7 +139,7 @@ document.getElementById('main_standard_id').addEventListener('change', function(
             }
         });
         // Dynamically populate the Standard dropdown based on the selected Standard Type
-      
+
         document.getElementById('submit-all').addEventListener('click', function() {
             document.getElementById('hidden-submit').click();
         });
@@ -136,7 +150,7 @@ document.getElementById('main_standard_id').addEventListener('change', function(
     <div class="row">
         <!-- [ sample-page ] start -->
         <div class="col-sm-12">
-            {{ Form::open(['method' => 'PUT', 'route' => ['admin.criteria.update', $criteria], 'enctype' => 'multipart/form-data']) }}
+            {{ Form::open(['method' => 'PUT', 'route' => ['admin.criteria.update', $criterion], 'enctype' => 'multipart/form-data']) }}
             @csrf
             @method('PUT')
             <div class="row">
@@ -151,59 +165,44 @@ document.getElementById('main_standard_id').addEventListener('change', function(
                                 </div>
                                 <div class="col-auto">
 
-                                    <a href="{{ route('admin.criteria.index') }}" class="btn btn-light-secondary me-3"> <i data-feather="x-circle"
-                                            class="me-2"></i>{{ __('Cancel') }}</a>
-                                    <a type="submit" id="submit-all" class="btn btn-primary text-white"> <i data-feather="check-circle"
-                                            class="me-2"></i>{{ __('Save') }}</a>
+                                    <a href="{{ route('admin.criteria.index') }}" class="btn btn-light-secondary me-3"> <i
+                                            data-feather="x-circle" class="me-2"></i>{{ __('Cancel') }}</a>
+                                    <a type="submit" id="submit-all" class="btn btn-primary text-white"> <i
+                                            data-feather="check-circle" class="me-2"></i>{{ __('Save') }}</a>
                                 </div>
-                                
+
                             </div>
                         </div>
                         <div class="card-body">
-                           
-                            {{-- <div class="form-group">
-                                {{ Form::label('standard_type', __('Standard Type'), ['class' => 'form-label']) }}
-                                {{ Form::select(
-                                    'standard_type',
-                                    [
-                                        'main' => __('Main Standard'),
-                                        'sub' => __('Sub-Standard'),
-                                    ],
-                                    $criteria->standard_type,
-                                    ['class' => 'form-control', 'id' => 'standard_type'],
-                                ) }}
-                            </div> --}}
 
-                            <!-- Standard ID -->
-                            {{-- <div class="form-group">
-                                {{ Form::label('standard_id', __('Standard'), ['class' => 'form-label']) }}
-                                <select name="standard_id" id="standard_id" class="form-control" required>
-                                    <option value="">{{ __('Select Standard') }}</option>
-                                    @foreach ($mainStandards as $standard)
-                                        <option value="{{ $standard->id }}" @selected($standard->id == $criteria->standard_id)>
-                                            {{ $standard->name_ar }}</option>
-                                    @endforeach
-                                </select>
-                            </div> --}}
+
 
                             <div class="form-group  col-md-12">
-                                {{ Form::label('standard_id', __('Main Standard'), ['class' => 'form-label']) }}
+                                {{ Form::label('main_standard_id', __('Parent Standard'), ['class' => 'form-label']) }}
                                 <select name="main_standard_id" id="main_standard_id" class="form-control" required>
-                                    <option value="">{{ __('Select Standard') }}</option>
-                                    @foreach ($Standards as $standard)
-                                        <option value="{{ $standard->id }}" @selected($standard->id == $criteria->standard_id)>{{ $standard->name_ar }}</option>
+                                    <option value="">{{ __('Select Parent Standard') }}</option>
+                                    @foreach ($mainStandards as $mainStandard)
+                                        <option value="{{ $mainStandard->id }}"
+                                            {{ $mainStandard->id == $criterion->standard->parent_id ? 'selected' : '' }}>
+                                            {{ $mainStandard->sequence . '-' . $mainStandard->name_ar }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
-                
+
                             <!-- Standard ID -->
                             <div class="form-group  col-md-12">
-                                {{ Form::label('standard_id', __('sub Standard'), ['class' => 'form-label']) }}
+                                {{ Form::label('sub_standard_id', __('Sub-Standard'), ['class' => 'form-label']) }}
                                 <select name="sub_standard_id" id="sub_standard_id" class="form-control">
-                                    <option value="">{{ __('Select Standard') }}</option>
-                                    @foreach ($Standards as $standard)
-                                        <option value="{{ $standard->id }}" @selected($standard->id == $criteria->standard_id)>{{ $standard->name_ar }}</option>
-                                    @endforeach
+                                    <option value="">{{ __('Select Sub-Standard') }}</option>
+                                    @if ($criterion->standard->children->isNotEmpty())
+                                        @foreach ($criterion->standard->children as $child)
+                                            <option value="{{ $child->id }}"
+                                                {{ $child->id == $criterion->standard_id ? 'selected' : '' }}>
+                                                {{ $child->sequence . '-' . $child->name_ar }}
+                                            </option>
+                                        @endforeach
+                                    @endif
                                 </select>
                             </div>
 
@@ -226,13 +225,13 @@ document.getElementById('main_standard_id').addEventListener('change', function(
                                     <!-- Name (Arabic) -->
                                     <div class="form-group mt-3">
                                         {{ Form::label('name_ar', __('Name (Arabic)'), ['class' => 'form-label']) }}
-                                        {{ Form::text('name_ar', $criteria->name_ar, ['class' => 'form-control', 'placeholder' => __('Enter Name (Arabic)')]) }}
+                                        {{ Form::text('name_ar', $criterion->name_ar, ['class' => 'form-control', 'placeholder' => __('Enter Name (Arabic)')]) }}
                                     </div>
 
                                     <!-- Content (Arabic) -->
                                     <div class="form-group">
                                         {{ Form::label('content_ar', __('Content (Arabic)'), ['class' => 'form-label']) }}
-                                        {{ Form::textarea('content_ar', $criteria->content_ar, ['class' => 'form-control summernote', 'rows' => 3, 'placeholder' => __('Enter Content (Arabic)')]) }}
+                                        {{ Form::textarea('content_ar', $criterion->content_ar, ['class' => 'form-control summernote', 'rows' => 3, 'placeholder' => __('Enter Content (Arabic)')]) }}
                                     </div>
 
                                 </div>
@@ -240,13 +239,13 @@ document.getElementById('main_standard_id').addEventListener('change', function(
                                     <!-- Name (English) -->
                                     <div class="form-group mt-3">
                                         {{ Form::label('name_en', __('Name (English)'), ['class' => 'form-label']) }}
-                                        {{ Form::text('name_en', $criteria->name_en, ['class' => 'form-control', 'placeholder' => __('Enter Name (English)')]) }}
+                                        {{ Form::text('name_en', $criterion->name_en, ['class' => 'form-control', 'placeholder' => __('Enter Name (English)')]) }}
                                     </div>
 
                                     <!-- Content (English) -->
                                     <div class="form-group">
                                         {{ Form::label('content_en', __('Content (English)'), ['class' => 'form-label']) }}
-                                        {{ Form::textarea('content_en', $criteria->content_en, ['class' => 'form-control summernote', 'rows' => 3, 'placeholder' => __('Enter Content (English)')]) }}
+                                        {{ Form::textarea('content_en', $criterion->content_en, ['class' => 'form-control summernote', 'rows' => 3, 'placeholder' => __('Enter Content (English)')]) }}
                                     </div>
 
                                 </div>
@@ -274,7 +273,7 @@ document.getElementById('main_standard_id').addEventListener('change', function(
                                         </thead>
 
                                         <tbody>
-                                            @foreach ($criteria->links as $link)
+                                            @foreach ($criterion->links as $link)
                                                 <tr class="link-row">
                                                     <td>
                                                         <input type="hidden" name="links[{{ $loop->index }}][id]"
@@ -296,7 +295,8 @@ document.getElementById('main_standard_id').addEventListener('change', function(
                                                             value="{{ $link->url }}">
                                                     </td>
                                                     <td class="w-10 text-center">
-                                                        <button type="button" class="btn btn-sm btn-danger remove-link"><i
+                                                        <button type="button"
+                                                            class="btn btn-sm btn-danger remove-link"><i
                                                                 class="fa fa-minus"></i></button>
                                                     </td>
                                                 </tr>
@@ -327,8 +327,8 @@ document.getElementById('main_standard_id').addEventListener('change', function(
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @if ($criteria->attachments)
-                                                @foreach ($criteria->attachments as $index => $attachment)
+                                            @if ($criterion->attachments)
+                                                @foreach ($criterion->attachments as $index => $attachment)
                                                     <tr class="attachment-row">
                                                         <td>
                                                             {{ Form::text("attachments[$index][name_ar]", $attachment->name_ar, ['class' => 'form-control', 'placeholder' => __('Attachment Name (Arabic)')]) }}

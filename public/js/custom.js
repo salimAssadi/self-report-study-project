@@ -178,13 +178,17 @@ function ckediter(editer_id = "") {
 function datatable() {
     "use strict";
 
-    if ($(".basic-datatable").length > 0) {
-        $(".basic-datatable").DataTable({
-            scrollX: true,
-            dom: "Bfrtip",
-            buttons: ["copy", "csv", "excel", "print"],
-        });
-    }
+    $(".basic-datatable").DataTable({
+        scrollX: true,
+        dom: "Bfrtip",
+        buttons: ["copy", "csv", "excel", "print"],
+        columnDefs: [
+            {
+                targets: "_all", // Apply to all columns
+                defaultContent: "-", // Fallback content
+            },
+        ],
+    });
 
     if ($(".advance-datatable").length > 0) {
         $(".advance-datatable").DataTable({
@@ -221,7 +225,6 @@ if ($(".summernote").length) {
     "use strict";
     var lang = document.documentElement.lang;
     var directionality = (lang === 'ar') ? 'rtl' : 'ltr';
-
     var editor_config = {
         path_absolute: window.location.origin + "/",  // Use the current domain
         document_base_url: window.location.origin + "/",  // Use the current domain

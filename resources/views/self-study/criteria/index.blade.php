@@ -31,7 +31,7 @@ $profile = asset(Storage::url('upload/profile/'));
                             data-url="{{ route('admin.criteria.create') }}" data-title="{{ __('Create Criterion') }}">
 
                             <i class="ti ti-circle-plus align-text-bottom"></i>
-                            {{ __('Criteria') }}
+                            {{ __('Create Criterion') }}
                         </a>
                     </div>
                 </div>
@@ -41,6 +41,7 @@ $profile = asset(Storage::url('upload/profile/'));
                     <table class="table table-hover advance-datatable">
                         <thead>
                             <tr>
+                                <th>{{ __('Sequence') }}</th>
                                 <th>{{ __('Name (Arabic)') }}</th>
                                 <th>{{ __('Name (English)') }}</th>
                                 <th>{{ __('Standard') }}</th>
@@ -52,6 +53,7 @@ $profile = asset(Storage::url('upload/profile/'));
                         <tbody>
                             @foreach ($criteria as $criterion)
                             <tr>
+                                <td>{{ $criterion->sequence }}</td>
                                 <td>{{ $criterion->name_ar }}</td>
                                 <td>{{ $criterion->name_en }}</td>
                                 <td>

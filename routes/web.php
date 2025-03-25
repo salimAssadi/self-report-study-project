@@ -31,6 +31,7 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RequestController;
+use App\Http\Controllers\StandardController;
 use App\Http\Controllers\SubStandardController;
 
 /*
@@ -112,8 +113,8 @@ Route::prefix('admin')->middleware(['XSS'])->name('admin.')->group(function () {
     Route::middleware(['auth'])->group(function () {
         Route::resource('users', UserController::class);
         Route::resource('role', RoleController::class);
-        Route::resource('main-standards', MainStandardController::class);
-        Route::resource('sub-standards', SubStandardController::class);
+        Route::resource('standards', StandardController::class);
+        // Route::resource('sub-standards', SubStandardController::class);
         Route::resource('criteria', CriterionController::class);
         Route::get('api/standards',[CriterionController::class, 'getStandard'])->name('api.standards');
         // Resourceful Routes
@@ -170,7 +171,7 @@ Route::prefix('admin')->middleware(['XSS'])->name('admin.')->group(function () {
         //     Route::delete('logged/{id}/history', 'loggedHistoryDestroy')->name('logged.history.destroy');
         // });
 
-
+        Route::get('/api/standards/children', [StandardController::class, 'getChildren'])->name('api.standards.children');
         // Settings Controller Routes
         Route::controller(SettingController::class)->prefix('settings')->name('setting.')->group(function () {
             Route::get('/', 'index')->name('index');

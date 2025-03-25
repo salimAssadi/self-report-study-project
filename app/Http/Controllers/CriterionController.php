@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Criterion;
 use App\Models\MainStandard;
+use App\Models\Standard;
 use App\Models\SubStandard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -27,10 +28,9 @@ class CriterionController extends Controller
     public function create()
     {
         // Fetch Main Standards and Sub-Standards for dropdowns
-        $mainStandards = MainStandard::all();
-        $subStandards = SubStandard::all();
+        $mainStandards = Standard::whereNull('parent_id')->get();
 
-        return view('self-study.criteria.create', compact('mainStandards', 'subStandards'));
+        return view('self-study.criteria.create', compact('mainStandards'));
     }
 
     /**
@@ -47,16 +47,13 @@ class CriterionController extends Controller
         ]);
 
         if(isset($request->sub_standard_id)){
-            $validated['standard_type'] = 'sub';
             $validated['standard_id'] = $request->sub_standard_id;
         }else{
-            $validated['standard_type'] ='main';
             $validated['standard_id'] = $request->main_standard_id;
         }
         
         $criterion = Criterion::create([
             'standard_id' => $validated['standard_id'],
-            'standard_type' => $validated['standard_type'],
             'sequence' => $validated['sequence'],
             'name_ar' => $validated['name_ar'],
             'name_en' => $validated['name_en'],
@@ -67,69 +64,7 @@ class CriterionController extends Controller
         return redirect()->back()->with('success', 'Criterion created successfully.');
     }
 
-    // public function store(Request $request)
-    // {
-    //     // Validate the request
-    //     $validated = $request->validate([
-    //         'standard_type' => 'required|in:App\Models\MainStandard,App\Models\SubStandard',
-    //         'standard_id' => 'required|exists:'.$request->standard_type.',id',
-    //         'name_ar' => 'required|string|max:255',
-    //         'name_en' => 'required|string|max:255',
-    //         'content_ar' => 'nullable|string',
-    //         'content_en' => 'nullable|string',
-    //         'compliance' => 'required|in:yes,no',
-    //         'fulfillment_status' => 'required|in:1,2,3,4,5',
-    //         'completion_status' => 'required|in:incomplete,partially_complete,complete',
-    //         'links' => 'nullable|array',
-    //         'links.*.name_ar' => 'nullable|string|max:255',
-    //         'links.*.name_en' => 'nullable|string|max:255',
-    //         'links.*.url' => 'nullable|url',
-    //         'attachments' => 'nullable|array',
-    //         'attachments.*.name_ar' => 'nullable|string|max:255',
-    //         'attachments.*.name_en' => 'nullable|string|max:255',
-    //         'attachments.*.file' => 'nullable|file',
-    //     ]);
-
-    //     // Create the criterion
-    //     $criterion = Criterion::create([
-    //         'standard_type' => $validated['standard_type'],
-    //         'standard_id' => $validated['standard_id'],
-    //         'name_ar' => $validated['name_ar'],
-    //         'name_en' => $validated['name_en'],
-    //         'content_ar' => $validated['content_ar'],
-    //         'content_en' => $validated['content_en'],
-    //         'compliance' => $validated['compliance'],
-    //         'fulfillment_status' => $validated['fulfillment_status'],
-    //         'completion_status' => $validated['completion_status'],
-    //     ]);
-
-    //     // Store links
-    //     if (isset($validated['links'])) {
-    //         foreach ($validated['links'] as $linkData) {
-    //             $criterion->links()->create([
-    //                 'name_ar' => $linkData['name_ar'],
-    //                 'name_en' => $linkData['name_en'],
-    //                 'url' => $linkData['url'],
-    //             ]);
-    //         }
-    //     }
-
-    //     // Store attachments
-    //     if (isset($validated['attachments'])) {
-    //         foreach ($validated['attachments'] as $attachmentData) {
-    //             if (isset($attachmentData['file'])) {
-    //                 $filePath = $attachmentData['file']->store('attachments', 'public');
-    //                 $criterion->attachments()->create([
-    //                     'name_ar' => $attachmentData['name_ar'],
-    //                     'name_en' => $attachmentData['name_en'],
-    //                     'file_path' => $filePath,
-    //                 ]);
-    //             }
-    //         }
-    //     }
-
-    //     return redirect()->route('criteria.index')->with('success', __('Criterion created successfully.'));
-    // }
+   
     /**
      * Display the specified resource.
      */
@@ -144,17 +79,14 @@ class CriterionController extends Controller
      */
     public function edit(string $id)
     {
-        $criteria = Criterion::with(['standard','links','attachments'])->where('id', $id)->first();
-        // $criteria = Criterion::with(['standard',])->where('id', $id)->first();
-        if (!$criteria) {
+       
+        $criterion = Criterion::with(['standard.parent','links','attachments'])->where('id', $id)->first();
+        $mainStandards =Standard::whereNull('parent_id')->get();
+        if (!$criterion) {
             return redirect()->route('criteria.index')->with('error', __('العنصر المحدد غير موجود.'));
         }
-        if ($criteria->standard_type == "main") {
-            $Standards = MainStandard::all();
-        } else {
-            $Standards =  SubStandard::all();;
-        }
-        return view('self-study.criteria.edit', compact('criteria', 'Standards'));
+
+        return view('self-study.criteria.edit', compact('criterion', 'mainStandards'));
     }
 
     /**
@@ -182,16 +114,13 @@ class CriterionController extends Controller
             'attachments.*.file' => 'nullable|file|mimes:pdf,jpg,png|max:5120', // Max 5MB
         ]);
         if(isset($request->sub_standard_id)){
-            $validated['standard_type'] = 'sub';
             $validated['standard_id'] = $request->sub_standard_id;
         }else{
-            $validated['standard_type'] ='main';
             $validated['standard_id'] = $request->main_standard_id;
         }
         // Update criterion details
         $criterion->update([
             'standard_id' => $validated['standard_id'],
-            'standard_type' => $validated['standard_type'],
             'name_ar' => $validated['name_ar'],
             'name_en' => $validated['name_en'],
             'content_ar' => $validated['content_ar'] ?? null,
@@ -256,7 +185,7 @@ class CriterionController extends Controller
             }
         });
       
-        return redirect()->back()->with('success', __('Criterion updated successfully.'));
+        return redirect()->route('admin.criteria.index')->with('success', 'Criterion updated successfully.');
     }
     /**
      * Remove the specified resource from storage.
