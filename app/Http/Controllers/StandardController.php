@@ -22,7 +22,8 @@ class StandardController extends Controller
      */
     public function create()
     {
-        $mainStandards = Standard::where('type', 'main')->get(); // Fetch all main standards
+        $mainStandards = Standard::where('type', 'main')->pluck('name_ar', 'id'); // Fetch all main standards
+        $mainStandards->prepend('Select Main Standard', null);
         return view('self-study.standards.create', compact('mainStandards'));
     }
 
