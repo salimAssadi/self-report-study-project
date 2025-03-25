@@ -234,6 +234,11 @@ class SettingController extends Controller
             }
             if ($request->logo) {
                 $ownerLogoName = parentId() . '_logo.png';
+                $dir = storage_path('uploads/logo/');
+                $image_path1 = $dir . $ownerLogoName;
+                if (File::exists($image_path1)) {
+                    File::delete($image_path1);
+                }
                 $request->file('logo')->storeAs('upload/logo/', $ownerLogoName);
                 DB::insert(
                     'insert into settings (`value`, `name`,`parent_id`) values (?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`) ',
@@ -247,9 +252,14 @@ class SettingController extends Controller
 
             if ($request->favicon) {
                 $ownerFaviconName = parentId() . '_favicon.png';
+                $dir = storage_path('uploads/logo/');
+                $image_path = $dir . $ownerFaviconName;
+                if (File::exists($image_path)) {
+                    File::delete($image_path);
+                }
                 $request->file('favicon')->storeAs('upload/logo/', $ownerFaviconName);
 
-                \DB::insert(
+                DB::insert(
                     'insert into settings (`value`, `name`,`parent_id`) values (?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`) ',
                     [
                         $ownerFaviconName,
@@ -261,6 +271,11 @@ class SettingController extends Controller
 
             if ($request->light_logo) {
                 $ownerLightLogoName = parentId() . '_light_logo.png';
+                $dir = storage_path('uploads/logo/');
+                $image_path = $dir . $ownerLightLogoName;
+                if (File::exists($image_path)) {
+                    File::delete($image_path);
+                }
                 $request->file('light_logo')->storeAs('upload/logo/', $ownerLightLogoName);
 
                 DB::insert(
