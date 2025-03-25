@@ -235,8 +235,7 @@ class SettingController extends Controller
             if ($request->logo) {
                 $ownerLogoName = parentId() . '_logo.png';
                 $request->file('logo')->storeAs('upload/logo/', $ownerLogoName);
-
-                \DB::insert(
+                DB::insert(
                     'insert into settings (`value`, `name`,`parent_id`) values (?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`) ',
                     [
                         $ownerLogoName,
@@ -264,7 +263,7 @@ class SettingController extends Controller
                 $ownerLightLogoName = parentId() . '_light_logo.png';
                 $request->file('light_logo')->storeAs('upload/logo/', $ownerLightLogoName);
 
-                \DB::insert(
+                DB::insert(
                     'insert into settings (`value`, `name`,`parent_id`) values (?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`) ',
                     [
                         $ownerLightLogoName,
