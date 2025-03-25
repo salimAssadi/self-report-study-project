@@ -16,18 +16,18 @@
     <script src="{{ asset('assets/js/plugins/tinymce/tinymce.min.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             const mainStandardDropdown = $('#main_standard_id');
             const subStandardDropdown = $('#sub_standard_id');
-    
+
             // Fetch sub-standards for the selected main standard
-            mainStandardDropdown.on('change', function () {
+            mainStandardDropdown.on('change', function() {
                 const mainStandardId = mainStandardDropdown.val();
-    
+
                 // Clear existing options in the sub-standard dropdown
                 subStandardDropdown.empty();
-                subStandardDropdown.append('<option value="">{{ __("Select Sub-Standard") }}</option>');
-    
+                subStandardDropdown.append('<option value="">{{ __('Select Sub-Standard') }}</option>');
+
                 if (mainStandardId) {
                     $.ajax({
                         url: "{{ route('admin.api.standards.children') }}",
@@ -39,38 +39,39 @@
                         data: {
                             parent_id: mainStandardId
                         },
-                        success: function (data) {
+                        success: function(data) {
                             if (data.length === 0) {
                                 // If no sub-standards are found, show a placeholder option
                                 subStandardDropdown.append(
-                                    '<option value="" disabled>{{ __("No Sub-Standards Available") }}</option>'
+                                    '<option value="" disabled>{{ __('No Sub-Standards Available') }}</option>'
                                 );
                             } else {
                                 // Populate the dropdown with sub-standards
-                                data.forEach(function (subStandard) {
+                                data.forEach(function(subStandard) {
                                     const option = $('<option>', {
                                         value: subStandard.id,
-                                        text: subStandard.sequence + '-' + subStandard.name_ar,
+                                        text: subStandard.sequence + '-' +
+                                            subStandard.name_ar,
                                     });
                                     subStandardDropdown.append(option);
                                 });
-    
+
                                 // Re-select the previously selected sub-standard
                                 const selectedSubStandardId = "{{ $criterion->standard_id }}";
                                 subStandardDropdown.val(selectedSubStandardId);
                             }
                         },
-                        error: function (error) {
+                        error: function(error) {
                             console.error('Error fetching sub-standards:', error);
                             // Show an error message in the dropdown if the request fails
                             subStandardDropdown.append(
-                                '<option value="" disabled>{{ __("Error Loading Sub-Standards") }}</option>'
+                                '<option value="" disabled>{{ __('Error Loading Sub-Standards') }}</option>'
                             );
                         },
                     });
                 }
             });
-    
+
             // Trigger the change event to populate sub-standards on page load
             mainStandardDropdown.trigger('change');
         });
@@ -205,7 +206,14 @@
                                     @endif
                                 </select>
                             </div>
-
+                            <!-- Sequence -->
+                            <div class="form-group col-md-12">
+                                {{ Form::label('sequence', __('Sequence'), ['class' => 'form-label']) }}
+                                {{ Form::text('sequence', $criterion->sequence, ['class' => 'form-control', 'placeholder' => __('Enter Sequence')]) }}
+                                @error('sequence')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
                             <!-- Tabbed Interface for AR and EN Fields -->
                             <ul class="nav nav-tabs nav-fill w-25" id="languageTabs" role="tablist">
                                 <li class="nav-item" role="presentation">

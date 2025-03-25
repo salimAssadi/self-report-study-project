@@ -60,6 +60,7 @@ class SettingController extends Controller
 
             // Save or Update Settings in the Database
             foreach ($validated as $key => $value) {
+                $value = $value ?? '';
                 DB::insert(
                     'INSERT INTO settings (`value`, `name`,`parent_id`) VALUES (?, ?, ?) 
                     ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)',

@@ -271,29 +271,37 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     {{ Form::label('logo', __('Logo'), ['class' => 'form-label']) }}
-                                                    <a href="{{ asset(Storage::url('upload/logo/')) . '/' . (isset($admin_logo) && !empty($admin_logo) ? $admin_logo : 'logo.png') }}"
-                                                        target="_blank"><i class="ti ti-eye ms-2 f-15"></i></a>
+                                                    <a href="{{ asset(Storage::url('upload/logo/')) . '/' . (isset($admin_logo) && !empty($admin_logo) ? $admin_logo : 'logo.png') }}" target="_blank">
+                                                        <i class="ti ti-eye ms-2 f-15"></i>
+                                                    </a>
                                                     {{ Form::file('logo', ['class' => 'form-control']) }}
+                                                    <img src="{{ asset(Storage::url('upload/logo/')) . '/' . (isset($admin_logo) && !empty($admin_logo) ? $admin_logo : 'logo.png') }}" alt="Current Logo" class="img-thumbnail mt-2" style="max-width: 100%; height: auto;">
                                                 </div>
                                             </div>
+                                            
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     {{ Form::label('favicon', __('Favicon'), ['class' => 'form-label']) }}
-                                                    <a href="{{ asset(Storage::url('upload/logo')) . '/' . $settings['company_favicon'] }}"
-                                                        target="_blank"><i class="ti ti-eye ms-2 f-15"></i></a>
+                                                    <a href="{{ asset(Storage::url('upload/logo')) . '/' . $settings['company_favicon'] }}" target="_blank">
+                                                        <i class="ti ti-eye ms-2 f-15"></i>
+                                                    </a>
                                                     {{ Form::file('favicon', ['class' => 'form-control']) }}
+                                                    <img src="{{ asset(Storage::url('upload/logo')) . '/' . $settings['company_favicon'] }}" alt="Current Favicon" class="img-thumbnail mt-2" style="max-width: 100%; height: auto;">
                                                 </div>
                                             </div>
+                                            
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     {{ Form::label('light_logo', __('Light Logo'), ['class' => 'form-label']) }}
-                                                    <a href="{{ asset(Storage::url('upload/logo')) . '/' . $settings['light_logo'] }}"
-                                                        target="_blank"><i class="ti ti-eye ms-2 f-15"></i></a>
+                                                    <a href="{{ asset(Storage::url('upload/logo')) . '/' . $settings['light_logo'] }}" target="_blank">
+                                                        <i class="ti ti-eye ms-2 f-15"></i>
+                                                    </a>
                                                     {{ Form::file('light_logo', ['class' => 'form-control']) }}
+                                                    <img src="{{ asset(Storage::url('upload/logo')) . '/' . $settings['light_logo'] }}" alt="Current Light Logo" class="img-thumbnail mt-2" style="max-width: 100%; height: auto;">
                                                 </div>
                                             </div>
                                             @if (\Auth::user()->type == 'super admin')
-                                                <div class="col-md-4">
+                                                <div class="col-md-4 d-none">
                                                     <div class="form-group">
                                                         {{ Form::label('landing_logo', __('Landing Page Logo'), ['class' => 'form-label']) }}
                                                         <a href="{{ asset(Storage::url('upload/logo/landing_logo.png')) }}"
@@ -301,7 +309,7 @@
                                                         {{ Form::file('landing_logo', ['class' => 'form-control']) }}
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-4 d-none">
                                                     <div class="form-group">
                                                         {{ Form::label('landing_logo', __('Owner Email Verification'), ['class' => 'form-label']) }}
                                                         <div class="flex-shrink-0">
@@ -314,7 +322,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-4 d-none">
                                                     <div class="form-group">
                                                         {{ Form::label('landing_logo', __('Registration Page'), ['class' => 'form-label']) }}
                                                         <div class="flex-shrink-0">
@@ -326,7 +334,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-4 d-none">
                                                     <div class="form-group">
                                                         {{ Form::label('landing_logo', __('Landing Page'), ['class' => 'form-label']) }}
                                                         <div class="flex-shrink-0">
@@ -338,8 +346,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
+                                                <div class="col-md-4 d-none">
+                                                    <div class="form-group ">
                                                         {{ Form::label('pricing_feature', __('Pricing Feature'), ['class' => 'form-label']) }}
                                                         <div class="flex-shrink-0">
                                                             <div class="form-check form-switch">

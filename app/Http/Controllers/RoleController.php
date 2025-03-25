@@ -54,7 +54,7 @@ class RoleController extends Controller
                 $permissions = $permissions->pluck('name', 'id')->toArray();
 
             }
-            return view('roles.create', ['permissions' => $permissions]);
+            return view('self-study.roles.create', ['permissions' => $permissions]);
         }
         else
         {
@@ -113,7 +113,7 @@ class RoleController extends Controller
                 $role             = new Role();
                 $role->name       = $name;
                 $role->store_id = \Auth::user()->current_store;
-                $role->created_by = \Auth::user()->creatorId();
+                $role->created_by = \Auth::user()->id;
                 $permissions      = $request['permissions'];
                 $role->save();
 
@@ -124,7 +124,7 @@ class RoleController extends Controller
                     $role->givePermissionTo($p);
                 }
 
-                return redirect()->route('roles.index')->with('success', 'Role successfully created.');
+                return redirect()->route('admin.role.index')->with('success', 'Role successfully created.');
             // }
         }
         else
@@ -168,7 +168,7 @@ class RoleController extends Controller
             }
 
 
-            return view('roles.edit', compact('role', 'permissions'));
+            return view('self-study.roles.edit', compact('role', 'permissions'));
         }
         else
         {
@@ -190,7 +190,7 @@ class RoleController extends Controller
 
             $this->validate(
                 $request, [
-                            'name' => 'required|max:100|unique:roles,name,' . $role['id'] . ',id,created_by,' . \Auth::user()->creatorId(),
+                            'name' => 'required|max:100|unique:roles,name,' . $role['id'] . ',id,created_by,' . \Auth::user()->id,
                             'permissions' => 'required',
                         ]
             );
@@ -213,7 +213,7 @@ class RoleController extends Controller
                 $role->givePermissionTo($p);
             }
 
-            return redirect()->route('roles.index')->with('success', 'Role successfully updated.');
+            return redirect()->route('addmin.role.index')->with('success', 'Role successfully updated.');
         }
         else
         {

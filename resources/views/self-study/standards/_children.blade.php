@@ -2,14 +2,13 @@
 @if ($standard->children->isNotEmpty())
     <tr class="collapse" id="children-{{ $standard->id }}">
         <td colspan="10">
-            <h5 class="mb-3">{{ __('Sub-Standards') }}</h5>
-            <table class="table table-bordered table-responsive">
+            <li><strong class="mb-4">{{ __('Sub-Standards for') }} <span class="text-danger"> {{$standard->name_ar}} </span></strong></li>
+                <table class="table table-bordered table-responsive">
                 <thead>
                     <tr>
-                        <th> {{ __('N') }}</th>
+                        <th>{{ __('Sequence') }}</th>
                         <th>{{ __('Name (Arabic)') }}</th>
                         <th>{{ __('Name (English)') }}</th>
-                        <th>{{ __('Sequence') }}</th>
                         <th>{{ __('Number of Criteria') }}</th>
                         <th>{{ __('Completion Status') }}</th>
                     </tr>
@@ -17,10 +16,9 @@
                 <tbody>
                     @foreach ($standard->children as $child)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $child->sequence }}</td>
                             <td>{{ $child->name_ar }}</td>
                             <td>{{ $child->name_en }}</td>
-                            <td>{{ $child->sequence }}</td>
                             <td>{{ $child->criteria->count() }}</td>
                             <td>
                                 @switch($child->completion_status)
@@ -77,7 +75,7 @@
                         <!-- Criteria Section for Sub-Standards -->
                         <tr class="collapse" id="criteria-child-{{ $child->id }}">
                             <td colspan="10">
-                                <h6 class="mb-3">{{ __('Criteria for ') . $child->name_en }}</h6>
+                                <li><strong class="mb-4">{{ __('Criteria for') }} <span class="text-danger"> {{$standard->name_ar}} </span></strong></li>
                                 @include('self-study.standards._criteria', ['criteria' => $child->criteria])
                             </td>
                         </tr>

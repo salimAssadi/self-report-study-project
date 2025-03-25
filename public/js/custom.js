@@ -156,6 +156,7 @@ function select2() {
             });
         });
     }
+    
 }
 
 function ckediter(editer_id = "") {

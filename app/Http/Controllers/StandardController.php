@@ -12,8 +12,18 @@ class StandardController extends Controller
      */
     public function index()
     {
-        $standards = Standard::whereNull('parent_id')->with(['children', 'criteria'])->get();
-        // $mainStandards = MainStandard::with(['subStandards.criteria'])->get();
+        // $standards = Standard::whereNull('parent_id')->with(['children', 'criteria'])->get();
+        $standards = Standard::whereNull('parent_id')
+            ->with([
+                'children' => function ($query) {
+                    $query->orderBy('sequence', 'asc');
+                },
+                'criteria' => function ($query) {
+                    $query->orderBy('sequence', 'asc');
+                }
+            ])
+            ->orderBy('sequence', 'asc') 
+            ->get();
         return view('self-study.standards.index', compact('standards'));
     }
 
@@ -36,7 +46,7 @@ class StandardController extends Controller
         $validated = $request->validate([
             'type' => 'required|in:main,sub', // Type: 'main' for Main Standard, 'sub' for Sub-Standard
             'parent_id' => 'nullable|required_if:type,sub|exists:standards,id', // Parent ID required for sub-standards
-            'sequence' => 'nullable|numeric|min:0',
+            'sequence' => 'required|string|regex:/^\d+(\.\d+)*$/',
             'name_ar' => 'required|string',
             'name_en' => 'required|string',
             'introduction_ar' => 'nullable|string',
@@ -110,7 +120,7 @@ class StandardController extends Controller
         $validated = $request->validate([
             'type' => 'required|in:main,sub', // Type: 'main' for Main Standard, 'sub' for Sub-Standard
             'parent_id' => 'nullable|required_if:type,sub|exists:standards,id', // Parent ID required for sub-standards
-            'sequence' => 'required|numeric|min:0',
+            'sequence' => 'required|string|regex:/^\d+(\.\d+)*$/',
             'name_ar' => 'required|string',
             'name_en' => 'required|string',
             'introduction_ar' => 'nullable|string',

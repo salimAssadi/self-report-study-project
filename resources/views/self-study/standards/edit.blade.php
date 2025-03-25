@@ -104,7 +104,7 @@
                             <!-- Sequence -->
                             <div class="form-group">
                                 {{ Form::label('sequence', __('Sequence'), ['class' => 'form-label']) }}
-                                {{ Form::number('sequence', null, ['class' => 'form-control', 'placeholder' => __('Enter Sequence'), 'step' => '0.1']) }}
+                                {{ Form::text('sequence', null, ['class' => 'form-control', 'placeholder' => __('Enter Sequence')]) }}
                                 @error('sequence')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror

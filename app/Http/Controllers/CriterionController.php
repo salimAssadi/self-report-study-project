@@ -42,7 +42,7 @@ class CriterionController extends Controller
             'main_standard_id' => 'required',
             'name_ar' => 'required|string',
             'name_en' => 'required|string',
-            'sequence' => 'required|numeric|min:0',
+            'sequence' => 'required|string|regex:/^\d+(\.\d+)*$/',
 
         ]);
 
@@ -98,6 +98,7 @@ class CriterionController extends Controller
         // Validate the request
         $validated = $request->validate([
             'main_standard_id' => 'required',
+            'sequence' => 'required|string|regex:/^\d+(\.\d+)*$/',
             'name_ar' => 'required|string|max:255',
             'name_en' => 'required|string|max:255',
             'content_ar' => 'nullable|string',
@@ -121,6 +122,8 @@ class CriterionController extends Controller
         // Update criterion details
         $criterion->update([
             'standard_id' => $validated['standard_id'],
+            'sequence' => $validated['sequence'],
+            'name_ar' => $validated['name_ar'],
             'name_ar' => $validated['name_ar'],
             'name_en' => $validated['name_en'],
             'content_ar' => $validated['content_ar'] ?? null,

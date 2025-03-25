@@ -1,4 +1,4 @@
-{{ Form::open(['url' => 'roles', 'method' => 'post']) }}
+{{ Form::open(['route' => 'admin.role.store', 'method' => 'post']) }}
 <div class="modal-body">
     <div class="row">
         <div class="form-group">
@@ -90,7 +90,7 @@
                                             @if ($key = array_search('Show ' . $module, $permissions))
                                                 <div class="col-md-3 custom-control custom-checkbox">
                                                     {{ Form::checkbox('permissions[]', $key, false, ['class' => 'form-check-input isscheck isscheck_' . str_replace(' ', '', $module), 'id' => 'permission' . $key]) }}
-                                                    {{ Form::label('permission' . $key, 'Show', ['class' => 'form-label font-weight-500']) }}<br>
+                                                    {{ Form::label('permission' . $key, __('Show'), ['class' => 'form-label font-weight-500']) }}<br>
                                                 </div>
                                             @endif
                                         @endif

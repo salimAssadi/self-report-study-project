@@ -3,151 +3,146 @@
     $profile = asset(Storage::url('upload/profile/'));
 @endphp
 @section('page-title')
-{{ __('Users') }}
+    {{ __('User') }}
 @endsection
 @section('breadcrumb')
     <li class="breadcrumb-item">
         <a href="{{ route('admin.home') }}">{{ __('Dashboard') }}</a>
     </li>
     <li class="breadcrumb-item" aria-current="page">
-       
-            {{ __('Users') }}
+
+        {{ __('Users') }}
+
     </li>
 @endsection
 
 @section('content')
     <div class="row">
-        @foreach ($users as $user)
-            <div class="col-lg-3 col-sm-6 col-md-6">
-                <div class="card text-center">
-                    <div class="card-header border-0 pb-0">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h6 class="mb-0">
-                                <div class="badge p-2 px-3 rounded bg-primary">{{ ucfirst($user->type) }}</div>
-                            </h6>
+        <div class="col-sm-12">
+            <div class="card table-card">
+                <div class="card-header">
+                    <div class="row align-items-center g-2">
+                        <div class="col">
+                            <h5>
+
+                                {{ __('Users') }}
+                            </h5>
                         </div>
-                        @if (Gate::check('Edit User') || Gate::check('Delete User') || Gate::check('Reset Password'))
-                            <div class="card-header-right">
-                                <div class="btn-group card-option">
-                                    @if($user->is_active == 1)
-                                        <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
-                                            aria-haspopup="true" aria-expanded="false">
-                                            <i class="feather icon-more-vertical"></i>
-                                        </button>
-                                    @else
-                                        <div class="btn">
-                                            <i class="ti ti-lock"></i>
-                                        </div>
-                                    @endif
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        @can('Edit User')
-                                            <a href="#" class="dropdown-item"
-                                                data-url="{{ route('admin.users.edit', $user->id) }}" data-size="md"
-                                                data-ajax-popup="true" data-title="{{ __('Update User') }}">
-                                                <i class="ti ti-edit"></i>
-                                                <span class="ms-2">{{ __('Edit') }}</span>
-                                            </a>
-                                        @endcan
-                                        @can('Reset Password')
-                                            <a href="#" class="dropdown-item"
-                                                data-url=""
-                                                data-ajax-popup="true" data-size="md" data-title="{{ __('Change Password') }}">
-                                                <i class="ti ti-key"></i>
-                                                <span class="ms-2">{{ __('Reset Password') }}</span>
-                                            </a>
-                                        @endcan
-                                        @can('Delete User')
-                                            {!! Form::open([
-                                                'method' => 'DELETE',
-                                                'route' => ['admin.users.destroy', $user->id],
-                                                'id' => 'delete-form-' . $user->id,
-                                            ]) !!}
-                                            <a href="#" class="bs-pass-para dropdown-item"
-                                                data-confirm="{{ __('Are You Sure?') }}"
-                                                data-text="{{ __('This action can not be undone. Do you want to continue?') }}"
-                                                data-confirm-yes="delete-form-{{ $user->id }}" title="{{ __('Delete') }}"
-                                                data-bs-toggle="tooltip" data-bs-placement="top"><i
-                                                    class="ti ti-trash"></i><span class="ms-2">{{ __('Delete') }}</span></a>
-                                            {!! Form::close() !!}
-                                        @endcan
-                                        {{-- @permission('user login manage')  --}}
-                                            @if ($user->is_enable_login == 1)
-                                                <a href=""
-                                                    class="dropdown-item">
-                                                    <i class="ti ti-road-sign"></i>
-                                                    <span class="text-danger"> {{ __('Login Disable') }}</span>
-                                                </a>
-                                            @elseif ($user->is_enable_login == 0 && $user->password == null)
-                                                <a href="#" data-url=""
-                                                    data-ajax-popup="true" data-size="md" class="dropdown-item login_enable"
-                                                    data-title="{{ __('New Password') }}" class="dropdown-item">
-                                                    <i class="ti ti-road-sign"></i>
-                                                    <span class="text-success"> {{ __('Login Enable') }}</span>
-                                                </a>
-                                            @else
-                                                <a href=""
-                                                    class="dropdown-item">
-                                                    <i class="ti ti-road-sign"></i>
-                                                    <span class="text-success"> {{ __('Login Enable') }}</span>
-                                                </a>
-                                            @endif
-                                        {{-- @endpermission --}}
-                                    </div>
-                                </div>
+                        @if (Gate::check('Create User'))
+                            <div class="col-auto">
+                                <a href="#" class="btn btn-secondary customModal" data-size="lg"
+                                    data-url="{{ route('admin.users.create') }}" data-title=" {{ __('Create User') }} ">
+
+                                    <i class="ti ti-circle-plus align-text-bottom"></i>
+
+                                    {{ __('Add User') }}
+                                </a>
                             </div>
                         @endif
                     </div>
-                    <div class="card-body">
-                        <div class="avatar">
-                            <a href="{{ !empty($user->avatar) ? $profile . $user->avatar : $profile . 'avatar.png' }}"
-                                target="_blank">
-                                <img src="{{ !empty($user->avatar) ? $profile . $user->avatar : $profile . 'avatar.png' }}"
-                                    class="rounded-circle img" alt="">
-                            </a>
+                </div>
+                <div class="card-body pt-0">
+                    <div class="dt-responsive table-responsive">
+                        <table class="table table-hover advance-datatable">
+                            <thead>
+                                <tr>
+                                    <th>{{ __('Profile') }}</th>
+                                    <th>{{ __('Email') }}</th>
+
+                                    <th>{{ __('Role') }}</th>
+                                    <th>{{ __('Action') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($users as $user)
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-shrink-0 wid-40">
+                                                    <img class="img-radius img-fluid wid-40"
+                                                        src="{{ !empty($user->profile) ? asset(Storage::url('upload/profile')) . '/' . $user->profile : asset(Storage::url('upload/profile')) . '/avatar.png' }}"
+                                                        alt="User image">
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h5 class="mb-1">
+                                                        {{ $user->name }}
+
+                                                    </h5>
+                                                    <p class="text-muted f-12 mb-0">
+                                                        {{ !empty($user->phone_number) ? $user->phone_number : '' }} </p>
+                                                </div>
+                                            </div>
+
+                                        </td>
+
+                                        <td>{{ $user->email }} </td>
+
+                                        <td>{{ ucfirst($user->type) }} </td>
+                                        <td>
+                                            <div class="cart-action">
+                                                {!! Form::open(['method' => 'DELETE', 'route' => ['admin.users.destroy', $user->id]]) !!}
+
+                                                @can('Show User')
+                                                    <a class="avtar avtar-xs btn-link-warning text-warning"
+                                                        data-bs-toggle="tooltip" data-bs-original-title="{{ __('Show') }}"
+                                                        href="{{ route('admin.users.show', $user->id) }}"
+                                                        data-title="{{ __('Edit User') }}"> <i data-feather="eye"></i></a>
+                                    @endif
+                                    @can('Edit User')
+                                        <a class="avtar avtar-xs btn-link-secondary text-secondary customModal"
+                                            data-bs-toggle="tooltip" data-size="lg" data-bs-original-title="{{ __('Edit') }}"
+                                            href="#" data-url="{{ route('admin.users.edit', $user->id) }}"
+                                            data-title="{{ __('Edit User') }}"> <i data-feather="edit"></i></a>
+                                        @endif
+                                        @can('Delete User')
+                                            <a class="avtar avtar-xs btn-link-danger text-danger confirm_dialog"
+                                                data-bs-toggle="tooltip" data-bs-original-title="{{ __('Detete') }}" href="#">
+                                                <i data-feather="trash-2"></i></a>
+                                            @endif
+                                            {!! Form::close() !!}
+                                </div>
+
+                                </td>
+                                </tr>
+                                @endforeach
+                                </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <h4 class="mt-2 text-primary">{{ $user->name }}</h4>
-                        <small class="">{{ $user->email }}</small>
                     </div>
                 </div>
-            </div>
-        @endforeach
-        <div class="col-md-3">
-            @can('Create User')
-                <a class="btn-addnew-project" data-url="{{ route('admin.users.create') }}" data-title="{{ __('Add User') }}"
-                    data-ajax-popup="true" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Create') }}"><i
-                        class="ti ti-plus text-white"></i>
-                    <div class="bg-primary proj-add-icon">
-                        <i class="ti ti-plus"></i>
-                    </div>
-                    <h6 class="mt-4 mb-2">{{ __('New User') }}</h6>
-                    <p class="text-muted text-center">{{ __('Click here to add New User') }}</p>
-                </a>
-            @endcan
-        </div>
-    </div>
-@endsection
-@push('script-page')
-    {{-- Password  --}}
-    <script>
-        $(document).on('change', '#password_switch', function() {
-            if ($(this).is(':checked')) {
-                $('.ps_div').removeClass('d-none');
-                $('#password').attr("required", true);
+                </div>
+            @endsection
+            @push('script-page')
+                {{-- Password  --}}
+                <script>
+                    $(document).on('change', '#password_switch', function() {
+                        if ($(this).is(':checked')) {
+                            $('.ps_div').removeClass('d-none');
+                            $('#password').attr("required", true);
 
-            } else {
-                $('.ps_div').addClass('d-none');
-                $('#password').val(null);
-                $('#password').removeAttr("required");
-            }
-        });
-        $(document).on('click', '.login_enable', function() {
-            setTimeout(function() {
-                $('.modal-body').append($('<input>', {
-                    type: 'hidden',
-                    val: 'true',
-                    name: 'login_enable'
-                }));
-            }, 2000);
-        });
-    </script>
-@endpush
+                        } else {
+                            $('.ps_div').addClass('d-none');
+                            $('#password').val(null);
+                            $('#password').removeAttr("required");
+                        }
+                    });
+                    $(document).on('click', '.login_enable', function() {
+                        setTimeout(function() {
+                            $('.modal-body').append($('<input>', {
+                                type: 'hidden',
+                                val: 'true',
+                                name: 'login_enable'
+                            }));
+                        }, 2000);
+                    });
+                    $(document).on('change', '#standard_switch', function() {
+                        if ($(this).is(':checked')) {
+                            $('.standardsSection').removeClass('d-none');
+                        } else {
+                            $('.standardsSection').addClass('d-none');
+                            $('#standards-section').find('input[type="checkbox"]').prop('checked', false);
+                        }
+                    });
+                </script>
+            @endpush

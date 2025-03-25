@@ -28,7 +28,7 @@
                         </div>
                         <div class="col-auto">
                             <a href="{{ route('admin.standards.create') }}" class="btn btn-secondary customModal"
-                                data-size="lg" data-url="" data-title="{{ __('Create Standard') }}">
+                                data-size="lg" data-url="{{ route('admin.standards.create') }}" data-title="{{ __('Create Standard') }}">
 
                                 <i class="ti ti-circle-plus align-text-bottom"></i>
                                 {{ __('Create Standard') }}
@@ -42,11 +42,10 @@
                         <table class="table table-bordered ">
                             <thead>
                                 <tr>
-
-                                    <th>{{ __('N') }}</th>
+                                    
+                                    <th>{{ __('Sequence') }}</th>
                                     <th>{{ __('Name (Arabic)') }}</th>
                                     <th>{{ __('Name (English)') }}</th>
-                                    <th>{{ __('Sequence') }}</th>
                                     <th>{{ __('Sub-Standards Count') }}</th>
                                     <th>{{ __('Number of Criteria') }}</th>
                                     <th>{{ __('Completion Status') }}</th>
@@ -57,10 +56,9 @@
                                 @foreach ($standards as $standard)
                                     <!-- Parent Row -->
                                     <tr >
-                                        <td> {{ $loop->iteration }} </td>
+                                        <td>{{ $standard->sequence }}</td>
                                         <td>{{ $standard->name_ar }}</td>
                                         <td>{{ $standard->name_en }}</td>
-                                        <td>{{ $standard->sequence }}</td>
                                         <td>{{ $standard->children->count() }}</td>
                                         <td>{{ $standard->criteria->count() }}</td>
                                         <td>

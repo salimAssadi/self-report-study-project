@@ -26,7 +26,7 @@
             <!-- Sequence -->
             <div class="form-group  col-md-12">
                 {{ Form::label('sequence', __('Sequence'), ['class' => 'form-label']) }}
-                {{ Form::number('sequence', null, ['class' => 'form-control', 'placeholder' => __('Enter Sequence'), 'step' => '0.1']) }}
+                {{ Form::text('sequence', null, ['class' => 'form-control', 'placeholder' => __('Enter Sequence')]) }}
             </div>
 
             <!-- Name (Arabic) -->

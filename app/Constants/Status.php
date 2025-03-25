@@ -16,7 +16,7 @@ class Status
     const COMPLETION_STATUS = [
         'incomplete' => 'Incomplete',
         'partially_complete' => 'Partially Complete',
-        'complete' => 'Complete',
+        'complete' => 'Completed',
     ];
      const MATCHING_STATUS = [
         '0' => 'Not Matching', // Translation key: "Not Matching"

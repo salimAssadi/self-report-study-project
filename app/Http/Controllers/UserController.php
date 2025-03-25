@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\LoggedHistory;
 use App\Models\Notification;
 use App\Models\PackageTransaction;
+use App\Models\Standard;
 use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -33,8 +34,9 @@ class UserController extends Controller
 
     public function create()
     {
+        $standards = Standard::whereNull('parent_id')->get();
         $userRoles = Role::whereNotIn('name', ['tenant', 'maintainer'])->get()->pluck('name', 'id');
-        return view('self-study.user.create', compact('userRoles'));
+        return view('self-study.user.create', compact('userRoles','standards'));
     }
 
 
@@ -58,20 +60,18 @@ class UserController extends Controller
 
                 $userRole = Role::findById($request->role);
                 $user = new User();
-                $user->first_name = $request->first_name;
-                $user->last_name = $request->last_name;
+                $user->name = $request->name;
                 $user->email = $request->email;
-                $user->phone_number = $request->phone_number;
                 $user->password = \Hash::make($request->password);
                 $user->type = $userRole->name;
                 $user->email_verified_at = now();
-                $user->profile = 'avatar.png';
+                $user->avatar = 'avatar.png';
                 $user->lang = 'english';
                 $user->save();
                 $user->assignRole($userRole);
 
 
-                return redirect()->route('users.index')->with('success', __('User successfully created.'). '</br>'.$errorMessage);
+                return redirect()->route('admin.users.index')->with('success', __('User successfully created.'));
             }
         } else {
             return redirect()->back()->with('error', __('Permission Denied.'));

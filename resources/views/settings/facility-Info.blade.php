@@ -12,7 +12,14 @@
     $activeTab = session('tab', 'user_profile_settings');
 @endphp
 
-
+@push('script-page')
+    <script src="{{ asset('assets/js/plugins/tinymce/tinymce.min.js') }}"></script>
+    <script>
+         document.getElementById('submit-all').addEventListener('click', function() {
+            document.getElementById('hidden-submit').click();
+        });
+    </script>
+@endpush
 @section('content')
     <div class="row">
         <div class="col-sm-12">
@@ -160,7 +167,7 @@
                                     </div>
                                 </div>
                             
-                        <button type="submit" class="btn btn-primary">{{ __('Save Changes') }}</button>
+                        <button type="submit" id="hidden-submit" class="btn btn-primary  d-none">{{ __('Save Changes') }}</button>
                     </form>
                 </div>
             </div>
@@ -169,7 +176,3 @@
     </div>
 @endsection
 
-@push('script-page')
-    <script src="{{ asset('assets/js/plugins/tinymce/tinymce.min.js') }}"></script>
-    
-@endpush
