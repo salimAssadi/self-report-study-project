@@ -257,6 +257,14 @@
                                         {{ Form::close() }}
                                     </div>
                                 @endif
+                                @php
+                                    $admin_logo = getSettingsValByName('company_logo');
+                                    $company_favicon = getSettingsValByName('company_favicon');
+                                    $light_logo = getSettingsValByName('light_logo');
+                                   
+                                @endphp
+
+
                                 {{-- @if (Gate::check('manage general settings')) --}}
                                     <div class="tab-pane  show{{ !empty($activeTab) && $activeTab == 'general_settings' ? ' active show ' : '' }}"
                                         id="general_settings" role="tabpanel" aria-labelledby="general_settings">
@@ -271,40 +279,40 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     {{ Form::label('logo', __('Logo'), ['class' => 'form-label']) }}
-                                                    <a href="{{ asset(Storage::url('upload/logo/')) . '/' . (isset($admin_logo) && !empty($admin_logo) ? $admin_logo : 'logo.png') }}" target="_blank">
+                                                    <a href="{{ asset(Storage::url('upload/logo')) . '/' . (isset($admin_logo) && !empty($admin_logo) ? $admin_logo : '') }}" target="_blank">
                                                         <i class="ti ti-eye ms-2 f-15"></i>
                                                     </a>
                                                     {{ Form::file('logo', ['class' => 'form-control']) }}
-                                                    <img src="{{ asset(Storage::url('upload/logo/')) . '/' . (isset($admin_logo) && !empty($admin_logo) ? $admin_logo : 'logo.png') }}" alt="Current Logo" class="img-thumbnail mt-2" style="max-width: 100%; height: auto;">
+                                                    <img src="{{ asset(Storage::url('upload/logo')) . '/' . (isset($admin_logo) && !empty($admin_logo) ? $admin_logo : '') }}" alt="Current Logo" class="img-thumbnail mt-2" style="max-width: 100%; height: auto;">
                                                 </div>
                                             </div>
                                             
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     {{ Form::label('favicon', __('Favicon'), ['class' => 'form-label']) }}
-                                                    <a href="{{ asset(Storage::url('upload/logo')) . '/' . $settings['company_favicon'] }}" target="_blank">
+                                                    <a href="{{ asset(Storage::url('upload/logo')) . '/' . (isset($company_favicon) && !empty($company_favicon) ? $company_favicon : 'logo.png') }}" target="_blank">
                                                         <i class="ti ti-eye ms-2 f-15"></i>
                                                     </a>
                                                     {{ Form::file('favicon', ['class' => 'form-control']) }}
-                                                    <img src="{{ asset(Storage::url('upload/logo')) . '/' . $settings['company_favicon'] }}" alt="Current Favicon" class="img-thumbnail mt-2" style="max-width: 100%; height: auto;">
+                                                    <img src="{{ asset(Storage::url('upload/logo')) . '/' . (isset($company_favicon) && !empty($company_favicon) ? $company_favicon : 'logo.png') }}" alt="Current Favicon" class="img-thumbnail mt-2" style="max-width: 100%; height: auto;">
                                                 </div>
                                             </div>
                                             
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     {{ Form::label('light_logo', __('Light Logo'), ['class' => 'form-label']) }}
-                                                    <a href="{{ asset(Storage::url('upload/logo')) . '/' . $settings['light_logo'] }}" target="_blank">
+                                                    <a href="{{ asset(Storage::url('upload/logo')) . '/' . (isset($light_logo) && !empty($light_logo) ? $light_logo : '') }}" target="_blank">
                                                         <i class="ti ti-eye ms-2 f-15"></i>
                                                     </a>
                                                     {{ Form::file('light_logo', ['class' => 'form-control']) }}
-                                                    <img src="{{ asset(Storage::url('upload/logo')) . '/' . $settings['light_logo'] }}" alt="Current Light Logo" class="img-thumbnail mt-2" style="max-width: 100%; height: auto;">
+                                                    <img src="{{ asset(Storage::url('upload/logo')) . '/' . (isset($light_logo) && !empty($light_logo) ? $light_logo : '') }}" alt="Current Light Logo" class="img-thumbnail mt-2" style="max-width: 100%; height: auto;">
                                                 </div>
                                             </div>
                                             @if (\Auth::user()->type == 'super admin')
                                                 <div class="col-md-4 d-none">
                                                     <div class="form-group">
                                                         {{ Form::label('landing_logo', __('Landing Page Logo'), ['class' => 'form-label']) }}
-                                                        <a href="{{ asset(Storage::url('upload/logo/landing_logo.png')) }}"
+                                                        <a href="{{ asset(Storage::url('upload/logo/landing_')) }}"
                                                             target="_blank"><i class="ti ti-eye ms-2 f-15"></i></a>
                                                         {{ Form::file('landing_logo', ['class' => 'form-control']) }}
                                                     </div>
