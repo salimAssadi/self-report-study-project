@@ -10,10 +10,26 @@ class StandardController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    // public function index()
+    // {
+    //     // $standards = Standard::whereNull('parent_id')->with(['children', 'criteria'])->get();
+    //     $standards = Standard::whereNull('parent_id')
+    //         ->with([
+    //             'children' => function ($query) {
+    //                 $query->orderBy('sequence', 'asc');
+    //             },
+    //             'criteria' => function ($query) {
+    //                 $query->orderBy('sequence', 'asc');
+    //             }
+    //         ])
+    //         ->orderBy('sequence', 'asc') 
+    //         ->get();
+    //     return view('self-study.standards.index', compact('standards'));
+    // }
+    public function index(Request $request)
     {
-        // $standards = Standard::whereNull('parent_id')->with(['children', 'criteria'])->get();
-        $standards = Standard::whereNull('parent_id')
+        $filter = $request->query('filter', 'all');
+        $query = Standard::whereNull('parent_id')
             ->with([
                 'children' => function ($query) {
                     $query->orderBy('sequence', 'asc');
@@ -22,9 +38,18 @@ class StandardController extends Controller
                     $query->orderBy('sequence', 'asc');
                 }
             ])
-            ->orderBy('sequence', 'asc') 
-            ->get();
-        return view('self-study.standards.index', compact('standards'));
+            ->orderBy('sequence', 'asc');
+    
+        // Apply filter based on the query parameter
+        if ($filter !== 'all') {
+            $query->where('completion_status', $filter);
+        }
+    
+        // Fetch the filtered standards
+        $standards = $query->get();
+    
+        // Pass the filter and standards to the view
+        return view('self-study.standards.index', compact('standards', 'filter'));
     }
 
     /**

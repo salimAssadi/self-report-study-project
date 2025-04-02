@@ -117,6 +117,7 @@ Route::prefix('admin')->middleware(['XSS'])->name('admin.')->group(function () {
         // Route::resource('sub-standards', SubStandardController::class);
         Route::resource('criteria', CriterionController::class);
         Route::get('api/standards',[CriterionController::class, 'getStandard'])->name('api.standards');
+        
         // Resourceful Routes
         // Route::resources([
         //     'iso_systems' => IsoSystemController::class,

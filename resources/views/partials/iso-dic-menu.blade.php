@@ -21,34 +21,139 @@
                         <span class="pc-mtext">{{ __('Dashboard') }}</span>
                     </a>
                 </li>
-                @if (Gate::check('Manage Criteria') || Gate::check('Manage Standard') )
+                @if (Gate::check('Manage Standard'))
                     <li
-                        class="pc-item pc-hasmenu {{ in_array($routeName, ['admin.standards', 'admin.criteria','admin.criteria.index', 'admin.criteria.create', 'admin.criteria.edit','admin.standards.index', 'admin.standards.create', 'admin.standards.edit']) ? 'pc-trigger active' : '' }}">
+                        class="pc-item pc-hasmenu {{ in_array($routeName, ['admin.standards', 'admin.standards.index', 'admin.standards.create', 'admin.standards.edit']) ? 'pc-trigger active' : '' }}">
                         <a href="#!" class="pc-link">
                             <span class="pc-micon">
                                 <i class="ti ti-users"></i>
                             </span>
-                            <span class="pc-mtext">{{ __('Standards and Criteria') }}</span>
+                            <span class="pc-mtext">{{ __('Standards') }}</span>
                             <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                         </a>
                         <ul class="pc-submenu"
-                            style="display: {{ in_array($routeName, ['admin.standards','admin.standards.index', 'admin.standards.create', 'admin.standards.edit']) ? 'block' : 'none' }}">
+                            style="display: {{ in_array($routeName, ['admin.standards', 'admin.standards.index', 'admin.standards.create', 'admin.standards.edit']) ? 'block' : 'none' }}">
+                            <!-- All Standards -->
+                            <li
+                                class="pc-item {{ request()->query('filter') === null || request()->query('filter') === 'all' ? 'active' : '' }}">
+                                <a class="pc-link" href="{{ route('admin.standards.index', ['filter' => 'all']) }}">
+                                    {{ __('All') }}
+                                    <span class="badge bg-light-primary ms-2">{{ $counts['all'] ?? 0 }}</span>
+                                </a>
+                            </li>
+
+                            <!-- Completed Standards -->
+                            <li class="pc-item {{ request()->query('filter') === 'completed' ? 'active' : '' }}">
+                                <a class="pc-link"
+                                    href="{{ route('admin.standards.index', ['filter' => 'completed']) }}">
+                                    {{ __('Completed') }}
+                                    <span class="badge bg-light-success ms-2">{{ $counts['completed'] ?? 0 }}</span>
+                                </a>
+                            </li>
+
+                            <!-- Partially Completed Standards -->
+                            <li
+                                class="pc-item {{ request()->query('filter') === 'partially_completed' ? 'active' : '' }}">
+                                <a class="pc-link"
+                                    href="{{ route('admin.standards.index', ['filter' => 'partially_completed']) }}">
+                                    {{ __('Partially Completed') }}
+                                    <span
+                                        class="badge bg-light-warning ms-2">{{ $counts['partially_completed'] ?? 0 }}</span>
+                                </a>
+                            </li>
+
+                            <!-- Incomplete Standards -->
+                            <li class="pc-item {{ request()->query('filter') === 'incomplete' ? 'active' : '' }}">
+                                <a class="pc-link"
+                                    href="{{ route('admin.standards.index', ['filter' => 'incomplete']) }}">
+                                    {{ __('Incomplete') }}
+                                    <span class="badge bg-light-danger ms-2">{{ $counts['incomplete'] ?? 0 }}</span>
+                                </a>
+                            </li>
+
+
+
+                        </ul>
+                    </li>
+                @endif
+
+                @if (Gate::check('Manage Criteria'))
+                    <li
+                        class="pc-item pc-hasmenu {{ in_array($routeName, ['admin.criteria', 'admin.criteria.index', 'admin.criteria.create', 'admin.criteria.edit']) ? 'pc-trigger active' : '' }}">
+                        <a href="#!" class="pc-link">
+                            <span class="pc-micon">
+                                <i class="ti ti-list-check"></i>
+                            </span>
+                            <span class="pc-mtext">{{ __('Criteria') }}</span>
+                            <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+                        </a>
+                        <ul class="pc-submenu"
+                            style="display: {{ in_array($routeName, ['admin.criteria', 'admin.criteria.index', 'admin.criteria.create', 'admin.criteria.edit']) ? 'block' : 'none' }}">
+                            <!-- All Criteria -->
+                            <li
+                                class="pc-item {{ request()->query('filter') === null || request()->query('filter') === 'all' ? 'active' : '' }}">
+                                <a class="pc-link" href="{{ route('admin.criteria.index', ['filter' => 'all']) }}">
+                                    {{ __('All') }}
+                                    <span class="badge bg-light-primary ms-2">{{ $counts['criteria_all'] ?? 0 }}</span>
+                                </a>
+                            </li>
+
+                            <!-- Matching Criteria -->
+                            <li class="pc-item {{ request()->query('filter') === 'matching' ? 'active' : '' }}">
+                                <a class="pc-link"
+                                    href="{{ route('admin.criteria.index', ['filter' => 'matching']) }}">
+                                    {{ __('Matching') }}
+                                    <span
+                                        class="badge bg-light-success ms-2">{{ $counts['criteria_matching'] ?? 0 }}</span>
+                                </a>
+                            </li>
+
+                            <!-- Non-Matching Criteria -->
+                            <li class="pc-item {{ request()->query('filter') === 'non_matching' ? 'active' : '' }}">
+                                <a class="pc-link"
+                                    href="{{ route('admin.criteria.index', ['filter' => 'non_matching']) }}">
+                                    {{ __('Not Matching') }}
+                                    <span
+                                        class="badge bg-light-danger ms-2">{{ $counts['criteria_non_matching'] ?? 0 }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
+
+
+                {{-- @if (Gate::check('Manage Criteria'))
+                    <li
+                        class="pc-item pc-hasmenu {{ in_array($routeName, ['admin.criteria', 'admin.criteria.index', 'admin.criteria.create', 'admin.criteria.edit']) ? 'pc-trigger active' : '' }}">
+                        <a href="#!" class="pc-link">
+                            <span class="pc-micon">
+                                <i class="ti ti-users"></i>
+                            </span>
+                            <span class="pc-mtext">{{ __('Criteria') }}</span>
+                            <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+                        </a>
+                        <ul class="pc-submenu"
+                            style="display: {{ in_array($routeName, ['admin.standards', 'admin.standards.index', 'admin.standards.create', 'admin.standards.edit']) ? 'block' : 'none' }}">
                             @if (Gate::check('Manage Standard'))
-                                <li class="pc-item {{ in_array($routeName, ['admin.standards.index']) ? 'active' : '' }}">
-                                    <a class="pc-link" href="{{ route('admin.standards.index') }}">{{ __('Standards') }}</a>
+                                <li
+                                    class="pc-item {{ in_array($routeName, ['admin.standards.index']) ? 'active' : '' }}">
+                                    <a class="pc-link"
+                                        href="{{ route('admin.standards.index') }}">{{ __('Standards') }}</a>
                                 </li>
                             @endif
                             @if (Gate::check('Manage Criteria'))
                                 <li
-                                    class="pc-item  {{ in_array($routeName, ['admin.criteria','admin.criteria.index', 'admin.criteria.create', 'admin.criteria.edit']) ? 'active' : '' }}">
-                                    <a class="pc-link" href="{{ route('admin.criteria.index') }}">{{ __('Criteria') }} </a>
+                                    class="pc-item  {{ in_array($routeName, ['admin.criteria', 'admin.criteria.index', 'admin.criteria.create', 'admin.criteria.edit']) ? 'active' : '' }}">
+                                    <a class="pc-link" href="{{ route('admin.criteria.index') }}">{{ __('Criteria') }}
+                                    </a>
                                 </li>
                             @endif
-                           
+
                         </ul>
                     </li>
-                @endif
-                @if (Gate::check('Manage Criteria') || Gate::check('Manage Standard') )
+                @endif --}}
+
+                @if (Gate::check('Manage Criteria') || Gate::check('Manage Standard'))
                     <li
                         class="pc-item pc-hasmenu {{ in_array($routeName, ['users.index', 'logged.history', 'role.index', 'role.create', 'role.edit']) ? 'pc-trigger active' : '' }}">
                         <a href="#!" class="pc-link">
@@ -61,9 +166,9 @@
                         <ul class="pc-submenu"
                             style="display: {{ in_array($routeName, ['admin.users.index', 'logged.history', 'role.index', 'role.create', 'role.edit']) ? 'block' : 'none' }}">
                             @if (Gate::check('Manage User'))
-                            <li class="pc-item {{ in_array($routeName, ['admin.users.index']) ? 'active' : '' }}">
-                                <a class="pc-link" href="{{ route('admin.users.index') }}">{{ __('Users') }}</a>
-                            </li>
+                                <li class="pc-item {{ in_array($routeName, ['admin.users.index']) ? 'active' : '' }}">
+                                    <a class="pc-link" href="{{ route('admin.users.index') }}">{{ __('Users') }}</a>
+                                </li>
                             @endif
                             @if (Gate::check('Manage Role'))
                                 <li

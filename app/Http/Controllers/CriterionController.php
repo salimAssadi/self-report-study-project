@@ -14,11 +14,18 @@ class CriterionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $filter = $request->query('filter', 'all');
+        $query = Criterion::with(['standard']);
         
-        $criteria = Criterion::with(['standard'])->paginate(10);
-        return view('self-study.criteria.index', compact('criteria'));
+        if ($filter === 'matching') {
+            $query->where('is_met', true);
+        } elseif ($filter === 'non_matching') {
+            $query->where('is_met', false);
+        }
+        $criteria = $query->orderBy('sequence', 'asc')->paginate(10);
+        return view('self-study.criteria.index', compact('criteria', 'filter'));
     }
 
     /**
@@ -46,12 +53,12 @@ class CriterionController extends Controller
 
         ]);
 
-        if(isset($request->sub_standard_id)){
+        if (isset($request->sub_standard_id)) {
             $validated['standard_id'] = $request->sub_standard_id;
-        }else{
+        } else {
             $validated['standard_id'] = $request->main_standard_id;
         }
-        
+
         $criterion = Criterion::create([
             'standard_id' => $validated['standard_id'],
             'sequence' => $validated['sequence'],
@@ -64,7 +71,7 @@ class CriterionController extends Controller
         return redirect()->back()->with('success', 'Criterion created successfully.');
     }
 
-   
+
     /**
      * Display the specified resource.
      */
@@ -79,9 +86,9 @@ class CriterionController extends Controller
      */
     public function edit(string $id)
     {
-       
-        $criterion = Criterion::with(['standard.parent','links','attachments'])->where('id', $id)->first();
-        $mainStandards =Standard::whereNull('parent_id')->get();
+
+        $criterion = Criterion::with(['standard.parent', 'links', 'attachments'])->where('id', $id)->first();
+        $mainStandards = Standard::whereNull('parent_id')->get();
         if (!$criterion) {
             return redirect()->route('criteria.index')->with('error', __('العنصر المحدد غير موجود.'));
         }
@@ -94,7 +101,7 @@ class CriterionController extends Controller
      */
     public function update(Request $request, Criterion $criterion)
     {
-        
+
         // Validate the request
         $validated = $request->validate([
             'main_standard_id' => 'required',
@@ -114,9 +121,9 @@ class CriterionController extends Controller
             'attachments.*.name_en' => 'nullable|string|max:255',
             'attachments.*.file' => 'nullable|file|mimes:pdf,jpg,png|max:5120', // Max 5MB
         ]);
-        if(isset($request->sub_standard_id)){
+        if (isset($request->sub_standard_id)) {
             $validated['standard_id'] = $request->sub_standard_id;
-        }else{
+        } else {
             $validated['standard_id'] = $request->main_standard_id;
         }
         // Update criterion details
@@ -135,20 +142,20 @@ class CriterionController extends Controller
             $existingLinkIds = $criterion->links()->pluck('id')->toArray();
             $submittedLinkIds = array_filter(array_column($validated['links'] ?? [], 'id'));
             $removedLinkIds = array_diff($existingLinkIds, $submittedLinkIds);
-        
+
             if (!empty($removedLinkIds)) {
                 $criterion->links()->whereIn('id', $removedLinkIds)->delete();
             }
-        
+
             // Delete removed attachments
             $existingAttachmentIds = $criterion->attachments()->pluck('id')->toArray();
             $submittedAttachmentIds = array_filter(array_column($validated['attachments'] ?? [], 'id'));
             $removedAttachmentIds = array_diff($existingAttachmentIds, $submittedAttachmentIds);
-        
+
             if (!empty($removedAttachmentIds)) {
                 $criterion->attachments()->whereIn('id', $removedAttachmentIds)->delete();
             }
-        
+
             // Handle attachments
             if (isset($validated['attachments'])) {
                 foreach ($validated['attachments'] as $attachmentData) {
@@ -157,7 +164,7 @@ class CriterionController extends Controller
                         $attachment = $criterion->attachments()->find($attachmentData['id']);
                         if ($attachment) {
                             // Check if a new file is provided
-                            if (isset($attachmentData['file']) && $attachmentData['file']->isValid()){
+                            if (isset($attachmentData['file']) && $attachmentData['file']->isValid()) {
                                 // Store the new file and update the file_path
                                 $filePath = $attachmentData['file']->store('attachments', 'public');
                                 $attachment->update([
@@ -187,7 +194,7 @@ class CriterionController extends Controller
                 }
             }
         });
-      
+
         return redirect()->route('admin.criteria.index')->with('success', 'Criterion updated successfully.');
     }
     /**
@@ -199,10 +206,11 @@ class CriterionController extends Controller
     }
 
 
-    public function getStandard(Request $request) {
+    public function getStandard(Request $request)
+    {
         $main_standard_id = $request->input('main_standard_id');
         $subStandards = SubStandard::where('main_standard_id', $main_standard_id)->get();
-    
+
         return response()->json($subStandards);
     }
 }

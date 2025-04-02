@@ -58,7 +58,7 @@
   "Admin has rejected your domain request.": "قام موجه النظام برفض طلب النطاق الخاص بك. ",
   "Admin Hub": "لوحة ادارية ",
   "AI Creativity": "منظمة العفو الدولية ",
-  "All": "كل ",
+  "All": "الكل ",
   "All field is required.": "كل المجال مطلوب. ",
   "All rights reserved.": "جميع الحقوق محفوظة. ",
   "All Store can not disable. At least One store must be enabled.": "لا يمكن الغاء اتاحة كل المتاجر.  يجب اتاحة مخزن واحد على الأقل. ",
@@ -162,7 +162,7 @@
   "Commission (%)": "اللجنة (في المائة) ",
   "Commission Amount": "قيمة اللجنة ",
   "Commission Percentage (%)": "النسبة المئوية للجنة (نسبة مئوية) ",
-  "Completed": "أنجز ",
+  "Completed": "مكتمل",
   "Confirm Password": "تأكيد كلمة السرية ",
   "Confirm password": "تأكيد كلمة السرية ",
   "Confirm password and new password are not same.": "تأكيد كلمة السرية وكلمة السرية الجديدة غير متماثان. ",
@@ -1484,5 +1484,6 @@
   "General":"عام",
   "System Settings":"إعدادات النظام",
   "Criteria for":"المحكات التابعة ل",
-  "Sub-Standards for":" المعايير الفرعية التابعة ل"
+  "Sub-Standards for":" المعايير الفرعية التابعة ل",
+  "Partially Completed":"مكتمل جزئيًا"
 }
