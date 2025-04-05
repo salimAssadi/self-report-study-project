@@ -25,17 +25,9 @@
                 'required' => 'required',
             ]) !!}
         </div>
-        <div class="col-md-6 form-group mt-auto d-flex">
-            <div class="form-check ">
-                <input type="checkbox" name="password_switch" class="form-check-input input-primary pointer"
-                    value="on" id="password_switch">
-                <label class="form-check-label" for="password_switch"></label>
-            </div>
-            <label class="form-label" for="password_switch">{{ __('Login is enable') }}</label>
-        </div>
+        
 
-
-        <div class="col-md-6 ps_div d-none">
+        <div class="col-md-6 ps_div ">
             <div class="form-group">
                 {{-- {{ Form::label('password', __('Password'), ['class' => 'col-form-label']) }} --}}
                 {{ Form::password('password', ['class' => 'form-control', 'placeholder' => __('Enter Password')]) }}
