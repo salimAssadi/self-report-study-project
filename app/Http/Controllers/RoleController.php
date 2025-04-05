@@ -154,7 +154,12 @@ class RoleController extends Controller
             $user = \Auth::user();
             if($user->type == 'super admin')
             {
-                $permissions = Permission::all()->pluck('name', 'id')->toArray();
+                $permissions = Permission::all();
+                foreach($user->roles as $role1)
+                {
+                    $permissions = $permissions->merge($role1->permissions);
+                }
+                $permissions = $permissions->pluck('name', 'id')->toArray();
 
             }
             else
@@ -213,7 +218,7 @@ class RoleController extends Controller
                 $role->givePermissionTo($p);
             }
 
-            return redirect()->route('addmin.role.index')->with('success', 'Role successfully updated.');
+            return redirect()->route('admin.role.index')->with('success', 'Role successfully updated.');
         }
         else
         {

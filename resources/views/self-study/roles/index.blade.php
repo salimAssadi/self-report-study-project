@@ -65,8 +65,8 @@
                                                 <span class="d-flex">
                                                     @can('Edit Role')
                                                         <div class="action-btn ms-2">
-                                                            <a class="btn btn-sm btn-icon  bg-light-secondary me-2"
-                                                                data-url="{{ URL::to('admin/roles/' . $role->id . '/edit') }}"
+                                                            <a class="btn btn-sm btn-icon  bg-light-secondary me-2 customModal"
+                                                                data-url="{{ route('admin.role.edit',$role->id)}}"
                                                                 data-ajax-popup="true" data-size="lg" data-bs-toggle="tooltip"
                                                                 title="" data-title="{{ __('Edit Role') }}"
                                                                 data-bs-original-title="{{ __('Edit') }}">
@@ -77,7 +77,7 @@
 
                                                     @can('Delete Role')
                                                         <div class="action-btn ms-2">
-                                                            <a class="bs-pass-para btn btn-sm btn-icon bg-light-secondary"
+                                                            <a class="bs-pass-para btn btn-sm btn-icon bg-light-secondary "
                                                                 href="#" data-title="{{ __('Delete Role') }}"
                                                                 data-confirm="{{ __('Are You Sure?') }}"
                                                                 data-text="{{ __('This action can not be undone. Do you want to continue?') }}"

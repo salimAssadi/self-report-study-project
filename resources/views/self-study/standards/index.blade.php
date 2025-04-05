@@ -27,12 +27,15 @@
                             </h5>
                         </div>
                         <div class="col-auto">
-                            <a href="{{ route('admin.standards.create') }}" class="btn btn-secondary customModal"
-                                data-size="lg" data-url="{{ route('admin.standards.create') }}" data-title="{{ __('Create Standard') }}">
+                            @if (Gate::check('Create Standard'))
+                                <a href="{{ route('admin.standards.create') }}" class="btn btn-secondary customModal"
+                                    data-size="lg" data-url="{{ route('admin.standards.create') }}"
+                                    data-title="{{ __('Create Standard') }}">
 
-                                <i class="ti ti-circle-plus align-text-bottom"></i>
-                                {{ __('Create Standard') }}
-                            </a>
+                                    <i class="ti ti-circle-plus align-text-bottom"></i>
+                                    {{ __('Create Standard') }}
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -42,7 +45,7 @@
                         <table class="table table-bordered ">
                             <thead>
                                 <tr>
-                                    
+
                                     <th>{{ __('Sequence') }}</th>
                                     <th>{{ __('Name (Arabic)') }}</th>
                                     <th>{{ __('Name (English)') }}</th>
@@ -55,7 +58,7 @@
                             <tbody>
                                 @foreach ($standards as $standard)
                                     <!-- Parent Row -->
-                                    <tr >
+                                    <tr>
                                         <td>{{ $standard->sequence }}</td>
                                         <td>{{ $standard->name_ar }}</td>
                                         <td>{{ $standard->name_en }}</td>
@@ -82,52 +85,63 @@
                                         <td>
                                             <div class="d-flex">
                                                 <!-- View Button -->
-                                                <a class="btn btn-sm btn-icon bg-light-secondary me-2"
-                                                    href="{{ route('admin.standards.show', $standard->id) }}"
-                                                    data-bs-toggle="tooltip" title="{{ __('View') }}">
-                                                    <i class="ti ti-eye f-20"></i>
-                                                </a>
+                                                @if (Gate::check('Show Standard'))
+                                                    <a class="btn btn-sm btn-icon bg-light-secondary me-2"
+                                                        href="{{ route('admin.standards.show', $standard->id) }}"
+                                                        data-bs-toggle="tooltip" title="{{ __('View') }}">
+                                                        <i class="ti ti-eye f-20"></i>
+                                                    </a>
+                                                @endif
                                                 <!-- Edit Button -->
-                                                <a class="btn btn-sm btn-icon bg-light-secondary me-2"
-                                                    href="{{ route('admin.standards.edit', $standard->id) }}"
-                                                    data-bs-toggle="tooltip" title="{{ __('Edit') }}">
-                                                    <i class="ti ti-edit f-20"></i>
-                                                </a>
-                                                <!-- Delete Button -->
-                                                {!! Form::open([
-                                                    'method' => 'DELETE',
-                                                    'route' => ['admin.standards.destroy', $standard->id],
-                                                    'id' => 'delete-form-' . $standard->id,
-                                                ]) !!}
-                                                <a class="show_confirm btn btn-sm btn-icon bg-light-secondary me-2"
-                                                    href="#" data-bs-toggle="tooltip" title="{{ __('Delete') }}"
-                                                    onclick="event.preventDefault(); if(confirm('{{ __('Are you sure?') }}')) document.getElementById('delete-form-{{ $standard->id }}').submit();">
-                                                    <i class="ti ti-trash f-20"></i>
-                                                </a>
-                                                {!! Form::close() !!}
+                                                @if (Gate::check('Edit Standard'))
+                                                    <a class="btn btn-sm btn-icon bg-light-secondary me-2"
+                                                        href="{{ route('admin.standards.edit', $standard->id) }}"
+                                                        data-bs-toggle="tooltip" title="{{ __('Edit') }}">
+                                                        <i class="ti ti-edit f-20"></i>
+                                                    </a>
+                                                @endif
+                                                @if (Gate::check('Delete Standard'))
+                                                    <!-- Delete Button -->
+                                                    {!! Form::open([
+                                                        'method' => 'DELETE',
+                                                        'route' => ['admin.standards.destroy', $standard->id],
+                                                        'id' => 'delete-form-' . $standard->id,
+                                                    ]) !!}
+                                                    <a class="show_confirm btn btn-sm btn-icon bg-light-secondary me-2"
+                                                        href="#" data-bs-toggle="tooltip" title="{{ __('Delete') }}"
+                                                        onclick="event.preventDefault(); if(confirm('{{ __('Are you sure?') }}')) document.getElementById('delete-form-{{ $standard->id }}').submit();">
+                                                        <i class="ti ti-trash f-20"></i>
+                                                    </a>
+                                                    {!! Form::close() !!}
+                                                @endif
                                                 @if ($standard->children->isNotEmpty())
                                                     <button
                                                         class="bg-light-secondary btn btn-rounded btn-sm btn-small mb-3 rounded-3 toggle-children"
                                                         data-target="#children-{{ $standard->id }}">
-                                                        {{__('Show SubStandard')}}
+                                                        {{ __('Show SubStandard') }}
                                                     </button>
                                                 @endif
                                                 @if ($standard->criteria->isNotEmpty())
-                                                    <button class="bg-light-secondary btn btn-rounded btn-sm btn-small mb-3 rounded-3 toggle-criteria"
-                                                        data-target="#criteria-{{ $standard->id }}">
-                                                         {{ __('Show Criterion') }}
-                                                    </button>
+                                                    @if (Gate::check('Manage Criteria'))
+                                                        <button
+                                                            class="bg-light-secondary btn btn-rounded btn-sm btn-small mb-3 rounded-3 toggle-criteria"
+                                                            data-target="#criteria-{{ $standard->id }}">
+                                                            {{ __('Show Criterion') }}
+                                                        </button>
+                                                    @endif
                                                 @endif
                                             </div>
                                         </td>
                                     </tr>
                                     <!-- Include Child Rows -->
                                     @include('self-study.standards._children', ['standard' => $standard])
-                                     <!-- Criteria Section for Main Standards -->
+                                    <!-- Criteria Section for Main Standards -->
                                     <tr class="collapse" id="criteria-{{ $standard->id }}">
                                         <td colspan="10">
                                             <h5 class="mb-3">{{ __('Criteria for ') . $standard->name_en }}</h5>
-                                            @include('self-study.standards._criteria', ['criteria' => $standard->criteria])
+                                            @include('self-study.standards._criteria', [
+                                                'criteria' => $standard->criteria,
+                                            ])
                                         </td>
                                     </tr>
                                 @endforeach

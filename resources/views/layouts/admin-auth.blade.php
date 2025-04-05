@@ -3,8 +3,9 @@
     use App\Models\AuthPage;
 
     $settings = settings();
-    $titles =  [];
-    $descriptions =  [];
+    // $authPage = AuthPage::where('parent_id', 1)->first();
+    // $titles = $authPage && !empty($authPage->title) ? json_decode($authPage->title, true) : [];
+    // $descriptions = $authPage && !empty($authPage->description) ? json_decode($authPage->description, true) : [];
 @endphp
 <html lang="en">
 
@@ -59,43 +60,43 @@
         </div>
     </div>
     <div class="auth-main">
-        <div class="auth-wrapper v2">
+        <div class="auth-wrapper v2" style="background-image: url('assets/images/pages/header-bg.jpg')">
             <div class="auth-form">
-                {{-- <div class="logo">
+                <div class="logo">
                     <img src="{{ asset(Storage::url('upload/logo/')) . '/logo.png' }}" alt="image"
                         class="img-fluid brand-logo" />
-                </div> --}}
+                </div>
                 @yield('content')
             </div>
-            @if (!empty($authPage) && $authPage->section == 1)
+            {{-- @if (!empty($authPage) && $authPage->section == 1) --}}
                 <div class="auth-sidecontent">
                     <div class="p-3 px-lg-5 text-center">
                         <div id="carouselExampleIndicators" class="carousel slide carousel-dark"
                             data-bs-ride="carousel">
                             <div class="carousel-inner">
-                                @foreach ($titles as $index => $title)
+                                {{-- @foreach ($titles as $index => $title)
                                     <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                                         <h1><b>{{ $title }}</b></h1>
                                         <p class="f-12 mt-4">{{ $descriptions[$index] ?? '' }}</p>
                                     </div>
-                                @endforeach
+                                @endforeach --}}
                             </div>
 
                             <div class="carousel-indicators position-relative">
-                                @foreach ($titles as $index => $title)
+                                {{-- @foreach ($titles as $index => $title)
                                     <button type="button" data-bs-target="#carouselExampleIndicators"
                                         data-bs-slide-to="{{ $index }}"
                                         class="{{ $index == 0 ? 'active' : '' }}"
                                         aria-current="{{ $index == 0 ? 'true' : 'false' }}"
                                         aria-label="Slide {{ $index + 1 }}"></button>
-                                @endforeach
+                                @endforeach --}}
                             </div>
                         </div>
-                        {{-- <img src="{{ asset(Storage::url('upload/images/auth_page.svg')) }}" alt="images"
+                        {{-- <img src="{{ asset('assets/images/pages/header-bg.jpg') }}" alt="images"
                             class="img-fluid mt-3 w-75" /> --}}
                     </div>
                 </div>
-            @endif
+            {{-- @endif --}}
 
         </div>
     </div>

@@ -58,12 +58,8 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('login')->with('error', __('Verification required: Please check your email to verify your account before continuing.'));
         }
         userLoggedHistory();
-        if ($loginUser->type == 'owner') {
-
-            if ($loginUser->subscription_expire_date != null && date('Y-m-d') > $loginUser->subscription_expire_date) {
-                assignSubscription(1);
-                return redirect()->intended(RouteServiceProvider::HOME)->with('error', __('Your subscription has ended, and access to premium features is now restricted. To continue using our services without interruption, please renew your plan or upgrade to a higher-tier package.'));
-            }
+        if ($loginUser->type == 'user') {
+            return redirect()->intended(RouteServiceProvider::HOME);          
         }
         return redirect()->intended(RouteServiceProvider::HOME);
     }
@@ -75,10 +71,14 @@ class AuthenticatedSessionController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request)
-    {
+    {   
+        $usertype= auth()->user()->type;
         Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/');
+        if($usertype=='super admin'){
+            return redirect()->route('admin.login');
+        }
+        return redirect()->route('user.login');
     }
 }

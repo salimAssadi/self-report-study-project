@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
-class Authenticated_iso_dic extends Middleware
+class Authenticated_user extends Middleware
 {
     /**
      * Get the path the user should be redirected to when they are not authenticated.
@@ -15,7 +15,14 @@ class Authenticated_iso_dic extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
-            return route('iso_dic.login');
+            if (auth()->check()) {
+                if (auth()->user()->type === 'user') {
+                    return route('user.home'); 
+                } else {
+                    return route('user.login'); // Redirect regular users to user login
+                }
+            }
+            return route('admin.login');
         }
     }
 }

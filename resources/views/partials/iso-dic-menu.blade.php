@@ -153,7 +153,7 @@
                     </li>
                 @endif --}}
 
-                @if (Gate::check('Manage Criteria') || Gate::check('Manage Standard'))
+                @if (Gate::check('Manage User'))
                     <li
                         class="pc-item pc-hasmenu {{ in_array($routeName, ['users.index', 'logged.history', 'role.index', 'role.create', 'role.edit']) ? 'pc-trigger active' : '' }}">
                         <a href="#!" class="pc-link">
@@ -185,19 +185,24 @@
                         </ul>
                     </li>
                 @endif
-                <li class="pc-item {{ in_array($routeName, ['facilityInfo']) ? 'active' : '' }} ">
-                    <a href="{{ route('admin.setting.facilityInfo') }}" class="pc-link">
-                        <span class="pc-micon"><i class="ti ti-settings"></i></span>
-                        <span class="pc-mtext">{{ __('Facility Info') }}</span>
-                    </a>
-                </li>
+                @if (Gate::check('Manage Settings'))
+                    <li class="pc-item {{ in_array($routeName, ['facilityInfo']) ? 'active' : '' }} ">
+                        <a href="{{ route('admin.setting.facilityInfo') }}" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-settings"></i></span>
+                            <span class="pc-mtext">{{ __('Facility Info') }}</span>
+                        </a>
+                    </li>
+                @endif
 
-                <li class="pc-item {{ in_array($routeName, ['setting.index']) ? 'active' : '' }} ">
-                    <a href="{{ route('admin.setting.index') }}" class="pc-link">
-                        <span class="pc-micon"><i class="ti ti-settings"></i></span>
-                        <span class="pc-mtext">{{ __('Settings') }}</span>
-                    </a>
-                </li>
+                @if (Gate::check('Manage Settings'))
+                    <li class="pc-item {{ in_array($routeName, ['setting.index']) ? 'active' : '' }} ">
+                        <a href="{{ route('admin.setting.index') }}" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-settings"></i></span>
+                            <span class="pc-mtext">{{ __('Settings') }}</span>
+                        </a>
+                    </li>
+                @endif
+
                 {{-- <li
                     class="pc-item {{ in_array($routeName, ['iso_systems.index', 'iso_systems.show']) ? 'active' : '' }}">
                     <a href="{{ route('admin.iso_systems.index') }}" class="pc-link">

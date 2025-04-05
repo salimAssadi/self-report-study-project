@@ -3,9 +3,8 @@
     use App\Models\AuthPage;
 
     $settings = settings();
-    $authPage = AuthPage::where('parent_id', 1)->first();
-    $titles = $authPage && !empty($authPage->title) ? json_decode($authPage->title, true) : [];
-    $descriptions = $authPage && !empty($authPage->description) ? json_decode($authPage->description, true) : [];
+    $titles =  [];
+    $descriptions =  [];
 @endphp
 <html lang="en">
 
@@ -68,7 +67,7 @@
                 </div>
                 @yield('content')
             </div>
-            {{-- @if (!empty($authPage) && $authPage->section == 1) --}}
+            @if (!empty($authPage) && $authPage->section == 1)
                 <div class="auth-sidecontent">
                     <div class="p-3 px-lg-5 text-center">
                         <div id="carouselExampleIndicators" class="carousel slide carousel-dark"
@@ -92,11 +91,11 @@
                                 @endforeach
                             </div>
                         </div>
-                        <img src="{{ asset(Storage::url($authPage->image)) }}" alt="images"
+                        <img src="{{ asset(Storage::url('upload/images/auth_page.svg')) }}" alt="images"
                             class="img-fluid mt-3 w-75" />
                     </div>
                 </div>
-            {{-- @endif --}}
+            @endif
 
         </div>
     </div>
