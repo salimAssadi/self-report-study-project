@@ -92,8 +92,8 @@
                                 @endforeach --}}
                             </div>
                         </div>
-                        {{-- <img src="{{ asset('assets/images/pages/header-bg.jpg') }}" alt="images"
-                            class="img-fluid mt-3 w-75" /> --}}
+                        <img  src="{{ asset('assets/images/pages/common.svg') }}" alt="images"
+                            class="img-fluid mt-3 w-100" />
                     </div>
                 </div>
             {{-- @endif --}}
