@@ -17,6 +17,8 @@ class CriterionController extends Controller
     public function index(Request $request)
     {
         $filter = $request->query('filter', 'all');
+        $status = $request->query('status', 'all'); 
+
         $query = Criterion::with(['standard']);
         
         if ($filter === 'matching') {
@@ -24,8 +26,11 @@ class CriterionController extends Controller
         } elseif ($filter === 'non_matching') {
             $query->where('is_met', false);
         }
+        if ($status !== 'all') {
+            $query->where('fulfillment_status', $status);
+        }
         $criteria = $query->orderBy('sequence', 'asc')->paginate(10);
-        return view('self-study.criteria.index', compact('criteria', 'filter'));
+        return view('self-study.criteria.index', compact('criteria', 'filter','status'));
     }
 
     /**
@@ -120,6 +125,10 @@ class CriterionController extends Controller
             'attachments.*.name_ar' => 'nullable|string|max:255',
             'attachments.*.name_en' => 'nullable|string|max:255',
             'attachments.*.file' => 'nullable|file|mimes:pdf,jpg,png|max:5120', // Max 5MB
+            'is_met' => 'required|in:0,1',
+            'fulfillment_status' => 'required|in:1,2,3,4,5'
+
+          
         ]);
         if (isset($request->sub_standard_id)) {
             $validated['standard_id'] = $request->sub_standard_id;
@@ -135,6 +144,8 @@ class CriterionController extends Controller
             'name_en' => $validated['name_en'],
             'content_ar' => $validated['content_ar'] ?? null,
             'content_en' => $validated['content_en'] ?? null,
+            'is_met' => $validated['is_met'] ?? 0,
+            'fulfillment_status' => $validated['fulfillment_status'] ?? 1,
         ]);
 
         DB::transaction(function () use ($criterion, $validated) {

@@ -7,12 +7,12 @@
 <nav class="pc-sidebar">
     <div class="navbar-wrapper">
         <div class="m-header">
-            <a href="#" class="b-brand text-primary">
+            <a href="#" class="b-brand text-primary m-auto">
                 <img src="{{ asset(Storage::url('upload/logo')) . '/' . (isset($admin_logo) && !empty($admin_logo) ? $admin_logo : '') }}"
                     alt="" class="logo logo-lg" />
             </a>
         </div>
-        <div class="navbar-content">
+        <div class="navbar-content mt-2">
 
             <ul class="pc-navbar">
                 <li class="pc-item {{ in_array($routeName, ['dashboard', 'home', '']) ? 'active' : '' }}">

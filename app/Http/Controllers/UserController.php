@@ -80,7 +80,7 @@ class UserController extends Controller
 
 
     public function show(User $user)
-    {
+    {   
         if (!\Auth::user()->can('show user')) {
             return redirect()->back()->with('error', __('Permission Denied.'));
         } else {
@@ -95,38 +95,17 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        $userRoles = Role::where('parent_id', '=', parentId())->whereNotIn('name', ['tenant', 'maintainer'])->get()->pluck('name', 'id');
+        $standards = Standard::whereNull('parent_id')->get();
+        $userRoles = Role::whereNotIn('name', ['tenant', 'maintainer'])->get()->pluck('name', 'id');
 
-        return view('user.edit', compact('user', 'userRoles'));
+        return view('self-study.user.edit', compact('user', 'userRoles','standards'));
     }
 
 
     public function update(Request $request, $id)
     {
-        if (\Auth::user()->can('edit user')) {
-            if (\Auth::user()->type == 'super admin') {
-                $user = User::findOrFail($id);
-
-                $validator = \Validator::make(
-                    $request->all(),
-                    [
-                        'name' => 'required',
-                        'email' => 'required|email|unique:users,email,' . $id,
-                    ]
-                );
-                if ($validator->fails()) {
-                    $messages = $validator->getMessageBag();
-
-                    return redirect()->back()->with('error', $messages->first());
-                }
-
-                $userData = $request->all();
-                $user->fill($userData)->save();
-
-                return redirect()->route('users.index')->with('success', 'User successfully updated.');
-            } else {
-
-
+        if (\Auth::user()->can('Edit User')) {
+                
                 $validator = \Validator::make(
                     $request->all(),
                     [
@@ -143,15 +122,13 @@ class UserController extends Controller
 
                 $userRole = Role::findById($request->role);
                 $user = User::findOrFail($id);
-                $user->first_name = $request->first_name;
-                $user->last_name = $request->last_name;
+                $user->name = $request->name;
                 $user->email = $request->email;
-                $user->phone_number = $request->phone_number;
                 $user->type = $userRole->name;
                 $user->save();
                 $user->roles()->sync($userRole);
-                return redirect()->route('users.index')->with('success', 'User successfully updated.');
-            }
+                return redirect()->route('admin.users.index')->with('success', 'User successfully updated.');
+            
         } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }

@@ -176,7 +176,7 @@
                         </div>
                         <div class="card-body">
 
-
+                           
 
                             <div class="form-group  col-md-12">
                                 {{ Form::label('main_standard_id', __('Parent Standard'), ['class' => 'form-label']) }}
@@ -206,6 +206,41 @@
                                     @endif
                                 </select>
                             </div>
+                             <!-- Completion Status -->
+                             <div class="form-group row">
+                                <div class="form-group col-6">
+                                    {{ Form::label('is_met', __('Compliance'), ['class' => 'form-label']) }}
+                                    {{ Form::select(
+                                        'is_met',
+                                        [   
+                                            '' => __('Select a Compliance Status'),
+                                            '1' => __('Matching'),
+                                            '0' => __('Not Matching'),
+                                        ],
+                                        $criterion->is_met ?? null,
+                                        ['class' => 'form-control hidesearch'],
+                                    ) }}
+                                    @error('completion_status')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-6">
+                                    {{ Form::label('fulfillment_status', __('Fulfillment Status'), ['class' => 'form-label']) }}
+                                    {{ Form::select(
+                                        'fulfillment_status',
+                                        [
+                                            '' => __('Select a Fulfillment Status'),
+                                        ] + collect(\App\Constants\Status::FULFILLMENT_STATUS)->mapWithKeys(function ($value, $key) {
+                                            return [$key => __($value)];
+                                        })->toArray(),
+                                        $criterion->fulfillment_status ?? null,
+                                        ['class' => 'form-control hidesearch'],
+                                    ) }}
+                                    @error('fulfillment_status')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
                             <!-- Sequence -->
                             <div class="form-group col-md-12">
                                 {{ Form::label('sequence', __('Sequence'), ['class' => 'form-label']) }}
@@ -214,6 +249,7 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
+                            
                             <!-- Tabbed Interface for AR and EN Fields -->
                             <ul class="nav nav-tabs nav-fill w-25" id="languageTabs" role="tablist">
                                 <li class="nav-item" role="presentation">

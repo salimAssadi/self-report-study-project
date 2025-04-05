@@ -1361,7 +1361,7 @@
   "Standard": "المعيار",
   "Compliance": "المطابقة",
   "Fulfillment Status": "حالة الاستيفاء",
-  "Fulfilled with Distinction": "مستوفى بامتياز",
+  "Fulfilled with Distinction": "مستوفى بإتقان",
   "Completion Status": "حالة الاكتمال",
   "Incomplete": "غير مكتمل",
   "Partially Complete": "مكتمل جزئيًا",
@@ -1488,6 +1488,8 @@
   "Partially Completed":"مكتمل جزئيًا",
   "Hi, Welcome Back":"مرحبا , اهلا بعودتك",
   "Enter your credentials to continue":"ادخل بيانات الدخول الخاصة بك للاستمرار",
-  "Email address": "البريد الالكتروني "
+  "Email address": "البريد الالكتروني ",
+  "Select a Fulfillment Status":"تحديد حالة الاستيفاء",
+  "Select a Compliance Status":"تحديد حالة المطابقة"
 
 }

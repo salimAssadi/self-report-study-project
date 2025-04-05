@@ -7,48 +7,35 @@ use Illuminate\Http\Request;
 
 class StandardController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    // public function index()
-    // {
-    //     // $standards = Standard::whereNull('parent_id')->with(['children', 'criteria'])->get();
-    //     $standards = Standard::whereNull('parent_id')
-    //         ->with([
-    //             'children' => function ($query) {
-    //                 $query->orderBy('sequence', 'asc');
-    //             },
-    //             'criteria' => function ($query) {
-    //                 $query->orderBy('sequence', 'asc');
-    //             }
-    //         ])
-    //         ->orderBy('sequence', 'asc') 
-    //         ->get();
-    //     return view('self-study.standards.index', compact('standards'));
-    // }
+   
     public function index(Request $request)
     {
         $filter = $request->query('filter', 'all');
         $query = Standard::whereNull('parent_id')
             ->with([
-                'children' => function ($query) {
-                    $query->orderBy('sequence', 'asc');
+                'children' => function ($childQuery) use ($filter) {
+                    if ($filter !== 'all') {
+                        $childQuery->where('completion_status', $filter);
+                    }
+                    $childQuery->orderBy('sequence', 'asc');
                 },
                 'criteria' => function ($query) {
                     $query->orderBy('sequence', 'asc');
                 }
             ])
             ->orderBy('sequence', 'asc');
-    
-        // Apply filter based on the query parameter
+
         if ($filter !== 'all') {
-            $query->where('completion_status', $filter);
+            $query->where(function ($q) use ($filter) {
+                $q->where('completion_status', $filter) // Parent matches the filter
+                    ->orWhereHas('children', function ($childQuery) use ($filter) {
+                        $childQuery->where('completion_status', $filter); // Child matches the filter
+                    });
+            });
         }
-    
-        // Fetch the filtered standards
+
         $standards = $query->get();
-    
-        // Pass the filter and standards to the view
+
         return view('self-study.standards.index', compact('standards', 'filter'));
     }
 
@@ -132,7 +119,7 @@ class StandardController extends Controller
         $validated =  $request->validate([
             'parent_id' => 'required', // Ensure valid type
         ]);
-        $subStandards = Standard::where('parent_id',$validated['parent_id'])->get();
+        $subStandards = Standard::where('parent_id', $validated['parent_id'])->get();
         return response()->json($subStandards);
     }
 
@@ -157,7 +144,7 @@ class StandardController extends Controller
             'completion_status' => 'required|in:incomplete,partially_completed,completed' // Validate completion status
         ]);
 
-        
+
         // Find the standard by ID
         $standard = Standard::findOrFail($id);
 
@@ -180,7 +167,7 @@ class StandardController extends Controller
             'summary_ar' => $validated['summary_ar'],
             'summary_en' => $validated['summary_en'],
             'completion_status' => $validated['completion_status']
-            
+
         ]);
 
         return redirect()->route('admin.standards.index')->with('success', __('Standard updated successfully.'));

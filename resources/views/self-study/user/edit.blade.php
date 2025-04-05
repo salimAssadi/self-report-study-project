@@ -1,46 +1,114 @@
-{{ Form::model($user, ['route' => ['users.update', $user->id], 'method' => 'PUT']) }}
+
+{{ Form::model($user, ['route' => ['admin.users.update', $user->id], 'method' => 'PUT']) }}
 <div class="modal-body">
     <div class="row">
-        @if (\Auth::user()->type != 'super admin')
-            <div class="form-group col-md-6">
-                {{ Form::label('role', __('Assign Role'), ['class' => 'form-label']) }}
-                {!! Form::select('role', $userRoles, !empty($user->roles) ? $user->roles[0]->id : null, [
-                    'class' => 'form-control hidesearch ',
-                    'required' => 'required',
-                ]) !!}
-            </div>
-        @endif
-        @if (\Auth::user()->type == 'super admin')
-            <div class="form-group col-md-6">
-                {{ Form::label('name', __('Name'), ['class' => 'form-label']) }}
-                {{ Form::text('name', null, ['class' => 'form-control', 'placeholder' => __('Enter Name'), 'required' => 'required']) }}
-            </div>
-        @else
-            <div class="form-group col-md-6">
-                {{ Form::label('first_name', __('First Name'), ['class' => 'form-label']) }}
-                {{ Form::text('first_name', null, ['class' => 'form-control', 'placeholder' => __('Enter First Name'), 'required' => 'required']) }}
-            </div>
-            <div class="form-group col-md-6">
-                {{ Form::label('last_name', __('Last Name'), ['class' => 'form-label']) }}
-                {{ Form::text('last_name', null, ['class' => 'form-control', 'placeholder' => __('Enter Name'), 'required' => 'required']) }}
-            </div>
-        @endif
+
         <div class="form-group col-md-6">
             {{ Form::label('name', __('Name'), ['class' => 'form-label']) }}
-            {{ Form::text('name', null, ['class' => 'form-control', 'placeholder' => __('Enter Name'), 'required' => 'required']) }}
+            {{ Form::text('name', $user->name, ['class' => 'form-control', 'placeholder' => __('Enter Name'), 'required' => 'required']) }}
         </div>
-        <div class="form-group col-md-6">
+       <div class="form-group col-md-6">
             {{ Form::label('email', __('Email'), ['class' => 'form-label']) }}
-            {{ Form::text('email', null, ['class' => 'form-control', 'placeholder' => __('Enter Email'), 'required' => 'required']) }}
-        </div>
-        <div class="form-group col-md-6">
-            {{ Form::label('phone_number', __('Phone Number'), ['class' => 'form-label']) }}
-            {{ Form::text('phone_number', null, ['class' => 'form-control', 'placeholder' => __('Enter Phone Number')]) }}
+            {{ Form::text('email',  $user->email, ['class' => 'form-control', 'placeholder' => __('Enter email'), 'required' => 'required' ,'readonly']) }}
         </div>
 
+        <div class="form-group col-md-6">
+            {{ Form::label('phone_number', __('Phone Number'), ['class' => 'form-label']) }}
+            {{ Form::text('phone_number', null, ['class' => 'form-control', 'placeholder' => __('Enter phone number')]) }}
+        </div>
+        <div class="form-group col-md-6">
+            {{ Form::label('role', __('Assign Role'), ['class' => 'form-label']) }}
+            {!! Form::select('role', $userRoles, !empty($user->roles) ? $user->roles[0]->id : null, [
+                'class' => 'form-control hidesearch ',
+                'required' => 'required',
+            ]) !!}
+        </div>
+       
+
+        <div class="col-md-12 form-group mt-auto d-flex">
+            <div class="form-check">
+                <input type="checkbox" name="standard_switch" class="form-check-input input-primary" value="on"
+                    id="standard_switch">
+                <label class="form-check-label" for="standard_switch"></label>
+            </div>
+            <label class="form-label" for="standard_switch">{{ __('Show Standard List') }}</label>
+        </div>
+
+        <!-- Standards with Checkboxes (Hidden by Default) -->
+        <div id="standards-section" class="standards-section col-md-12 mt-3 border p-10 rounded-3"
+            style="opacity: 0; max-height: 0; overflow: hidden; transition: all 0.5s ease;">
+            <div class="d-flex justify-content-between mb-2">
+                <h5 clas s="p-2 fs">{{ __('Select Standards to Manage') }}</h5>
+                <div class="col-auto">
+                    <input class="form-check-input" type="checkbox" name="standards[]" value="all" id="selectall">
+                    <label class="form-check-label" for="standard-all">
+                        {{ __('Select All') }}
+                    </label>
+                </div>
+            </div>
+            <hr>
+            <div class="row fst-italic">
+                @foreach ($standards as $standard)
+                    <div class="col-md-4 mb-2">
+                        <div class="form-check">
+                            <input class="form-check-input standard-checkbox" type="checkbox" name="standards[]"
+                                value="{{ $standard->id }}" id="standard-{{ $standard->id }}">
+                            <label class="form-check-label" for="standard-{{ $standard->id }}">
+                                {{ $standard->sequence . ' - ' . $standard->name_ar }}
+                            </label>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
     </div>
 </div>
 <div class="modal-footer">
     {{ Form::submit(__('Update'), ['class' => 'btn btn-secondary btn-rounded']) }}
 </div>
 {{ Form::close() }}
+<script>
+    $(document).on('change', '#standard_switch', function() {
+        const section = $('#standards-section');
+
+        if ($(this).is(':checked')) {
+            // Show the section smoothly
+            section.css({
+                'opacity': 0,
+                'max-height': '0',
+                'overflow': 'hidden'
+            }).animate({
+                    opacity: 1,
+                    maxHeight: section.get(0).scrollHeight
+                },
+                500,
+                function() {
+                    section.css({
+                        'overflow': 'visible'
+                    });
+                }
+            );
+        } else {
+            // Hide the section smoothly
+            section.css({
+                'overflow': 'hidden'
+            }).animate({
+                    opacity: 0,
+                    maxHeight: 0
+                },
+                500,
+                function() {
+                    section.find('input[type="checkbox"]').prop('checked', false); // Uncheck all checkboxes
+                }
+            );
+        }
+    });
+
+    $(document).on('change', '#selectall', function() {
+        if ($(this).is(':checked')) {
+            $('.standard-checkbox').prop('checked', true);
+        } else {
+            $('.standard-checkbox').prop('checked', false);
+        }
+    })
+</script>
