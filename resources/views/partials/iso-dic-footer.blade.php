@@ -2,13 +2,15 @@
     // $DefaultCustomPage = DefaultCustomPage();
     $admin_logo = getSettingsValByName('company_logo');
     $lightLogo = getSettingsValByName('light_logo');
+    $app_name = getSettingsValByName('app_name');
+
 @endphp
 <footer class="pc-footer">
     <div class="footer-wrapper container-fluid">
         <div class="row">
             <div class="col-sm-6 my-1">
                 <p class="m-0">
-                    {{ __('Copyright') }} {{ date('Y') }} © {{ env('APP_NAME') }} {{ __('All rights reserved') }}.
+                     {{ __('All rights reserved').' ' }}{{$app_name}}
                 </p>
             </div>
             <div class="col-sm-6 ms-auto my-1">
