@@ -28,10 +28,9 @@
                         </div>
                         <div class="col-auto">
                             @if (Gate::check('Create Standard'))
-                                <a href="{{ route('admin.standards.create') }}" class="btn btn-secondary customModal"
-                                    data-size="lg" data-url="{{ route('admin.standards.create') }}"
-                                    data-title="{{ __('Create Standard') }}">
-
+                                <a href="{{ route('admin.standards.create') }}" class="btn btn-secondary"
+                                  
+                                   >
                                     <i class="ti ti-circle-plus align-text-bottom"></i>
                                     {{ __('Create Standard') }}
                                 </a>
