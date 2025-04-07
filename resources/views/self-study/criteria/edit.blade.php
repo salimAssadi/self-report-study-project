@@ -51,7 +51,7 @@
                                     const option = $('<option>', {
                                         value: subStandard.id,
                                         text: subStandard.sequence + '-' +
-                                            subStandard.name_ar,
+                                            subStandard.name,
                                     });
                                     subStandardDropdown.append(option);
                                 });
@@ -185,7 +185,7 @@
                                     @foreach ($mainStandards as $mainStandard)
                                         <option value="{{ $mainStandard->id }}"
                                             {{ $mainStandard->id == $criterion->standard->parent_id ? 'selected' : '' }}>
-                                            {{ $mainStandard->sequence . '-' . $mainStandard->name_ar }}
+                                            {{ $mainStandard->sequence . '-' . $mainStandard->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -200,7 +200,7 @@
                                         @foreach ($criterion->standard->children as $child)
                                             <option value="{{ $child->id }}"
                                                 {{ $child->id == $criterion->standard_id ? 'selected' : '' }}>
-                                                {{ $child->sequence . '-' . $child->name_ar }}
+                                                {{ $child->sequence . '-' . $child->name }}
                                             </option>
                                         @endforeach
                                     @endif

@@ -8,6 +8,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Database\Seeders\CommentSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,8 +19,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $allPermissions = Permission::pluck('name')->toArray();
-        $role = Role::findById(1);
-        $role->givePermissionTo($allPermissions);
+        $this->call([
+            CommentSeeder::class,
+        ]);
     }
 }

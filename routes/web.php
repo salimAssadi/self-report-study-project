@@ -33,6 +33,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\StandardController;
 use App\Http\Controllers\SubStandardController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -234,6 +235,15 @@ Route::prefix('admin')->middleware(['XSS'])->name('admin.')->group(function () {
         // });
         
         // Route::get('/generate-pdf', [PdfController::class, 'generatePdf'])->name('generate.pdf');
+        // Comments Routes
+        Route::get('comments', [CommentController::class, 'allComments'])->name('comments.all');
+        Route::get('comments/create', [CommentController::class, 'create'])->name('comments.create');
+        Route::get('criterion/{criterion}/comments', [CommentController::class, 'index'])->name('criterion.comments.index');
+        Route::post('criterion/{criterion}/comments', [CommentController::class, 'store'])->name('criterion.comments.store');
+        Route::put('comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
+        Route::delete('comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+        Route::get('comments/attachments/{attachment}/download', [CommentController::class, 'downloadAttachment'])
+            ->name('comments.attachment.download');
     });
 });
 

@@ -2,14 +2,13 @@
 @if ($standard->children->isNotEmpty())
     <tr class="collapse" id="children-{{ $standard->id }}">
         <td colspan="10">
-            <li><strong class="mb-4">{{ __('Sub-Standards for') }} <span class="text-danger"> {{ $standard->name_ar }}
+            <li><strong class="mb-4">{{ __('Sub-Standards for') }} <span class="text-danger"> {{ $standard->name }}
                     </span></strong></li>
             <table class="table table-bordered table-responsive">
                 <thead>
                     <tr>
                         <th>{{ __('Sequence') }}</th>
-                        <th>{{ __('Name (Arabic)') }}</th>
-                        <th>{{ __('Name (English)') }}</th>
+                        <th>{{ __('Name') }}</th>
                         <th>{{ __('Number of Criteria') }}</th>
                         <th>{{ __('Completion Status') }}</th>
                     </tr>
@@ -18,8 +17,7 @@
                     @foreach ($standard->children as $child)
                         <tr>
                             <td>{{ $child->sequence }}</td>
-                            <td>{{ $child->name_ar }}</td>
-                            <td>{{ $child->name_en }}</td>
+                            <td>{{ $child->name }}</td>
                             <td>{{ $child->criteria->count() }}</td>
                             <td>
                                 @switch($child->completion_status)
@@ -87,7 +85,7 @@
                         <tr class="collapse" id="criteria-child-{{ $child->id }}">
                             <td colspan="10">
                                 <li><strong class="mb-4">{{ __('Criteria for') }} <span class="text-danger">
-                                            {{ $standard->name_ar }} </span></strong></li>
+                                            {{ $standard->name }} </span></strong></li>
                                 @include('self-study.standards._criteria', [
                                     'criteria' => $child->criteria,
                                 ])

@@ -1490,6 +1490,14 @@
   "Enter your credentials to continue":"ادخل بيانات الدخول الخاصة بك للاستمرار",
   "Email address": "البريد الالكتروني ",
   "Select a Fulfillment Status":"تحديد حالة الاستيفاء",
-  "Select a Compliance Status":"تحديد حالة المطابقة"
+  "Select a Compliance Status":"تحديد حالة المطابقة",
+  "Reply":"رد",
+  "Edit your comment...":"تعديل تعليقك...",
+  "Write your comment here...":"اكتب تعليقك هنا...",
+  "Max file size: 10MB. You can upload multiple files.":"الحد الأقصى للملف: 10 ميجابايت. يمكنك تحميل عدة ملفات.",
+  "Write your reply...":"اكتب ردك هنا..."
+
+  
+
 
 }

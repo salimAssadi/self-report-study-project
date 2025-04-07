@@ -3,8 +3,7 @@
         <thead>
             <tr>
                 <th>{{ __('Sequence') }}</th>
-                <th>{{ __('Name (Arabic)') }}</th>
-                <th>{{ __('Name (English)') }}</th>
+                <th>{{ __('Name') }}</th>
                 <th>{{ __('Standard') }}</th>
                 <th>{{ __('Compliance') }}</th>
                 <th>{{ __('Fulfillment Status') }}</th>
@@ -15,10 +14,9 @@
             @foreach ($criteria as $criterion)
                 <tr>
                     <td>{{ $criterion->sequence }}</td>
-                    <td>{{ $criterion->name_ar }}</td>
-                    <td>{{ $criterion->name_en }}</td>
+                    <td>{{ $criterion->name }}</td>
                     <td>
-                        {{ $criterion->standard?->name_ar ?? ($criterion->standard?->name_en ?? '-') }}
+                        {{ $criterion->standard?->name ?? '-' }}
                     </td>
                     <td>
                         @switch($criterion->is_met)

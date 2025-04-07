@@ -2,9 +2,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Localizable;
 
 class Standard extends Model
 {
+    use Localizable;
     protected $fillable = [
         'type',
         'parent_id',
@@ -20,25 +22,21 @@ class Standard extends Model
         'completion_status',
     ];
 
-    // Relationship to parent Main Standard
     public function parent()
     {
         return $this->belongsTo(Standard::class, 'parent_id');
     }
 
-    // Relationship to Sub-Standards
     public function children()
     {
         return $this->hasMany(Standard::class, 'parent_id');
     }
 
-    // Scope to filter Main Standards
     public function scopeMain($query)
     {
         return $query->where('type', 'main');
     }
 
-    // Scope to filter Sub-Standards
     public function scopeSub($query)
     {
         return $query->where('type', 'sub');
@@ -47,5 +45,28 @@ class Standard extends Model
     public function criteria()
     {
         return $this->hasMany(Criterion::class, 'standard_id');
+    }
+    
+    public function getNameAttribute()
+    {
+        return $this->getLocalizedAttribute('name');
+    }
+
+  
+    public function getIntroductionAttribute()
+    {
+        return $this->getLocalizedAttribute('introduction');
+    }
+
+   
+    public function getDescriptionAttribute()
+    {
+        return $this->getLocalizedAttribute('description');
+    }
+
+   
+    public function getSummaryAttribute()
+    {
+        return $this->getLocalizedAttribute('summary');
     }
 }

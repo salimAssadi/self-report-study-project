@@ -221,7 +221,13 @@ class CriterionController extends Controller
     {
         $main_standard_id = $request->input('main_standard_id');
         $subStandards = SubStandard::where('main_standard_id', $main_standard_id)->get();
-
+        $subStandards = $subStandards->map(function ($subStandard) {
+            return [
+                'id' => $subStandard->id,
+                'name' => $subStandard->name,
+                'sequence' => $subStandard->sequence,
+            ];
+        });
         return response()->json($subStandards);
     }
 }

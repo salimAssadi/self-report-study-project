@@ -14,7 +14,21 @@ $profile = asset(Storage::url('upload/profile/'));
 
 </li>
 @endsection
+@push('css-page')
+<style>
+@keyframes vibrate {
+    0% { transform: translate(0); }
+    25% { transform: translate(-2px, 2px); }
+    50% { transform: translate(2px, -2px); }
+    75% { transform: translate(-2px, -2px); }
+    100% { transform: translate(0); }
+}
 
+.vibrate {
+    animation: vibrate 0.5s infinite;
+}
+</style>
+@endpush
 @section('content')
 <div class="row">
     <div class="col-sm-12">
@@ -42,8 +56,7 @@ $profile = asset(Storage::url('upload/profile/'));
                         <thead>
                             <tr>
                                 <th>{{ __('Sequence') }}</th>
-                                <th>{{ __('Name (Arabic)') }}</th>
-                                <th>{{ __('Name (English)') }}</th>
+                                <th>{{ __('Name') }}</th>
                                 <th>{{ __('Standard') }}</th>
                                 <th>{{ __('Compliance') }}</th>
                                 <th>{{ __('Fulfillment Status') }}</th>
@@ -54,8 +67,7 @@ $profile = asset(Storage::url('upload/profile/'));
                             @foreach ($criteria as $criterion)
                             <tr>
                                 <td>{{ $criterion->sequence }}</td>
-                                <td>{{ $criterion->name_ar }}</td>
-                                <td>{{ $criterion->name_en }}</td>
+                                <td>{{ $criterion->name }}</td>
                                 <td>
                                     {{ $criterion->standard?->name_ar ?? ($criterion->standard?->name_en ?? '-') }}
                                 </td>
@@ -141,6 +153,17 @@ $profile = asset(Storage::url('upload/profile/'));
                                             title="{{ __('Delete') }}">
                                             <i class="ti ti-trash f-20"></i>
                                         </a>
+                                        @if(Gate::check('Show Comments'))
+                                        <a class="avtar avtar-xs btn-link-danger text-danger me-2 vibrate"
+                                           href="{{ route('admin.criterion.comments.index', $criterion->id) }}"
+                                           data-bs-toggle="tooltip" data-bs-placement="top"
+                                           title="{{ __('Comments') }}">
+                                           @if($criterion->comments->count() > 0)
+                                           <i class="ti ti-message text-danger vibrate f-20"></i>
+                                                <span class="text-danger">{{ $criterion->comments->count() }}</span>
+                                            @endif
+                                        </a>
+                                    @endif
                                         {!! Form::close() !!}
                                     </div>
                                 </td>

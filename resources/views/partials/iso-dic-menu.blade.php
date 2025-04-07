@@ -185,6 +185,16 @@
                         </ul>
                     </li>
                 @endif
+                
+                {{-- @if (Gate::check('Manage Comments'))
+                    <li class="pc-item {{ in_array($routeName, ['comments']) ? 'active' : '' }} ">
+                        <a href="{{ route('admin.comments.all') }}" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-messages"></i></span>
+                            <span class="pc-mtext">{{ __('Manage Comments') }}</span>
+                        </a>
+                    </li>
+                @endif --}}
+
                 @if (Gate::check('Manage Settings'))
                     <li class="pc-item {{ in_array($routeName, ['facilityInfo']) ? 'active' : '' }} ">
                         <a href="{{ route('admin.setting.facilityInfo') }}" class="pc-link">
@@ -193,6 +203,7 @@
                         </a>
                     </li>
                 @endif
+
 
                 @if (Gate::check('Manage Settings'))
                     <li class="pc-item {{ in_array($routeName, ['setting.index']) ? 'active' : '' }} ">

@@ -120,6 +120,13 @@ class StandardController extends Controller
             'parent_id' => 'required', // Ensure valid type
         ]);
         $subStandards = Standard::where('parent_id', $validated['parent_id'])->get();
+        $subStandards = $subStandards->map(function ($subStandard) {
+            return [
+                'id' => $subStandard->id,
+                'name' => $subStandard->name,
+                'sequence' => $subStandard->sequence,
+            ];
+        });
         return response()->json($subStandards);
     }
 

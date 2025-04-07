@@ -63,7 +63,7 @@
                         <div class="dropdown-header">
                             <h4>
                                 {{ __('Good Morning') }},
-                                <span class="small text-muted">{{\Auth::user()->name}}</span>
+                                <span class="small text-muted">{{\Auth::user()->full_name}}</span>
                             </h4>
                             <p class="text-muted">{{\Auth::user()->type}}</p>
 

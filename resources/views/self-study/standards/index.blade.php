@@ -46,8 +46,7 @@
                                 <tr>
 
                                     <th>{{ __('Sequence') }}</th>
-                                    <th>{{ __('Name (Arabic)') }}</th>
-                                    <th>{{ __('Name (English)') }}</th>
+                                    <th>{{ __('Name') }}</th>
                                     <th>{{ __('Sub-Standards Count') }}</th>
                                     <th>{{ __('Number of Criteria') }}</th>
                                     <th>{{ __('Completion Status') }}</th>
@@ -59,8 +58,7 @@
                                     <!-- Parent Row -->
                                     <tr>
                                         <td>{{ $standard->sequence }}</td>
-                                        <td>{{ $standard->name_ar }}</td>
-                                        <td>{{ $standard->name_en }}</td>
+                                        <td>{{ $standard->name }}</td>
                                         <td>{{ $standard->children->count() }}</td>
                                         <td>{{ $standard->criteria->count() }}</td>
                                         <td>

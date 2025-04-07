@@ -5,9 +5,9 @@
             <div class="form-group col-md-12">
                 {{ Form::label('main_standard_id', __('Parent Standard'), ['class' => 'form-label']) }}
                 <select name="main_standard_id" id="main_standard_id" class="form-control " required>
+                    <option value="">{{ __('Select Parent Standard') }}</option>
                     @forelse  ($mainStandards as $mainStandard)
-                        <option value="">{{ __('Select Parent Standard') }}</option>
-                        <option value="{{ $mainStandard->id }}">{{ $mainStandard->sequence .'-'. $mainStandard->name_ar  }}</option>
+                        <option value="{{ $mainStandard->id }}">{{ $mainStandard->sequence .'-'. $mainStandard->name  }}</option>
                     @empty
                         <option value="">{{ __('Not Found') }}</option>
                     @endforelse
@@ -85,7 +85,7 @@
                             data.forEach(function(subStandard) {
                                 const option = $('<option>', {
                                     value: subStandard.id,
-                                    text: subStandard.sequence + '-' + subStandard.name_ar,
+                                    text: subStandard.sequence + '-' + subStandard.name,
                                 });
                                 subStandardDropdown.append(option);
                             });
