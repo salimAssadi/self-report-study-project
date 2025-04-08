@@ -15,17 +15,7 @@
                     <p class="lead text-lg  mb-5">
                         {{__("Sorry, something has gone wrong on the website's server.")}}
                     </p>
-                    {{--  @if(\Auth::check())
-                        <a href="{{ route('dashboard') }}" class="btn btn-white btn-icon rounded-pill hover-translate-y-n3">
-                            <span class="btn-inner--icon"><i class="fas fa-home"></i></span>
-                            <span class="btn-inner--text">{{__('Return home')}}</span>
-                        </a>
-                    @else
-                        <a href="{{ route('store.slug','my-store') }}" class="btn btn-white btn-icon rounded-pill hover-translate-y-n3">
-                            <span class="btn-inner--icon"><i class="fas fa-home"></i></span>
-                            <span class="btn-inner--text">{{__('Return home')}}</span>
-                        </a>
-                    @endif  --}}
+                    
                     <a class="btn btn-white btn-icon rounded-pill hover-translate-y-n3" onclick="Previous()">
                         <span class="btn-inner--icon"><i class="fas fa-home"></i></span>
                         <span class="btn-inner--text">{{__('Return home')}}</span>

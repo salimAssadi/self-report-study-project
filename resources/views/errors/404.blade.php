@@ -1,7 +1,6 @@
 @extends('errors::minimal')
 @section('title', __('Server Error'))
 @section('content')
-{{ $exception->getMessage() }}
     <div class="min-vh-100 h-100vh py-5 d-flex align-items-center bg-gradient-primary">
         <div class="bg-absolute-cover vh-100 overflow-hidden d-none d-md-block">
             <figure class="w-100">
