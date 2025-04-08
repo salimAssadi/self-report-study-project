@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-            {{ Form::open(['route' => 'admin.login', 'method' => 'post', 'id' => 'loginForm', 'class' => 'login-form']) }}
+            {{ Form::open(['route' => 'login', 'method' => 'post', 'id' => 'loginForm', 'class' => 'login-form']) }}
             @if (session('error'))
                 <div class="alert alert-danger" role="alert">{{ session('error') }}</div>
             @endif
@@ -79,7 +79,7 @@
                 @endif
             @endif
             <div class="d-grid mt-4">
-                <button type="submit" class="btn btn-secondary p-2">{{ __('Sign In') }}</button>
+                <button type="submit" class="btn btn-secondary p-2">{{ __('Login') }}</button>
             </div>
             {{-- @if ($registerPage == 'on')
                 <hr />

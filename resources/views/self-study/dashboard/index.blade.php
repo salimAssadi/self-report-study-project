@@ -111,7 +111,7 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <a
-                                        href="{{ Gate::check('Manage User') ? route($prefix . '.users.index') : 'javascript:void(0);' }}">
+                                        href="{{ Gate::check('Manage User') ? route('users.index') : 'javascript:void(0);' }}">
                                         <p class="mb-1">{{ __('Total Users') }}</p>
                                         <div class="d-flex align-items-center justify-content-between">
                                             <h4 class="mb-0">{{ $totalUsers }}</h4>
@@ -133,7 +133,7 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <a
-                                        href="{{ Gate::check('Manage Standard') ? route($prefix . '.standards.index', ['filter' => 'all']) : 'javascript:void(0);' }}">
+                                        href="{{ Gate::check('Manage Standard') ? route('standards.index', ['filter' => 'all']) : 'javascript:void(0);' }}">
 
                                         <p class="mb-1">{{ __('Main Standards Count') }}</p>
                                         <div class="d-flex align-items-center justify-content-between">
@@ -158,7 +158,7 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <a
-                                        href="{{ Gate::check('Manage Standard') ? route($prefix . '.standards.index', ['filter' => 'all']) : 'javascript:void(0);' }}">
+                                        href="{{ Gate::check('Manage Standard') ? route('standards.index', ['filter' => 'all']) : 'javascript:void(0);' }}">
                                         <p class="mb-1">{{ __('Sub Standards Count') }}</p>
                                         <div class="d-flex align-items-center justify-content-between">
                                             <h4 class="mb-0">{{ $totalSubStandards }}</h4>
@@ -180,7 +180,7 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <a
-                                        href="{{ Gate::check('Manage Standard') ? route($prefix . '.standards.index', ['filter' => 'completed']) : 'javascript:void(0);' }}">
+                                        href="{{ Gate::check('Manage Standard') ? route('standards.index', ['filter' => 'completed']) : 'javascript:void(0);' }}">
                                         <p class="mb-1">{{ __('Completed') }}</p>
                                         <div class="d-flex align-items-center justify-content-between">
                                             <h4 class="mb-0">{{ $counts['completed'] }}</h4>
@@ -202,7 +202,7 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <a
-                                        href="{{ Gate::check('Manage Standard') ? route($prefix . '.standards.index', ['filter' => 'partially_completed']) : 'javascript:void(0);' }}">
+                                        href="{{ Gate::check('Manage Standard') ? route('standards.index', ['filter' => 'partially_completed']) : 'javascript:void(0);' }}">
                                         <p class="mb-1">{{ __('Partially Completed') }}</p>
                                         <div class="d-flex align-items-center justify-content-between">
                                             <h4 class="mb-0">{{ $counts['partially_completed'] }}</h4>
@@ -224,7 +224,7 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <a
-                                        href="{{ Gate::check('Manage Standard') ? route($prefix . '.standards.index', ['filter' => 'incomplete']) : 'javascript:void(0);' }}">
+                                        href="{{ Gate::check('Manage Standard') ? route('standards.index', ['filter' => 'incomplete']) : 'javascript:void(0);' }}">
                                         <p class="mb-1">{{ __('Incomplete') }}</p>
                                         <div class="d-flex align-items-center justify-content-between">
                                             <h4 class="mb-0">{{ $counts['incomplete'] }}</h4>
@@ -251,7 +251,7 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <a
-                                        href="{{ Gate::check('Manage Criteria') ? route($prefix . '.criteria.index', ['status' => 'all']) : 'javascript:void(0);' }}">
+                                        href="{{ Gate::check('Manage Criteria') ? route('criteria.index', ['status' => 'all']) : 'javascript:void(0);' }}">
                                         <p class="mb-1">{{ __('Number of Criteria') }}</p>
                                         <div class="d-flex align-items-center justify-content-between">
                                             <h4 class="mb-0">{{ $totalCriteria }}</h4>
@@ -274,7 +274,7 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <a
-                                        href="{{ Gate::check('Manage Criteria') ? route($prefix . '.criteria.index', ['status' => \App\Constants\Status::FULLSTATUS['not_fulfilled']]) : 'javascript:void(0);' }}">
+                                        href="{{ Gate::check('Manage Criteria') ? route('criteria.index', ['status' => \App\Constants\Status::FULLSTATUS['not_fulfilled']]) : 'javascript:void(0);' }}">
                                         <p class="mb-1">{{ __('Not Fulfilled') }}</p>
                                         <div class="d-flex align-items-center justify-content-between">
                                             <h4 class="mb-0">{{ $notFulfilled }}
@@ -298,7 +298,7 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <a
-                                        href="{{ Gate::check('Manage Criteria') ? route($prefix . '.criteria.index', ['status' => \App\Constants\Status::FULLSTATUS['partially_fulfilled']]) : 'javascript:void(0);' }}">
+                                        href="{{ Gate::check('Manage Criteria') ? route('criteria.index', ['status' => \App\Constants\Status::FULLSTATUS['partially_fulfilled']]) : 'javascript:void(0);' }}">
 
                                         <p class="mb-1">{{ __('Partially Fulfilled') }}</p>
                                         <div class="d-flex align-items-center justify-content-between">
@@ -323,7 +323,7 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <a
-                                        href="{{ Gate::check('Manage Criteria') ? route($prefix . '.criteria.index', ['status' => \App\Constants\Status::FULLSTATUS['fulfilled']]) : 'javascript:void(0);' }}">
+                                        href="{{ Gate::check('Manage Criteria') ? route('criteria.index', ['status' => \App\Constants\Status::FULLSTATUS['fulfilled']]) : 'javascript:void(0);' }}">
 
                                         <p class="mb-1">{{ __('Fulfilled') }}</p>
                                         <div class="d-flex align-items-center justify-content-between">
@@ -348,7 +348,7 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <a
-                                        href="{{ Gate::check('Manage Criteria') ? route($prefix . '.criteria.index', ['status' => \App\Constants\Status::FULLSTATUS['fulfilled_with_distinction']]) : 'javascript:void(0);' }}">
+                                        href="{{ Gate::check('Manage Criteria') ? route('criteria.index', ['status' => \App\Constants\Status::FULLSTATUS['fulfilled_with_distinction']]) : 'javascript:void(0);' }}">
 
                                         <p class="mb-1">{{ __('Fulfilled with Precision') }}</p>
                                         <div class="d-flex align-items-center justify-content-between">
@@ -373,7 +373,7 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <a
-                                        href="{{ Gate::check('Manage Criteria') ? route($prefix . '.criteria.index', ['status' => \App\Constants\Status::FULLSTATUS['fulfilled_with_excellence']]) : 'javascript:void(0);' }}">
+                                        href="{{ Gate::check('Manage Criteria') ? route('criteria.index', ['status' => \App\Constants\Status::FULLSTATUS['fulfilled_with_excellence']]) : 'javascript:void(0);' }}">
 
                                         <p class="mb-1">{{ __('Fulfilled with Excellence') }}</p>
                                         <div class="d-flex align-items-center justify-content-between">
@@ -398,7 +398,7 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <a
-                                        href="{{ Gate::check('Manage Criteria') ? route($prefix . '.criteria.index', ['status' => 'matching']) : 'javascript:void(0);' }}">
+                                        href="{{ Gate::check('Manage Criteria') ? route('criteria.index', ['status' => 'matching']) : 'javascript:void(0);' }}">
 
                                         <p class="mb-1">{{ __('Matching') }}</p>
                                         <div class="d-flex align-items-center justify-content-between">
@@ -423,7 +423,7 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <a
-                                        href="{{ Gate::check('Manage Criteria') ? route($prefix . '.criteria.index', ['status' => 'non_matching']) : 'javascript:void(0);' }}">
+                                        href="{{ Gate::check('Manage Criteria') ? route('criteria.index', ['status' => 'non_matching']) : 'javascript:void(0);' }}">
 
                                         <p class="mb-1">{{ __('Not Matching') }}</p>
                                         <div class="d-flex align-items-center justify-content-between">

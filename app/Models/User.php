@@ -10,7 +10,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Traits\HasRoles;
 use Lab404\Impersonate\Models\Impersonate;
-
+use App\Models\Role;
+use App\Models\Standard;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -18,7 +19,11 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     use Impersonate;
 
-
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'name',
         'email',
@@ -26,26 +31,33 @@ class User extends Authenticatable implements MustVerifyEmail
         'type',
         'avatar',
         'lang',
-        'subscription',
-        'subscription_expire_date',
         'parent_id',
         'is_active',
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
     ];
 
     public function sendEmailVerificationNotification()
     {
         $this->notify(new VerifyEmail);
     }
-
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
 
     public function canImpersonate()
     {
@@ -58,11 +70,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return User::where('parent_id', $this->id)->count();
     }
 
-    public function getNameAttribute()
-    {
-        return ucfirst($this->first_name) . ' ' . ucfirst($this->last_name);
-    }
-
+    // public function getNameAttribute()
+    // {
+    //     return ucfirst($this->first_name) . ' ' . ucfirst($this->last_name);
+    // }
 
     public function totalContact()
     {
@@ -73,6 +84,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return User::where('type', $role)->where('parent_id', parentId())->count();
     }
+
     public static function getDevice($user)
     {
         $mobileType = '/(?:phone|windows\s+phone|ipod|blackberry|(?:android|bb\d+|meego|silk|googlebot) .+? mobile|palm|windows\s+ce|opera mini|avantgo|mobilesafari|docomo)/i';
@@ -115,7 +127,6 @@ class User extends Authenticatable implements MustVerifyEmail
             }
         }
 
-
         return $return;
     }
 
@@ -138,4 +149,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'general settings',
         'company settings',
     ];
+
+
+
+    public function standards()
+    {
+        return $this->belongsToMany(Standard::class, 'user_standards')
+            ->withTimestamps();
+    }
 }

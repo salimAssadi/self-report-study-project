@@ -38,17 +38,6 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
 
-            // // Custom routes for iso_dic
-            // Route::middleware('web')
-            //     ->group(base_path('routes/iso_dic.php'));
-
-            // // Custom routes for iso_stream
-            // Route::middleware('web')
-            //     ->group(base_path('routes/iso_stream.php'));
-
-            // // Custom routes for crm
-            // Route::middleware('web')
-            //     ->group(base_path('routes/crm.php'));
         });
     }
 }

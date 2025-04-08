@@ -1,4 +1,4 @@
-{{ Form::model($role, ['route' => ['admin.role.update', $role->id], 'method' => 'PUT']) }}
+{{ Form::model($role, ['route' => ['role.update', $role->id], 'method' => 'PUT']) }}
 <div class="modal-body">
     <div class="row">
         <div class="form-group">

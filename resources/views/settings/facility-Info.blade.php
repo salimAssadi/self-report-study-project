@@ -3,7 +3,7 @@
     {{ __('Facility Info') }}
 @endsection
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">{{ __('Dashboard') }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('Dashboard') }}</a></li>
     <li class="breadcrumb-item" aria-current="page"> {{ __('Facility Info') }}</li>
 @endsection
 @php
@@ -33,7 +33,7 @@
                         </div>
                         <div class="col-auto">
 
-                            <a href="{{ route('admin.home') }}" class="btn btn-light-secondary me-3"> <i
+                            <a href="{{ route('home') }}" class="btn btn-light-secondary me-3"> <i
                                     data-feather="x-circle" class="me-2"></i>{{ __('Cancel') }}</a>
                             <a type="submit" id="submit-all" class="btn btn-primary text-white"> <i
                                     data-feather="check-circle" class="me-2"></i>{{ __('Save') }}</a>
@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <div class="card-body px-5">
-                    <form action="{{ route('admin.setting.savefacilityInfo') }}" method="POST"
+                    <form action="{{ route('setting.savefacilityInfo') }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
                        

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -34,104 +35,101 @@ class UserController extends Controller
 
     public function create()
     {
-        $standards = Standard::whereNull('parent_id')->get();
-        $userRoles = Role::whereNotIn('name', ['tenant', 'maintainer'])->get()->pluck('name', 'id');
-        return view('self-study.user.create', compact('userRoles','standards'));
+        if (!\Auth::user()->can('Create User')) {
+            return redirect()->back()->with('error', __('Permission Denied.'));
+        }
+        $roles = Role::pluck('name', 'id');
+        $standards = Standard::whereNull('parent_id')->with('children')->get();
+        return view('self-study.user.create', compact('roles', 'standards'));
     }
 
 
     public function store(Request $request)
     {
-        if (\Auth::user()->can('Create User')) {
-            if (\Auth::user()->type == 'super admin') {
-                $validator = \Validator::make(
-                    $request->all(),
-                    [
-                        'name' => 'required',
-                        'email' => 'required|email|unique:users',
-                        'password' => 'required|min:6',
-                    ]
-                );
-                if ($validator->fails()) {
-                    $messages = $validator->getMessageBag();
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|exists:roles,id',
+            'standards' => 'nullable|array',
+            'standards.*' => 'exists:standards,id',
+        ]);
 
-                    return redirect()->back()->with('error', $messages->first());
-                }
+        DB::transaction(function () use ($validated, $request) {
+            $user = User::create([
+                'full_name' => $validated['name'],
+                'email' => $validated['email'],
+                'password' => Hash::make($validated['password']),
+                'is_enable_login' => true,
+            ]);
 
-                $userRole = Role::findById($request->role);
-                $user = new User();
-                $user->name = $request->name;
-                $user->email = $request->email;
-                $user->password = \Hash::make($request->password);
-                $user->type = $userRole->name;
-                $user->email_verified_at = now();
-                $user->avatar = 'avatar.png';
-                $user->lang = 'english';
-                $user->save();
-                $user->assignRole($userRole);
-
-
-                return redirect()->route('admin.users.index')->with('success', __('User successfully created.'));
+            $user->assignRole($validated['role']);
+            if ($request->has('standards')) {
+                $user->standards()->attach($request->standards);
             }
-        } else {
-            return redirect()->back()->with('error', __('Permission Denied.'));
-        }
+        });
+
+        return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
 
 
     public function show(User $user)
     {   
-        if (!\Auth::user()->can('show user')) {
+        if (!\Auth::user()->can('Show User')) {
             return redirect()->back()->with('error', __('Permission Denied.'));
         } else {
             $settings = settings();
-            $transactions = PackageTransaction::where('user_id', $user->id)->orderBy('created_at', 'DESC')->get();
-            $subscriptions = Subscription::get();
-            return view('user.show', compact('user', 'transactions','settings', 'subscriptions'));
+            return view('self-study.user.show', compact('user', 'settings'));
         }
     }
 
 
-    public function edit($id)
+    public function edit(User $user)
     {
-        $user = User::findOrFail($id);
-        $standards = Standard::whereNull('parent_id')->get();
-        $userRoles = Role::whereNotIn('name', ['tenant', 'maintainer'])->get()->pluck('name', 'id');
-
-        return view('self-study.user.edit', compact('user', 'userRoles','standards'));
-    }
-
-
-    public function update(Request $request, $id)
-    {
-        if (\Auth::user()->can('Edit User')) {
-                
-                $validator = \Validator::make(
-                    $request->all(),
-                    [
-                        'name' => 'required',
-                        'email' => 'required|email|unique:users,email,' . $id,
-                        'role' => 'required',
-                    ]
-                );
-                if ($validator->fails()) {
-                    $messages = $validator->getMessageBag();
-
-                    return redirect()->back()->with('error', $messages->first());
-                }
-
-                $userRole = Role::findById($request->role);
-                $user = User::findOrFail($id);
-                $user->name = $request->name;
-                $user->email = $request->email;
-                $user->type = $userRole->name;
-                $user->save();
-                $user->roles()->sync($userRole);
-                return redirect()->route('admin.users.index')->with('success', 'User successfully updated.');
-            
-        } else {
+        if (!\Auth::user()->can('Edit User')) {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
+        $roles = Role::all();
+        $standards = Standard::whereNull('parent_id')->with('children')->get();
+        $userStandards = $user->standards->pluck('id')->toArray();
+        return view('self-study.user.edit', compact('user', 'roles', 'standards', 'userStandards'));
+    }
+
+
+    public function update(Request $request, User $user)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8|confirmed',
+            'role' => 'required|exists:roles,id',
+            'standards' => 'nullable|array',
+            'standards.*' => 'exists:standards,id',
+        ]);
+
+        DB::transaction(function () use ($validated, $request, $user) {
+            $updateData = [
+                'full_name' => $validated['name'],
+                'email' => $validated['email'],
+            ];
+
+            if (!empty($validated['password'])) {
+                $updateData['password'] = Hash::make($validated['password']);
+            }
+
+            // $user->update($updateData);
+            $userRole = Role::findById($request->role);
+            $user = User::findOrFail($user->id);
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->type = $userRole->name;
+            $user->save();
+            $user->roles()->sync($userRole);
+
+            $user->standards()->sync($request->standards ?? []);
+        });
+
+        return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }
 
 

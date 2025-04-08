@@ -84,7 +84,9 @@ class CommentController extends Controller
      */
     public function update(Request $request, Comment $comment)
     {
-        $this->authorize('update', $comment);
+        if(!auth()->user()->can('Edite Comments')){
+            return redirect()->back()->with('error', __('Permission Denied.'));
+        }
 
         $request->validate([
             'content' => 'required|string',

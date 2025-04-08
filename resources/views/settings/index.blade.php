@@ -3,7 +3,7 @@
     {{ __('System Settings') }}
 @endsection
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">{{ __('Dashboard') }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('Dashboard') }}</a></li>
     <li class="breadcrumb-item" aria-current="page"> {{ __('System Settings') }}</li>
 @endsection
 @php
@@ -19,7 +19,7 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <ul class="nav flex-column nav-tabs account-tabs mb-3" id="myTab" role="tablist">
-                                @if (Gate::check('manage account settings'))
+                                {{-- @if (Gate::check('manage account settings')) --}}
                                     <li class="nav-item">
                                         <a class="nav-link {{ empty($activeTab) || $activeTab == 'user_profile_settings' ? ' active ' : '' }}"
                                             id="profile-tab-1" data-bs-toggle="tab" href="#user_profile_settings"
@@ -35,8 +35,8 @@
                                             </div>
                                         </a>
                                     </li>
-                                @endif
-                                @if (Gate::check('manage password settings'))
+                                {{-- @endif --}}
+                                {{-- @if (Gate::check('manage password settings')) --}}
                                     <li class="nav-item">
                                         <a class="nav-link  {{ empty($activeTab) || $activeTab == 'password_settings' ? ' active ' : '' }}"
                                             id="profile-tab-2" data-bs-toggle="tab" href="#password_settings" role="tab"
@@ -52,8 +52,9 @@
                                             </div>
                                         </a>
                                     </li>
-                                @endif
+                                {{-- @endif --}}
                                 {{-- @if (Gate::check('manage general settings')) --}}
+                                @if (auth()->user()->type=="super admin")
                                     <li class="nav-item">
                                         <a class="nav-link {{ empty($activeTab) || $activeTab == 'general_settings' ? ' active ' : '' }}"
                                             id="profile-tab-3" data-bs-toggle="tab" href="#general_settings" role="tab"
@@ -69,7 +70,7 @@
                                             </div>
                                         </a>
                                     </li>
-                                {{-- @endif --}}
+                                @endif
                                 @if (Gate::check('manage company settings'))
                                     <li class="nav-item">
                                         <a class="nav-link {{ empty($activeTab) || $activeTab == 'company_settings' ? ' active ' : '' }}"
@@ -178,7 +179,7 @@
                         </div>
                         <div class="col-lg-8">
                             <div class="tab-content">
-                                @if (Gate::check('manage account settings'))
+                                {{-- @if (Gate::check('manage account settings')) --}}
                                     <div class="tab-pane {{ empty($activeTab) || $activeTab == 'user_profile_settings' ? ' active show ' : '' }}"
                                         id="user_profile_settings" role="tabpanel"
                                         aria-labelledby="user_profile_settings">
@@ -193,21 +194,16 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     {{ Form::label('name', __('Name'), ['class' => 'form-label']) }}
-                                                    {{ Form::text('name', null, ['class' => 'form-control', 'placeholder' => __('Enter your name'), 'required' => 'required']) }}
+                                                    {{ Form::text('name', $loginUser->full_name, ['class' => 'form-control', 'placeholder' => __('Enter your name'), 'required' => 'required']) }}
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     {{ Form::label('email', __('Email Address'), ['class' => 'form-label']) }}
-                                                    {{ Form::text('email', null, ['class' => 'form-control', 'placeholder' => __('Enter your email'), 'required' => 'required']) }}
+                                                    {{ Form::text('email',$loginUser->email , ['class' => 'form-control', 'placeholder' => __('Enter your email'), 'readonly' ,'required' => 'required']) }}
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    {{ Form::label('phone_number', __('Phone Number'), ['class' => 'form-label']) }}
-                                                    {{ Form::number('phone_number', null, ['class' => 'form-control', 'placeholder' => __('Enter your Phone Number')]) }}
-                                                </div>
-                                            </div>
+                                            
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     {{ Form::label('profile', __('Profile'), ['class' => 'form-label']) }}
@@ -223,8 +219,8 @@
                                         </div>
                                         {{ Form::close() }}
                                     </div>
-                                @endif
-                                @if (Gate::check('manage password settings'))
+                                {{-- @endif --}}
+                                {{-- @if (Gate::check('manage password settings')) --}}
                                     <div class="tab-pane {{ !empty($activeTab) && $activeTab == 'password_settings' ? ' active show ' : '' }}"
                                         id="password_settings" role="tabpanel" aria-labelledby="password_settings">
                                         {{ Form::model($loginUser, ['route' => ['setting.password'], 'method' => 'post']) }}
@@ -256,7 +252,7 @@
                                         </div>
                                         {{ Form::close() }}
                                     </div>
-                                @endif
+                                {{-- @endif --}}
                                 @php
                                     $admin_logo = getSettingsValByName('company_logo');
                                     $company_favicon = getSettingsValByName('company_favicon');
@@ -268,7 +264,7 @@
                                 {{-- @if (Gate::check('manage general settings')) --}}
                                     <div class="tab-pane  show{{ !empty($activeTab) && $activeTab == 'general_settings' ? ' active show ' : '' }}"
                                         id="general_settings" role="tabpanel" aria-labelledby="general_settings">
-                                        {{ Form::model($settings, ['route' => ['admin.setting.general'], 'method' => 'post', 'enctype' => 'multipart/form-data']) }}
+                                        {{ Form::model($settings, ['route' => ['setting.general'], 'method' => 'post', 'enctype' => 'multipart/form-data']) }}
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">

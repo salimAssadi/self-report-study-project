@@ -28,48 +28,56 @@ class HomeController extends Controller
 
     public function index()
     {
-
-        if (\Auth::check()) {
-
-                $totalUsers = User::count();
-                $totalMainStandards = Standard::main()->count();
-                $totalSubStandards = Standard::sub()->count();
-
-                // Fetch total criteria
-                $totalCriteria = \App\Models\Criterion::count();
-
-                // Fetch fulfillment statuses
-                $fulfillmentStatuses = DB::table('criteria')
-                    ->select('fulfillment_status', DB::raw('count(*) as count'))
-                    ->groupBy('fulfillment_status')
-                    ->get()
-                    ->keyBy('fulfillment_status'); 
-
-                // Default values for fulfillment statuses
-                $notFulfilled = $fulfillmentStatuses['1']->count ?? 0;
-                $partiallyFulfilled = $fulfillmentStatuses['2']->count ?? 0;
-                $fulfilled = $fulfillmentStatuses['3']->count ?? 0;
-                $fulfilledWithPrecision = $fulfillmentStatuses['4']->count ?? 0;
-                $fulfilledWithExcellence = $fulfillmentStatuses['5']->count ?? 0;
-                // Pass data to the view
-                return view('self-study.dashboard.index', [
-                    'totalUsers' => $totalUsers,
-                    'totalMainStandards' => $totalMainStandards,
-                    'totalSubStandards' => $totalSubStandards,
-                    'totalCriteria' => $totalCriteria,
-                    'notFulfilled' => $notFulfilled,
-                    'partiallyFulfilled' => $partiallyFulfilled,
-                    'fulfilled' => $fulfilled,
-                    'fulfilledWithPrecision' => $fulfilledWithPrecision,
-                    'fulfilledWithExcellence' => $fulfilledWithExcellence,
-                ]);
-               
-                // return view('self-study.dashboard.index',compact('result'));
-            // } else {
-            //     return redirect()->back()->with('error', 'Permission denied.');
-            // }
-        } else {
+        if (!\Auth::check()) {
             return redirect('login');
+        }
+
+        try {
+            $user = \Auth::user();
+            
+            // Check if user has permission to view dashboard
+            if (!$user->can('Manage Dashboard')) {
+                // For non-admin users, show a simplified dashboard
+                return view('self-study.dashboard.user', [
+                    'user' => $user
+                ]);
+            }
+
+            $totalUsers = User::count();
+            $totalMainStandards = Standard::main()->count();
+            $totalSubStandards = Standard::sub()->count();
+            $totalCriteria = \App\Models\Criterion::count();
+
+            // Fetch fulfillment statuses
+            $fulfillmentStatuses = DB::table('criteria')
+                ->select('fulfillment_status', DB::raw('count(*) as count'))
+                ->groupBy('fulfillment_status')
+                ->get()
+                ->keyBy('fulfillment_status'); 
+
+            // Default values for fulfillment statuses
+            $notFulfilled = $fulfillmentStatuses['1']->count ?? 0;
+            $partiallyFulfilled = $fulfillmentStatuses['2']->count ?? 0;
+            $fulfilled = $fulfillmentStatuses['3']->count ?? 0;
+            $fulfilledWithPrecision = $fulfillmentStatuses['4']->count ?? 0;
+            $fulfilledWithExcellence = $fulfillmentStatuses['5']->count ?? 0;
+
+            // Pass data to the view
+            return view('self-study.dashboard.index', [
+                'totalUsers' => $totalUsers,
+                'totalMainStandards' => $totalMainStandards,
+                'totalSubStandards' => $totalSubStandards,
+                'totalCriteria' => $totalCriteria,
+                'notFulfilled' => $notFulfilled,
+                'partiallyFulfilled' => $partiallyFulfilled,
+                'fulfilled' => $fulfilled,
+                'fulfilledWithPrecision' => $fulfilledWithPrecision,
+                'fulfilledWithExcellence' => $fulfilledWithExcellence,
+            ]);
+
+        } catch (\Exception $e) {
+            \Log::error('Dashboard Error: ' . $e->getMessage());
+            return redirect()->back()->with('error', __('An error occurred while loading the dashboard.'));
         }
     }
 

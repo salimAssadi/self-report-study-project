@@ -7,8 +7,8 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">{{ __('Home') }}</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('admin.criteria.index') }}">{{ __('Criteria') }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('Home') }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('criteria.index') }}">{{ __('Criteria') }}</a></li>
     <li class="breadcrumb-item active" aria-current="page">{{ __('Edit Criterion') }}</li>
 @endsection
 
@@ -30,7 +30,7 @@
 
                 if (mainStandardId) {
                     $.ajax({
-                        url: "{{ route('admin.api.standards.children') }}",
+                        url: "{{ route('api.standards.children') }}",
                         method: 'GET',
                         dataType: 'json',
                         headers: {
@@ -77,7 +77,11 @@
         });
     </script>
     <script>
-        let linkIndex = 1;
+        // Initialize indexes based on existing items
+        let linkIndex = {{ count($criterion->links ?? []) }};
+        let attachmentIndex = {{ count($criterion->attachments ?? []) }};
+        let deletedLinks = [];
+        let deletedAttachments = [];
 
         document.getElementById('add-link').addEventListener('click', function() {
             const tableBody = document.querySelector('#links-table tbody');
@@ -85,13 +89,19 @@
             newRow.classList.add('link-row');
             newRow.innerHTML = `
                         <td>
-                            <input type="text" name="links[${linkIndex}][name_ar]" class="form-control" placeholder="{{ __('Link Name (Arabic)') }}">
+                            <input type="text" name="links[\${linkIndex}][name_ar]" 
+                                class="form-control"
+                                placeholder="{{ __('Link Name (Arabic)') }}">
                         </td>
                         <td>
-                            <input type="text" name="links[${linkIndex}][name_en]" class="form-control" placeholder="{{ __('Link Name (English)') }}">
+                            <input type="text" name="links[\${linkIndex}][name_en]" 
+                                class="form-control"
+                                placeholder="{{ __('Link Name (English)') }}">
                         </td>
                         <td>
-                            <input type="text" name="links[${linkIndex}][url]" class="form-control" placeholder="{{ __('Link URL') }}">
+                            <input type="text" name="links[\${linkIndex}][url]" 
+                                class="form-control"
+                                placeholder="{{ __('Link URL') }}">
                         </td>
                         <td class="w-10 text-center">
                             <button type="button" class="btn btn-sm btn-danger remove-link"><i class="fa fa-minus"></i></button>
@@ -104,12 +114,22 @@
         // Remove link row
         document.querySelector('#links-container').addEventListener('click', function(e) {
             if (e.target && e.target.classList.contains('remove-link')) {
-                e.target.closest('tr').remove();
+                const row = e.target.closest('tr');
+                const linkId = row.querySelector('input[name$="[id]"]')?.value;
+                
+                if (linkId) {
+                    // If this is an existing link, add it to deleted links
+                    deletedLinks.push(linkId);
+                    // Update hidden input
+                    const deletedLinksContainer = document.getElementById('deleted-links');
+                    deletedLinksContainer.innerHTML = deletedLinks.map(id => 
+                        `<input type="hidden" name="deleted_links[]" value="${id}">`
+                    ).join('');
+                }
+                row.remove();
             }
         });
 
-
-        let attachmentIndex = 1;
 
         document.getElementById('add-attachment').addEventListener('click', function() {
             const tableBody = document.querySelector('#attachments-table tbody');
@@ -117,10 +137,10 @@
             newRow.classList.add('attachment-row');
             newRow.innerHTML = `
                                 <td>
-                                    <input type="text" name="attachments[${attachmentIndex}][name_ar]" class="form-control" placeholder="{{ __('Attachment Name (Arabic)') }}">
+                                    <input type="text" name="attachments[${attachmentIndex}][name_ar]" class="form-control" placeholder="{{ __('Evidence Name (Arabic)') }}">
                                 </td>
                                 <td>
-                                    <input type="text" name="attachments[${attachmentIndex}][name_en]" class="form-control" placeholder="{{ __('Attachment Name (English)') }}">
+                                    <input type="text" name="attachments[${attachmentIndex}][name_en]" class="form-control" placeholder="{{ __('Evidence Name (English)') }}">
                                 </td>
                                 <td>
                                     <input type="file" name="attachments[${attachmentIndex}][file]" class="form-control">
@@ -136,7 +156,19 @@
         // Remove attachment row
         document.querySelector('#attachments-container').addEventListener('click', function(e) {
             if (e.target && e.target.classList.contains('remove-attachment')) {
-                e.target.closest('tr').remove();
+                const row = e.target.closest('tr');
+                const attachmentId = row.querySelector('input[name$="[id]"]')?.value;
+                
+                if (attachmentId) {
+                    // If this is an existing attachment, add it to deleted attachments
+                    deletedAttachments.push(attachmentId);
+                    // Update hidden input
+                    const deletedAttachmentsContainer = document.getElementById('deleted-attachments');
+                    deletedAttachmentsContainer.innerHTML = deletedAttachments.map(id => 
+                        `<input type="hidden" name="deleted_attachments[]" value="${id}">`
+                    ).join('');
+                }
+                row.remove();
             }
         });
         // Dynamically populate the Standard dropdown based on the selected Standard Type
@@ -145,13 +177,37 @@
             document.getElementById('hidden-submit').click();
         });
     </script>
+    <script>
+        // Copy URL functionality
+        document.querySelectorAll('.copy-url').forEach(button => {
+            button.addEventListener('click', function() {
+                const url = this.getAttribute('data-url');
+                navigator.clipboard.writeText(url).then(() => {
+                    // Change button text temporarily to show success
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check"></i> {{ __("Copied!") }}';
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy URL:', err);
+                    // Show error message
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-times"></i> {{ __("Failed to copy") }}';
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                    }, 2000);
+                });
+            });
+        });
+    </script>
 @endpush
 
 @section('content')
     <div class="row">
         <!-- [ sample-page ] start -->
         <div class="col-sm-12">
-            {{ Form::open(['method' => 'PUT', 'route' => ['admin.criteria.update', $criterion], 'enctype' => 'multipart/form-data']) }}
+            {{ Form::open(['method' => 'PUT', 'route' => ['criteria.update', $criterion], 'enctype' => 'multipart/form-data']) }}
             @csrf
             @method('PUT')
             <div class="row">
@@ -166,7 +222,7 @@
                                 </div>
                                 <div class="col-auto">
 
-                                    <a href="{{ route('admin.criteria.index') }}" class="btn btn-light-secondary me-3"> <i
+                                    <a href="{{ route('criteria.index') }}" class="btn btn-light-secondary me-3"> <i
                                             data-feather="x-circle" class="me-2"></i>{{ __('Cancel') }}</a>
                                     <a type="submit" id="submit-all" class="btn btn-primary text-white"> <i
                                             data-feather="check-circle" class="me-2"></i>{{ __('Save') }}</a>
@@ -302,6 +358,8 @@
                             <div class="form-group">
                                 {{ Form::label('links', __('Links'), ['class' => 'form-label']) }}
                                 <div id="links-container">
+                                    <!-- Hidden input for deleted links -->
+                                    <div id="deleted-links"></div>
                                     <table class="table table-bordered" id="links-table">
                                         <thead>
                                             <tr>
@@ -323,20 +381,30 @@
                                                         <input type="hidden" name="links[{{ $loop->index }}][id]"
                                                             value="{{ $link->id }}">
                                                         <input type="text" name="links[{{ $loop->index }}][name_ar]"
-                                                            class="form-control"
+                                                            class="form-control @error('links.' . $loop->index . '.name_ar') is-invalid @enderror"
                                                             placeholder="{{ __('Link Name (Arabic)') }}"
                                                             value="{{ $link->name_ar }}">
+                                                        @error('links.' . $loop->index . '.name_ar')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
                                                     </td>
                                                     <td>
                                                         <input type="text" name="links[{{ $loop->index }}][name_en]"
-                                                            class="form-control"
+                                                            class="form-control @error('links.' . $loop->index . '.name_en') is-invalid @enderror"
                                                             placeholder="{{ __('Link Name (English)') }}"
                                                             value="{{ $link->name_en }}">
+                                                        @error('links.' . $loop->index . '.name_en')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
                                                     </td>
                                                     <td>
                                                         <input type="text" name="links[{{ $loop->index }}][url]"
-                                                            class="form-control" placeholder="{{ __('Link URL') }}"
+                                                            class="form-control @error('links.' . $loop->index . '.url') is-invalid @enderror"
+                                                            placeholder="{{ __('Link URL') }}"
                                                             value="{{ $link->url }}">
+                                                        @error('links.' . $loop->index . '.url')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
                                                     </td>
                                                     <td class="w-10 text-center">
                                                         <button type="button"
@@ -355,14 +423,16 @@
 
                             <!-- Attachments -->
                             <div class="form-group">
-                                {{ Form::label('attachments', __('Attachments'), ['class' => 'form-label']) }}
+                                {{ Form::label('attachments', __('Evidence'), ['class' => 'form-label']) }}
                                 <div id="attachments-container">
+                                    <!-- Hidden input for deleted attachments -->
+                                    <div id="deleted-attachments"></div>
                                     <table class="table table-bordered" id="attachments-table">
                                         <thead>
                                             <tr>
-                                                <th>{{ __('Attachment Name (Arabic)') }}</th>
-                                                <th>{{ __('Attachment Name (English)') }}</th>
-                                                <th>{{ __('File') }}</th>
+                                                <th>{{ __('Evidence Name (Arabic)') }}</th>
+                                                <th>{{ __('Evidence Name (English)') }}</th>
+                                                <th>{{ __('Evidence') }}</th>
                                                 <th class="w-10 text-center">
                                                     <button type="button" id="add-attachment"
                                                         class="btn btn-sm btn-primary"><i class="fa fa-plus"></i>
@@ -375,13 +445,21 @@
                                                 @foreach ($criterion->attachments as $index => $attachment)
                                                     <tr class="attachment-row">
                                                         <td>
-                                                            {{ Form::text("attachments[$index][name_ar]", $attachment->name_ar, ['class' => 'form-control', 'placeholder' => __('Attachment Name (Arabic)')]) }}
+                                                            {{ Form::text("attachments[$index][name_ar]", $attachment->name_ar, ['class' => 'form-control', 'placeholder' => __('Evidence Name (Arabic)')]) }}
                                                         </td>
                                                         <td>
-                                                            {{ Form::text("attachments[$index][name_en]", $attachment->name_en, ['class' => 'form-control', 'placeholder' => __('Attachment Name (English)')]) }}
+                                                            {{ Form::text("attachments[$index][name_en]", $attachment->name_en, ['class' => 'form-control', 'placeholder' => __('Evidence Name (English)')]) }}
                                                         </td>
                                                         <td>
                                                             {{ Form::file("attachments[$index][file]", ['class' => 'form-control']) }}
+                                                            @if($attachment->file_path)
+                                                                <div class="mt-2">
+                                                                    <button type="button" class="btn btn-sm btn-info copy-url" 
+                                                                        data-url="{{ asset('storage/' . $attachment->file_path) }}">
+                                                                        <i class="fas fa-copy"></i> {{ __('Copy URL') }}
+                                                                    </button>
+                                                                </div>
+                                                            @endif
                                                         </td>
                                                         <td class="w-10 text-center">
                                                             <button type="button"

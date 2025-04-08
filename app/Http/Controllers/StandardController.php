@@ -87,7 +87,7 @@ class StandardController extends Controller
             'completion_status' => $validated['completion_status']
         ]);
 
-        return redirect()->route('admin.standards.index')->with('success', __('Standard created successfully.'));
+        return redirect()->route('standards.index')->with('success', __('Standard created successfully.'));
     }
 
     /**
@@ -95,7 +95,11 @@ class StandardController extends Controller
      */
     public function show(string $id)
     {
-        //
+        if($id == null) {
+            return redirect()->route('standards.index')->with('error', __('Standard not found.'));
+        }
+        $standard = Standard::with(['children', 'criteria'])->findOrFail($id);
+        return view('self-study.standards.show', compact('standard'));
     }
 
     /**
@@ -177,7 +181,7 @@ class StandardController extends Controller
 
         ]);
 
-        return redirect()->route('admin.standards.index')->with('success', __('Standard updated successfully.'));
+        return redirect()->route('standards.index')->with('success', __('Standard updated successfully.'));
     }
 
 

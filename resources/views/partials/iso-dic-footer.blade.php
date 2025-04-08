@@ -76,7 +76,7 @@
 <script src="{{ asset('assets/js/jstree.min.js') }}"></script>
 
 <!-- [Page Specific JS] end -->
-<form method="post" action="{{ route('admin.setting.theme.settings') }}">
+<form method="post" action="{{ route('setting.theme.settings') }}">
     {{ csrf_field() }}
     <input type="hidden" name="theme_mode" id="theme_mode" value="{{ $settings['theme_mode'] }}">
     <input type="hidden" name="layout_font" id="layout_font" value="{{ $settings['layout_font'] }}">

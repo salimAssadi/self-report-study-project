@@ -60,7 +60,7 @@
         </div>
     </div>
     <div class="auth-main">
-        <div class="auth-wrapper v2" style="background-image: url('assets/images/pages/header-bg.jpg')">
+        <div class="auth-wrapper v2" >
             <div class="auth-form">
                 {{-- <div class="logo">
                     <img src="{{ asset(Storage::url('upload/logo/')) . '/logo.png' }}" alt="image"

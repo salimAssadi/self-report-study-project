@@ -8,7 +8,7 @@
     </div>
 @endsection
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">{{ __('Home') }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('Home') }}</a></li>
     <li class="breadcrumb-item active" aria-current="page">{{ __('Roles') }}</li>
 @endsection
 
@@ -28,7 +28,7 @@
                         @if (Gate::check('Create Role'))
                             <div class="col-auto">
                                 <a href="#" class="btn btn-secondary customModal" data-size="lg"
-                                    data-url="{{ route('admin.role.create') }}"
+                                    data-url="{{ route('role.create') }}"
                                     data-title=" {{ __('Add Role') }} ">
                                    
                                     <i class="ti ti-circle-plus align-text-bottom"></i>
@@ -66,7 +66,7 @@
                                                     @can('Edit Role')
                                                         <div class="action-btn ms-2">
                                                             <a class="btn btn-sm btn-icon  bg-light-secondary me-2 customModal"
-                                                                data-url="{{ route('admin.role.edit',$role->id)}}"
+                                                                data-url="{{ route('role.edit',$role->id)}}"
                                                                 data-ajax-popup="true" data-size="lg" data-bs-toggle="tooltip"
                                                                 title="" data-title="{{ __('Edit Role') }}"
                                                                 data-bs-original-title="{{ __('Edit') }}">
@@ -88,7 +88,7 @@
                                                             </a>
                                                             {!! Form::open([
                                                                 'method' => 'DELETE',
-                                                                'route' => ['admin.role.destroy', $role->id],
+                                                                'route' => ['role.destroy', $role->id],
                                                                 'id' => 'delete-form-' . $role->id,
                                                             ]) !!}
                                                             {!! Form::close() !!}

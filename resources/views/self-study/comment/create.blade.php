@@ -5,8 +5,8 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">{{ __('Dashboard') }}</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('admin.comments.all') }}">{{ __('Comments') }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('Dashboard') }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('comments.all') }}">{{ __('Comments') }}</a></li>
     <li class="breadcrumb-item active" aria-current="page">{{ __('Create') }}</li>
 @endsection
 
@@ -15,7 +15,7 @@
     <div class="col-sm-12 col-lg-12">
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('admin.criterion.comments.store', request('criterion_id')) }}" method="POST">
+                <form action="{{ route('criterion.comments.store', request('criterion_id')) }}" method="POST">
                     @csrf
                     <div class="form-group mb-3">
                         <label class="form-label" for="criterion_id">{{ __('Select Criterion') }}</label>
@@ -49,7 +49,7 @@
                             <i class="ti ti-send"></i>
                             {{ __('Post Comment') }}
                         </button>
-                        <a href="{{ route('admin.comments.all') }}" class="btn btn-secondary">
+                        <a href="{{ route('comments.all') }}" class="btn btn-secondary">
                             <i class="ti ti-x"></i>
                             {{ __('Cancel') }}
                         </a>
@@ -70,7 +70,7 @@
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             const criterionId = criterionSelect.value;
-            this.action = "{{ route('admin.criterion.comments.store', '') }}/" + criterionId;
+            this.action = "{{ route('criterion.comments.store', '') }}/" + criterionId;
             this.submit();
         });
     });

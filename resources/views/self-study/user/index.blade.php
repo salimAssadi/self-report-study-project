@@ -7,12 +7,10 @@
 @endsection
 @section('breadcrumb')
     <li class="breadcrumb-item">
-        <a href="{{ route('admin.home') }}">{{ __('Dashboard') }}</a>
+        <a href="{{ route('home') }}">{{ __('Dashboard') }}</a>
     </li>
     <li class="breadcrumb-item" aria-current="page">
-
         {{ __('Users') }}
-
     </li>
 @endsection
 
@@ -30,11 +28,8 @@
                         </div>
                         @if (Gate::check('Create User'))
                             <div class="col-auto">
-                                <a href="#" class="btn btn-secondary customModal" data-size="lg"
-                                    data-url="{{ route('admin.users.create') }}" data-title=" {{ __('Create User') }} ">
-
+                                <a href="{{ route('users.create') }}" class="btn btn-secondary ">
                                     <i class="ti ti-circle-plus align-text-bottom"></i>
-
                                     {{ __('Add User') }}
                                 </a>
                             </div>
@@ -48,8 +43,8 @@
                                 <tr>
                                     <th>{{ __('Profile') }}</th>
                                     <th>{{ __('Email') }}</th>
-
                                     <th>{{ __('Role') }}</th>
+                                    <th>{{ __('Status') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </tr>
                             </thead>
@@ -65,7 +60,7 @@
                                                 </div>
                                                 <div class="flex-grow-1 ms-3">
                                                     <h5 class="mb-1">
-                                                        {{ $user->name }}
+                                                        {{ $user->full_name }}
 
                                                     </h5>
                                                     <p class="text-muted f-12 mb-0">
@@ -79,25 +74,41 @@
 
                                         <td>{{ ucfirst($user->type) }} </td>
                                         <td>
+                                            @switch($user->is_disable)
+                                            @case(1)
+                                            <span class="badge rounded p-2 f-w-600 bg-light-danger">
+                                                {{ __('Disable') }}
+                                            </span>
+                                            
+                                            @break
+        
+                                            @case(0)
+                                            <span class="badge rounded p-2 f-w-600 bg-light-success">
+                                                {{ __('Enable') }}
+                                            </span>
+                                            @break
+                                            @endswitch
+                                        </td>
+                                        <td>
                                             <div class="cart-action">
-                                                {!! Form::open(['method' => 'DELETE', 'route' => ['admin.users.destroy', $user->id]]) !!}
+                                                {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id]]) !!}
 
-                                                @can('Show User')
+                                            @can('Show User')
                                                     <a class="avtar avtar-xs btn-link-warning text-warning"
                                                         data-bs-toggle="tooltip" data-bs-original-title="{{ __('Show') }}"
-                                                        href="{{ route('admin.users.show', $user->id) }}"
+                                                        href="{{ route('users.show', $user->id) }}"
                                                         data-title="{{ __('Edit User') }}"> <i data-feather="eye"></i></a>
-                                    @endif
-                                    @can('Edit User')
-                                        <a class="avtar avtar-xs btn-link-secondary text-secondary customModal"
-                                            data-bs-toggle="tooltip" data-size="lg" data-bs-original-title="{{ __('Edit') }}"
-                                            href="#" data-url="{{ route('admin.users.edit', $user->id) }}"
-                                            data-title="{{ __('Edit User') }}"> <i data-feather="edit"></i></a>
-                                        @endif
-                                        @can('Delete User')
-                                            <a class="avtar avtar-xs btn-link-danger text-danger confirm_dialog"
-                                                data-bs-toggle="tooltip" data-bs-original-title="{{ __('Detete') }}" href="#">
-                                                <i data-feather="trash-2"></i></a>
+                                             @endif
+                                            @can('Edit User')
+                                                <a class="avtar avtar-xs btn-link-secondary text-secondary " data-bs-toggle="tooltip"
+                                                    data-size="lg" data-bs-original-title="{{ __('Edit') }}"
+                                                    href="{{ route('users.edit', $user->id) }}" data-title="{{ __('Edit User') }}"> <i
+                                                        data-feather="edit"></i></a>
+                                            @endif
+                                            @can('Delete User')
+                                                    <a class="avtar avtar-xs btn-link-danger text-danger confirm_dialog"
+                                                        data-bs-toggle="tooltip" data-bs-original-title="{{ __('Detete') }}" href="#">
+                                                        <i data-feather="trash-2"></i></a>
                                             @endif
                                             {!! Form::close() !!}
                                 </div>

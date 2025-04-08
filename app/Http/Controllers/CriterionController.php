@@ -116,19 +116,19 @@ class CriterionController extends Controller
             'content_ar' => 'nullable|string',
             'content_en' => 'nullable|string',
             'links' => 'nullable|array',
-            'links.*.id' => 'nullable|exists:links,id', // Ensure link IDs exist if provided
-            'links.*.name_ar' => 'nullable|string|max:255',
-            'links.*.name_en' => 'nullable|string|max:255',
-            'links.*.url' => 'nullable|url',
+            'links.*.id' => 'nullable|exists:links,id',
+            'links.*.name_ar' => 'required|string|max:255',
+            'links.*.name_en' => 'required|string|max:255',
+            'links.*.url' => 'required|url',
+            'deleted_links' => 'nullable|array',
+            'deleted_links.*' => 'exists:links,id',
             'attachments' => 'nullable|array',
-            'attachments.*.id' => 'nullable|exists:attachments,id', // Ensure attachment IDs exist if provided
-            'attachments.*.name_ar' => 'nullable|string|max:255',
-            'attachments.*.name_en' => 'nullable|string|max:255',
-            'attachments.*.file' => 'nullable|file|mimes:pdf,jpg,png|max:5120', // Max 5MB
-            'is_met' => 'required|in:0,1',
-            'fulfillment_status' => 'required|in:1,2,3,4,5'
-
-          
+            'attachments.*.id' => 'nullable|exists:attachments,id',
+            'attachments.*.name_ar' => 'required|string|max:255',
+            'attachments.*.name_en' => 'required|string|max:255',
+            'attachments.*.file' => 'nullable|file',
+            'deleted_attachments' => 'nullable|array',
+            'deleted_attachments.*' => 'exists:attachments,id',
         ]);
         if (isset($request->sub_standard_id)) {
             $validated['standard_id'] = $request->sub_standard_id;
@@ -140,7 +140,6 @@ class CriterionController extends Controller
             'standard_id' => $validated['standard_id'],
             'sequence' => $validated['sequence'],
             'name_ar' => $validated['name_ar'],
-            'name_ar' => $validated['name_ar'],
             'name_en' => $validated['name_en'],
             'content_ar' => $validated['content_ar'] ?? null,
             'content_en' => $validated['content_en'] ?? null,
@@ -148,65 +147,73 @@ class CriterionController extends Controller
             'fulfillment_status' => $validated['fulfillment_status'] ?? 1,
         ]);
 
-        DB::transaction(function () use ($criterion, $validated) {
+        DB::transaction(function () use ($criterion, $validated, $request) {
             // Delete removed links
-            $existingLinkIds = $criterion->links()->pluck('id')->toArray();
-            $submittedLinkIds = array_filter(array_column($validated['links'] ?? [], 'id'));
-            $removedLinkIds = array_diff($existingLinkIds, $submittedLinkIds);
+            if ($request->has('deleted_links')) {
+                $criterion->links()->whereIn('id', $request->deleted_links)->delete();
+            }
 
-            if (!empty($removedLinkIds)) {
-                $criterion->links()->whereIn('id', $removedLinkIds)->delete();
+            // Handle links
+            if (isset($validated['links'])) {
+                foreach ($validated['links'] as $linkData) {
+                    if (isset($linkData['id'])) {
+                        $link = $criterion->links()->find($linkData['id']);
+                        if ($link) {
+                            $link->update([
+                                'name_ar' => $linkData['name_ar'],
+                                'name_en' => $linkData['name_en'],
+                                'url' => $linkData['url'],
+                            ]);
+                        }
+                    } else {
+                        $criterion->links()->create([
+                            'name_ar' => $linkData['name_ar'],
+                            'name_en' => $linkData['name_en'],
+                            'url' => $linkData['url'],
+                        ]);
+                    }
+                }
             }
 
             // Delete removed attachments
-            $existingAttachmentIds = $criterion->attachments()->pluck('id')->toArray();
-            $submittedAttachmentIds = array_filter(array_column($validated['attachments'] ?? [], 'id'));
-            $removedAttachmentIds = array_diff($existingAttachmentIds, $submittedAttachmentIds);
-
-            if (!empty($removedAttachmentIds)) {
-                $criterion->attachments()->whereIn('id', $removedAttachmentIds)->delete();
+            if ($request->has('deleted_attachments')) {
+                $criterion->attachments()->whereIn('id', $request->deleted_attachments)->delete();
             }
 
             // Handle attachments
             if (isset($validated['attachments'])) {
                 foreach ($validated['attachments'] as $attachmentData) {
                     if (isset($attachmentData['id'])) {
-                        // Update existing attachment
                         $attachment = $criterion->attachments()->find($attachmentData['id']);
                         if ($attachment) {
+                            $updateData = [
+                                'name_ar' => $attachmentData['name_ar'],
+                                'name_en' => $attachmentData['name_en'],
+                            ];
+
                             // Check if a new file is provided
                             if (isset($attachmentData['file']) && $attachmentData['file']->isValid()) {
                                 // Store the new file and update the file_path
                                 $filePath = $attachmentData['file']->store('attachments', 'public');
-                                $attachment->update([
-                                    'name_ar' => $attachmentData['name_ar'],
-                                    'name_en' => $attachmentData['name_en'],
-                                    'file_path' => $filePath, // Update file_path if a new file is uploaded
-                                ]);
-                            } else {
-                                // Only update names if no new file is uploaded
-                                $attachment->update([
-                                    'name_ar' => $attachmentData['name_ar'],
-                                    'name_en' => $attachmentData['name_en'],
-                                ]);
+                                $updateData['file_path'] = $filePath;
                             }
+
+                            $attachment->update($updateData);
                         }
-                    } elseif (isset($attachmentData['file'])) {
-                        // Create new attachment if no ID is provided
-                        if ($attachmentData['file']->isValid()) {
-                            $filePath = $attachmentData['file']->store('attachments', 'public');
-                            $criterion->attachments()->create([
-                                'name_ar' => $attachmentData['name_ar'],
-                                'name_en' => $attachmentData['name_en'],
-                                'file_path' => $filePath,
-                            ]);
-                        }
+                    } elseif (isset($attachmentData['file']) && $attachmentData['file']->isValid()) {
+                        // Create new attachment
+                        $filePath = $attachmentData['file']->store('attachments', 'public');
+                        $criterion->attachments()->create([
+                            'name_ar' => $attachmentData['name_ar'],
+                            'name_en' => $attachmentData['name_en'],
+                            'file_path' => $filePath,
+                        ]);
                     }
                 }
             }
         });
 
-        return redirect()->route('admin.criteria.index')->with('success', 'Criterion updated successfully.');
+        return redirect()->route('criteria.index')->with('success', 'Criterion updated successfully.');
     }
     /**
      * Remove the specified resource from storage.

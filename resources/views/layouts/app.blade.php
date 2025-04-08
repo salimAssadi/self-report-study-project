@@ -17,7 +17,7 @@
     <div class="loader-bg">
         <div class="loader-track">
             <div class="loader-fill"></div>
-        </div>
+                                </div>
     </div>
     <!-- [ Pre-loader ] End -->
     <!-- [ Sidebar Menu ] start -->
@@ -41,8 +41,8 @@
                         <div class="col-auto">
                             <ul class="breadcrumb">
                                 @yield('breadcrumb')
-                            </ul>
-                        </div>
+                        </ul>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -74,5 +74,4 @@
     </div>
 </body>
 <!-- [Body] end -->
-
 </html>

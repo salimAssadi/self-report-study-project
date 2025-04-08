@@ -1,4 +1,4 @@
-<form method="post" action="{{ route('admin.criteria.store') }}">
+<form method="post" action="{{ route('criteria.store') }}">
     @csrf
     <div class="modal-body">
         <div class="row">
@@ -65,7 +65,7 @@
 
             if (mainStandardId) {
                 $.ajax({
-                    url: "{{ route('admin.api.standards.children') }}", // Combine route() with dynamic ID
+                    url: "{{ route('api.standards.children') }}", // Combine route() with dynamic ID
                     method: 'GET',
                     dataType: 'json',
                     headers: {

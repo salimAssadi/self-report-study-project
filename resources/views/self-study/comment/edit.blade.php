@@ -5,8 +5,8 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">{{ __('Dashboard') }}</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('admin.comments.all') }}">{{ __('Comments') }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('Dashboard') }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('comments.all') }}">{{ __('Comments') }}</a></li>
     <li class="breadcrumb-item active" aria-current="page">{{ __('Edit') }}</li>
 @endsection
 
@@ -15,7 +15,7 @@
     <div class="col-sm-12 col-lg-12">
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('admin.comments.update', $comment->id) }}" method="POST">
+                <form action="{{ route('comments.update', $comment->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="form-group">
@@ -33,7 +33,7 @@
                             <i class="ti ti-check"></i>
                             {{ __('Update Comment') }}
                         </button>
-                        <a href="{{ route('admin.criterion.comments.index', $comment->commentable->id) }}" class="btn btn-secondary">
+                        <a href="{{ route('criterion.comments.index', $comment->commentable->id) }}" class="btn btn-secondary">
                             <i class="ti ti-x"></i>
                             {{ __('Cancel') }}
                         </a>

@@ -7,7 +7,7 @@ $profile = asset(Storage::url('upload/profile/'));
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item">
-    <a href="{{ route('admin.home') }}">{{ __('Dashboard') }}</a>
+    <a href="{{ route('home') }}">{{ __('Dashboard') }}</a>
 </li>
 <li class="breadcrumb-item" aria-current="page">
     {{ __('Criteria') }}
@@ -42,7 +42,7 @@ $profile = asset(Storage::url('upload/profile/'));
                     </div>
                     <div class="col-auto">
                         <a href="#" class="btn btn-secondary customModal" data-size="lg"
-                            data-url="{{ route('admin.criteria.create') }}" data-title="{{ __('Create Criterion') }}">
+                            data-url="{{ route('criteria.create') }}" data-title="{{ __('Create Criterion') }}">
 
                             <i class="ti ti-circle-plus align-text-bottom"></i>
                             {{ __('Create Criterion') }}
@@ -128,7 +128,7 @@ $profile = asset(Storage::url('upload/profile/'));
                                     <div class="d-flex">
                                         <!-- View Button -->
                                         <a class="btn btn-sm btn-icon bg-light-secondary me-2"
-                                            href="{{ route('admin.criteria.show', $criterion->id) }}"
+                                            href="{{ route('criteria.show', $criterion->id) }}"
                                             data-bs-toggle="tooltip" data-bs-placement="top"
                                             title="{{ __('View') }}">
                                             <i class="ti ti-eye f-20"></i>
@@ -136,7 +136,7 @@ $profile = asset(Storage::url('upload/profile/'));
 
                                         <!-- Edit Button -->
                                         <a class="btn btn-sm btn-icon bg-light-secondary me-2"
-                                            href="{{ route('admin.criteria.edit', $criterion->id) }}"
+                                            href="{{ route('criteria.edit', $criterion->id) }}"
                                             data-bs-toggle="tooltip" data-bs-placement="top"
                                             title="{{ __('Edit') }}">
                                             <i class="ti ti-edit f-20"></i>
@@ -145,7 +145,7 @@ $profile = asset(Storage::url('upload/profile/'));
                                         <!-- Delete Button -->
                                         {!! Form::open([
                                             'method' => 'DELETE',
-                                            'route' => ['admin.criteria.destroy', $criterion->id],
+                                            'route' => ['criteria.destroy', $criterion->id],
                                             'id' => 'delete-form-' . $criterion->id,
                                         ]) !!}
                                         <a class="show_confirm btn btn-sm btn-icon bg-light-secondary me-2"
@@ -155,7 +155,7 @@ $profile = asset(Storage::url('upload/profile/'));
                                         </a>
                                         @if(Gate::check('Show Comments'))
                                         <a class="avtar avtar-xs btn-link-danger text-danger me-2 vibrate"
-                                           href="{{ route('admin.criterion.comments.index', $criterion->id) }}"
+                                           href="{{ route('criterion.comments.index', $criterion->id) }}"
                                            data-bs-toggle="tooltip" data-bs-placement="top"
                                            title="{{ __('Comments') }}">
                                            @if($criterion->comments->count() > 0)

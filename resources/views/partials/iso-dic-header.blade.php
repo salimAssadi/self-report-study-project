@@ -34,7 +34,7 @@
                     <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
                         @foreach($languages as $language)
                             @if($language!='en')
-                                <a href="{{route('admin.setting.language.change',$language)}}" class="dropdown-item {{ $userLang==$language?'active':'' }}">
+                                <a href="{{route('setting.language.change',$language)}}" class="dropdown-item {{ $userLang==$language?'active':'' }}">
                                     <span class="align-middle">{{ucfirst( $language)}}</span>
                                 </a>
                             @endif
@@ -70,12 +70,7 @@
                             <div class="profile-notification-scroll position-relative"
                                 style="max-height: calc(100vh - 280px)">
                                 <hr />
-                                {!! Form::open(['method' => 'DELETE', 'route' => ['admin.setting.account.delete']]) !!}
-                                <a href="#" class="dropdown-item common_confirm_dialog" data-actions="Account">
-                                    <i class="ti ti-user-x"></i>
-                                    <span>{{ __('Account Delete') }}</span>
-                                </a>
-                                {!! Form::close() !!}
+                             
                                 @impersonating()
                                 <a href="{{ route('impersonate.leave') }}" class="dropdown-item" data-actions="Account">
                                     <i class="ti ti-transfer-out"></i>
@@ -85,7 +80,7 @@
                                 <a href="{{ route('logout') }}" class="dropdown-item"  onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
                                     <i class="ti ti-logout"></i>
                                     <span>{{ __('Logout') }}</span>
-                                    <form id="frm-logout" action="{{ route('admin.logout') }}" method="POST" class="d-none">
+                                    <form id="frm-logout" action="{{ route('logout') }}" method="POST" class="d-none">
                                         {{ csrf_field() }}
                                     </form>
                                 </a>

@@ -1,4 +1,4 @@
-{{ Form::open(['route' => 'admin.role.store', 'method' => 'post']) }}
+{{ Form::open(['route' => 'role.store', 'method' => 'post']) }}
 <div class="modal-body">
     <div class="row">
         <div class="form-group">

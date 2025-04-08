@@ -76,7 +76,7 @@
                             <!-- View Button -->
                             @if (Gate::check('Show Criteria'))
                                 <a class="btn btn-sm btn-icon bg-light-secondary me-2"
-                                    href="{{ route('admin.criteria.show', $criterion->id) }}" data-bs-toggle="tooltip"
+                                    href="{{ route('criteria.show', $criterion->id) }}" data-bs-toggle="tooltip"
                                     data-bs-placement="top" title="{{ __('View') }}">
                                     <i class="ti ti-eye f-20"></i>
                                 </a>
@@ -84,7 +84,7 @@
                             <!-- Edit Button -->
                             @if (Gate::check('Edit Criteria'))
                                 <a class="btn btn-sm btn-icon bg-light-secondary me-2"
-                                    href="{{ route('admin.criteria.edit', $criterion->id) }}" data-bs-toggle="tooltip"
+                                    href="{{ route('criteria.edit', $criterion->id) }}" data-bs-toggle="tooltip"
                                     data-bs-placement="top" title="{{ __('Edit') }}">
                                     <i class="ti ti-edit f-20"></i>
                                 </a>
@@ -94,7 +94,7 @@
                             @if (Gate::check('Delete Criteria'))
                                 {!! Form::open([
                                     'method' => 'DELETE',
-                                    'route' => ['admin.criteria.destroy', $criterion->id],
+                                    'route' => ['criteria.destroy', $criterion->id],
                                     'id' => 'delete-form-' . $criterion->id,
                                 ]) !!}
                                 <a class="show_confirm btn btn-sm btn-icon bg-light-secondary me-2" href="#"

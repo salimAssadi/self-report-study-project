@@ -28,7 +28,7 @@
                         </div>
                         <div class="col-auto">
                             @if (Gate::check('Create Standard'))
-                                <a href="{{ route('admin.standards.create') }}" class="btn btn-secondary"
+                                <a href="{{ route('standards.create') }}" class="btn btn-secondary"
                                   
                                    >
                                     <i class="ti ti-circle-plus align-text-bottom"></i>
@@ -84,7 +84,7 @@
                                                 <!-- View Button -->
                                                 @if (Gate::check('Show Standard'))
                                                     <a class="btn btn-sm btn-icon bg-light-secondary me-2"
-                                                        href="{{ route('admin.standards.show', $standard->id) }}"
+                                                        href="{{ route('standards.show', $standard->id) }}"
                                                         data-bs-toggle="tooltip" title="{{ __('View') }}">
                                                         <i class="ti ti-eye f-20"></i>
                                                     </a>
@@ -92,7 +92,7 @@
                                                 <!-- Edit Button -->
                                                 @if (Gate::check('Edit Standard'))
                                                     <a class="btn btn-sm btn-icon bg-light-secondary me-2"
-                                                        href="{{ route('admin.standards.edit', $standard->id) }}"
+                                                        href="{{ route('standards.edit', $standard->id) }}"
                                                         data-bs-toggle="tooltip" title="{{ __('Edit') }}">
                                                         <i class="ti ti-edit f-20"></i>
                                                     </a>
@@ -101,7 +101,7 @@
                                                     <!-- Delete Button -->
                                                     {!! Form::open([
                                                         'method' => 'DELETE',
-                                                        'route' => ['admin.standards.destroy', $standard->id],
+                                                        'route' => ['standards.destroy', $standard->id],
                                                         'id' => 'delete-form-' . $standard->id,
                                                     ]) !!}
                                                     <a class="show_confirm btn btn-sm btn-icon bg-light-secondary me-2"

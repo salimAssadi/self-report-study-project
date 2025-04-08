@@ -40,7 +40,7 @@
                                     <!-- View Button -->
                                     @if (Gate::check('Show Standard'))
                                         <a class="btn btn-sm btn-icon bg-light-secondary me-2"
-                                            href="{{ route('admin.standards.show', $child->id) }}"
+                                            href="{{ route('standards.show', $child->id) }}"
                                             data-bs-toggle="tooltip" title="{{ __('View') }}">
                                             <i class="ti ti-eye f-20"></i>
                                         </a>
@@ -48,7 +48,7 @@
                                     <!-- Edit Button -->
                                     @if (Gate::check('Edit Standard'))
                                         <a class="btn btn-sm btn-icon bg-light-secondary me-2"
-                                            href="{{ route('admin.standards.edit', $child->id) }}"
+                                            href="{{ route('standards.edit', $child->id) }}"
                                             data-bs-toggle="tooltip" title="{{ __('Edit') }}">
                                             <i class="ti ti-edit f-20"></i>
                                         </a>
@@ -58,7 +58,7 @@
                                     @if (Gate::check('Delete Standard'))
                                         {!! Form::open([
                                             'method' => 'DELETE',
-                                            'route' => ['admin.standards.destroy', $child->id],
+                                            'route' => ['standards.destroy', $child->id],
                                             'id' => 'delete-form-' . $child->id,
                                         ]) !!}
                                         <a class="show_confirm btn btn-sm btn-icon bg-light-secondary me-2"

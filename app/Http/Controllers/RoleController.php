@@ -124,7 +124,7 @@ class RoleController extends Controller
                     $role->givePermissionTo($p);
                 }
 
-                return redirect()->route('admin.role.index')->with('success', 'Role successfully created.');
+                return redirect()->route('role.index')->with('success', 'Role successfully created.');
             // }
         }
         else
@@ -218,7 +218,7 @@ class RoleController extends Controller
                 $role->givePermissionTo($p);
             }
 
-            return redirect()->route('admin.role.index')->with('success', 'Role successfully updated.');
+            return redirect()->route('role.index')->with('success', 'Role successfully updated.');
         }
         else
         {

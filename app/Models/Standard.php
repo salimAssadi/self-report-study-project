@@ -3,6 +3,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Localizable;
+use App\Models\User;
 
 class Standard extends Model
 {
@@ -30,6 +31,12 @@ class Standard extends Model
     public function children()
     {
         return $this->hasMany(Standard::class, 'parent_id');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_standards')
+            ->withTimestamps();
     }
 
     public function scopeMain($query)

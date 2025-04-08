@@ -7,7 +7,7 @@
 @endsection
 @section('breadcrumb')
     <li class="breadcrumb-item">
-        <a href="{{ route('admin.home') }}">{{ __('Dashboard') }}</a>
+        <a href="{{ route('home') }}">{{ __('Dashboard') }}</a>
     </li>
     <li class="breadcrumb-item" aria-current="page">
         {{ __('Create Standard') }}
@@ -41,7 +41,7 @@
     <div class="row">
         <!-- [ sample-page ] start -->
         <div class="col-sm-12">
-            {{ Form::open(['method' => 'post', 'id' => 'frmTarget', 'enctype' => 'multipart/form-data', 'route' => 'admin.standards.store']) }}
+            {{ Form::open(['method' => 'post', 'id' => 'frmTarget', 'enctype' => 'multipart/form-data', 'route' => 'standards.store']) }}
             @csrf
             <div class="row">
                 <div class="col-lg-12">
@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="col-auto">
 
-                                    <a href="{{ route('admin.standards.index') }}" class="btn btn-light-secondary me-3"> <i
+                                    <a href="{{ route('standards.index') }}" class="btn btn-light-secondary me-3"> <i
                                             data-feather="x-circle" class="me-2"></i>{{ __('Cancel') }}</a>
                                     <a type="submit" id="submit-all" class="btn btn-primary text-white"> <i
                                             data-feather="check-circle" class="me-2"></i>{{ __('Save') }}</a>

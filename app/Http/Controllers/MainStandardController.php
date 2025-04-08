@@ -76,7 +76,7 @@ class MainStandardController extends Controller
                 'completion_status' => 'incomplete',
             ]);
         }
-        return redirect()->route('admin.main-standards.index')->with('success', __('Standard created successfully.'));
+        return redirect()->route('main-standards.index')->with('success', __('Standard created successfully.'));
     }
 
     public function update(Request $request, $id)
@@ -132,7 +132,7 @@ class MainStandardController extends Controller
             }
         }
 
-        return redirect()->route('admin.main-standards.index')->with('success', __('Standard updated successfully.'));
+        return redirect()->route('main-standards.index')->with('success', __('Standard updated successfully.'));
     }
 
     /**
@@ -175,7 +175,7 @@ class MainStandardController extends Controller
     //     ]);
 
     //     $mainStandard->update($validated);
-    //     return redirect()->route('admin.main-standards.index')->with('success', 'Main Standard updated successfully.');
+    //     return redirect()->route('main-standards.index')->with('success', 'Main Standard updated successfully.');
     // }
 
     /**
@@ -184,7 +184,7 @@ class MainStandardController extends Controller
     public function destroy(MainStandard $mainStandard)
     {
         $mainStandard->delete();
-        return redirect()->route('admin.main-standards.index')->with('success', 'Main Standard deleted successfully.');
+        return redirect()->route('main-standards.index')->with('success', 'Main Standard deleted successfully.');
     }
 
 

@@ -4,7 +4,7 @@
 @endsection
 @section('breadcrumb')
     <li class="breadcrumb-item">
-        <a href="{{ route('admin.home') }}">{{ __('Dashboard') }}</a>
+        <a href="{{ route('home') }}">{{ __('Dashboard') }}</a>
     </li>
     <li class="breadcrumb-item" aria-current="page">
         {{ __('Comments') }}
@@ -19,12 +19,12 @@
         <div class="col-md-11">
             <div class="card shadow-sm">
                 <div class="card-header bg-white d-flex justify-content-between align-items-center border-bottom">
-                    <h5 class="mb-0 text-primary">{{ __('Comments for Criterion:') }} {{ $criterion->name }}</h5>
-                    <a href="{{ route('admin.criteria.index') }}" class="btn btn-secondary">{{ __('Back') }}</a>
+                    <h5 class="mb-0 text-primary">{{ __('Comments for Criterion:') }} :<span class="text-danger">{{ $criterion->name }}</span></h5>
+                    <a href="{{ route('criteria.index') }}" class="btn btn-secondary">{{ __('Back') }}</a>
                 </div>
                 <div class="card-body">
                     <!-- Comment Form -->
-                    <form action="{{ route('admin.criterion.comments.store', $criterion->id) }}" class="card shadow-sm p-3"
+                    <form action="{{ route('criterion.comments.store', $criterion->id) }}" class="card shadow-sm p-3"
                         method="POST" enctype="multipart/form-data" class="comment-form">
                         @csrf
                         <div class="input-group mb-3">
@@ -78,7 +78,7 @@
                                                             data-comment-id="{{ $comment->id }}">
                                                             <i class="ti ti-edit"></i>
                                                         </button>
-                                                        <form action="{{ route('admin.comments.destroy', $comment->id) }}"
+                                                        <form action="{{ route('comments.destroy', $comment->id) }}"
                                                             method="POST" class="d-inline">
                                                             @csrf
                                                             @method('DELETE')
@@ -97,7 +97,7 @@
                                                     <h6 class="text-muted">{{ __('Attachments') }}:</h6>
                                                     <div class="list-group">
                                                         @foreach ($comment->attachments as $attachment)
-                                                            <a href="{{ route('admin.comments.attachment.download', $attachment->id) }}"
+                                                            <a href="{{ route('comments.attachment.download', $attachment->id) }}"
                                                                 class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                                                 <div>
                                                                     <i class="fas fa-paperclip me-2"></i>
@@ -112,7 +112,7 @@
                                                 </div>
                                             @endif
                                             <!-- Edit Form (Hidden by default) -->
-                                            <form action="{{ route('admin.comments.update', $comment->id) }}"
+                                            <form action="{{ route('comments.update', $comment->id) }}"
                                                 method="POST" class="edit-form d-none card shadow-sm p-3 position-relative"
                                                 enctype="multipart/form-data">
                                                 @csrf
@@ -140,7 +140,7 @@
                                             <button
                                                 class="btn btn-sm btn-link text-decoration-none show-reply-form mt-2"> <i class="fas fa-reply me-1"></i>{{ __('Reply') }}</button>
                                             <!-- Reply Form -->
-                                            <form action="{{ route('admin.criterion.comments.store', $criterion->id) }}"
+                                            <form action="{{ route('criterion.comments.store', $criterion->id) }}"
                                                 method="POST" class="reply-form d-none mt-2 card shadow-sm p-3 position-relative"
                                                 enctype="multipart/form-data">
                                                 @csrf
@@ -197,7 +197,7 @@
                                                                             @if (auth()->id() == $reply->user_id)
                                                                                 <div class="reply-actions">
                                                                                     <form
-                                                                                        action="{{ route('admin.comments.destroy', $reply->id) }}"
+                                                                                        action="{{ route('comments.destroy', $reply->id) }}"
                                                                                         method="POST" class="d-inline">
                                                                                         @csrf
                                                                                         @method('DELETE')
@@ -217,7 +217,7 @@
                                                                                     {{ __('Attachments:') }}</h6>
                                                                                 <div class="list-group">
                                                                                     @foreach ($reply->attachments as $attachment)
-                                                                                        <a href="{{ route('admin.comments.attachment.download', $attachment->id) }}"
+                                                                                        <a href="{{ route('comments.attachment.download', $attachment->id) }}"
                                                                                             class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                                                                             <div>
                                                                                                 <i

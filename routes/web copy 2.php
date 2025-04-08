@@ -46,7 +46,7 @@ use App\Http\Controllers\CommentController;
 |
 */
 
-// require __DIR__ . '/auth.php';
+// Public routes
 Route::middleware(['XSS'])->group(function () {
     Route::get('/', function () {
         return redirect()->route('login');
@@ -55,8 +55,8 @@ Route::middleware(['XSS'])->group(function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 });
-$prefix = 'admin';
-Route::middleware(['auth', 'XSS'])->group(function () {
+$prefix = auth()->check() ? strtolower(str_replace(' ', '_', auth()->user()->type)) : 'guest';
+Route::prefix($prefix)->middleware(['auth', 'XSS'])->name('')->group(function () {
    
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
@@ -77,36 +77,20 @@ Route::middleware(['auth', 'XSS'])->group(function () {
             Route::get('facility-Info', 'facilityInfo')->name('facilityInfo');
             Route::post('facility-Info', 'savefacilityInfo')->name('savefacilityInfo');
             Route::post('account', 'accountData')->name('account');
-            Route::delete('account/delete', 'accountDelete')->name('account.delete');
             Route::post('password', 'passwordData')->name('password');
-            Route::post('general', 'generalData')->name('general');
-            Route::post('smtp', 'smtpData')->name('smtp');
-            Route::get('smtp-test', 'smtpTest')->name('smtp.test');
-            Route::post('smtp-test', 'smtpTestMailSend')->name('smtp.testing');
-            Route::post('payment', 'paymentData')->name('payment');
-            Route::post('site-seo', 'siteSEOData')->name('site.seo');
-            Route::post('google-recaptcha', 'googleRecaptchaData')->name('google.recaptcha');
-            Route::post('company', 'companyData')->name('company');
-            Route::post('2fa', 'twofaEnable')->name('twofa.enable');
-            Route::get('footer-setting', 'footerSetting')->name('footerSetting');
-            Route::post('footer', 'footerData')->name('footer');
-            Route::get('language/{lang}', 'lanquageChange')->name('language.change');
-            Route::post('theme/settings', 'themeSettings')->name('theme.settings');
+            // Add other settings routes as needed
         });
-
-        Route::get('allComments', [CommentController::class, 'allComments'])->name('comments.all');
-        Route::get('comments/create', [CommentController::class, 'create'])->name('comments.create');
-        Route::get('criterion/{criterion}/comments', [CommentController::class, 'index'])->name('criterion.comments.index');
-        Route::post('criterion/{criterion}/comments', [CommentController::class, 'store'])->name('criterion.comments.store');
-        Route::put('comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
-        Route::delete('comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
-        Route::get('comments/attachments/{attachment}/download', [CommentController::class, 'downloadAttachment'])
-            ->name('comments.attachment.download');
 
         // File Manager
         Route::get('/file-manager', [FileManagerController::class, 'index'])->name('filemanager');
         
-       
+        // Comments
+        Route::get('comments', [CommentController::class, 'allComments'])->name('comments.all');
+        Route::get('comments/create', [CommentController::class, 'create'])->name('comments.create');
+        Route::get('criterion/{criterion}/comments', [CommentController::class, 'index'])->name('criterion.comments.index');
+        Route::post('criterion/{criterion}/comments', [CommentController::class, 'store'])->name('criterion.comments.store');
+        Route::get('comments/attachments/{attachment}/download', [CommentController::class, 'downloadAttachment'])
+            ->name('comments.attachment.download');
     });
 
   

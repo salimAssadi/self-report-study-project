@@ -115,11 +115,10 @@ class SettingController extends Controller
         }
 
         if (!empty($request->profile)) {
-            $user->profile = $fileNameToStore;
+            $user->avatar = $fileNameToStore;
         }
-        $user->name = $request->name;
+        $user->full_name = $request->name;
         $user->email = $request->email;
-        $user->phone_number = $request->phone_number;
         $user->save();
 
 
