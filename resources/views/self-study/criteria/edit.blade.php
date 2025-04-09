@@ -143,6 +143,9 @@
                                     <input type="text" name="attachments[${attachmentIndex}][name_en]" class="form-control" placeholder="{{ __('Evidence Name (English)') }}">
                                 </td>
                                 <td>
+                                    <input type="text" name="attachments[${attachmentIndex}][evidence_code]" class="form-control" placeholder="{{ __('Evidence Code') }}">
+                                </td>
+                                <td>
                                     <input type="file" name="attachments[${attachmentIndex}][file]" class="form-control">
                                 </td>
                                 <td class="w-10 text-center">
@@ -432,6 +435,7 @@
                                             <tr>
                                                 <th>{{ __('Evidence Name (Arabic)') }}</th>
                                                 <th>{{ __('Evidence Name (English)') }}</th>
+                                                <th>{{ __('Evidence Code') }}</th>
                                                 <th>{{ __('Evidence') }}</th>
                                                 <th class="w-10 text-center">
                                                     <button type="button" id="add-attachment"
@@ -449,6 +453,9 @@
                                                         </td>
                                                         <td>
                                                             {{ Form::text("attachments[$index][name_en]", $attachment->name_en, ['class' => 'form-control', 'placeholder' => __('Evidence Name (English)')]) }}
+                                                        </td>
+                                                        <td>
+                                                            {{ Form::text("attachments[$index][evidence_code]", $attachment->evidence_code, ['class' => 'form-control', 'placeholder' => __('Evidence Code')]) }}
                                                         </td>
                                                         <td>
                                                             {{ Form::file("attachments[$index][file]", ['class' => 'form-control']) }}

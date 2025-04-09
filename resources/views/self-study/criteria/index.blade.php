@@ -153,17 +153,14 @@ $profile = asset(Storage::url('upload/profile/'));
                                             title="{{ __('Delete') }}">
                                             <i class="ti ti-trash f-20"></i>
                                         </a>
-                                        @if(Gate::check('Show Comments'))
+                                        {{-- @if(Gate::check('Show Comments')) --}}
                                         <a class="avtar avtar-xs btn-link-danger text-danger me-2 vibrate"
                                            href="{{ route('criterion.comments.index', $criterion->id) }}"
                                            data-bs-toggle="tooltip" data-bs-placement="top"
                                            title="{{ __('Comments') }}">
-                                           @if($criterion->comments->count() > 0)
                                            <i class="ti ti-message text-danger vibrate f-20"></i>
                                                 <span class="text-danger">{{ $criterion->comments->count() }}</span>
-                                            @endif
-                                        </a>
-                                    @endif
+                                            </a>
                                         {!! Form::close() !!}
                                     </div>
                                 </td>

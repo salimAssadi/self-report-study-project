@@ -126,6 +126,7 @@ class CriterionController extends Controller
             'attachments.*.id' => 'nullable|exists:attachments,id',
             'attachments.*.name_ar' => 'required|string|max:255',
             'attachments.*.name_en' => 'required|string|max:255',
+            'attachments.*.evidence_code' => 'nullable|string|max:255',
             'attachments.*.file' => 'nullable|file',
             'deleted_attachments' => 'nullable|array',
             'deleted_attachments.*' => 'exists:attachments,id',
@@ -189,6 +190,7 @@ class CriterionController extends Controller
                             $updateData = [
                                 'name_ar' => $attachmentData['name_ar'],
                                 'name_en' => $attachmentData['name_en'],
+                                'evidence_code' => $attachmentData['evidence_code'],
                             ];
 
                             // Check if a new file is provided
@@ -206,6 +208,7 @@ class CriterionController extends Controller
                         $criterion->attachments()->create([
                             'name_ar' => $attachmentData['name_ar'],
                             'name_en' => $attachmentData['name_en'],
+                            'evidence_code' => $attachmentData['evidence_code'],
                             'file_path' => $filePath,
                         ]);
                     }

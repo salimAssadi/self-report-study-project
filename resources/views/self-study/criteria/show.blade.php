@@ -190,6 +190,9 @@
                                                 <h6 class="mb-1">{{ $attachment->name_ar }}</h6>
                                                 <small class="text-muted">{{ $attachment->name_en }}</small>
                                             </div>
+                                            <div>
+                                                <small class="text-muted">{{ $attachment->evidence_code }}</small>
+                                            </div>
                                             <div class="dropdown">
                                                 <button class="btn btn-icon btn-sm btn-light" type="button" data-bs-toggle="dropdown">
                                                     <i class="ti ti-dots-vertical"></i>
