@@ -10,5 +10,11 @@ class CriterionAttachment extends Model
     
     use HasFactory;
     protected $table = 'attachments';
-    protected $fillable = ['criterion_id', 'name_ar','name_en','evidence_code','file_path'];
+    protected $fillable = [
+        'criterion_id',
+        'name_ar',
+        'name_en',
+        'evidence_code',
+        'file_path',
+    ];
 }

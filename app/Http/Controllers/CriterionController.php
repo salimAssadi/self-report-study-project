@@ -106,7 +106,6 @@ class CriterionController extends Controller
      */
     public function update(Request $request, Criterion $criterion)
     {
-
         // Validate the request
         $validated = $request->validate([
             'main_standard_id' => 'required',
@@ -126,7 +125,7 @@ class CriterionController extends Controller
             'attachments.*.id' => 'nullable|exists:attachments,id',
             'attachments.*.name_ar' => 'required|string|max:255',
             'attachments.*.name_en' => 'required|string|max:255',
-            'attachments.*.evidence_code' => 'nullable|string|max:255',
+            'attachments.*.evidence_code' => 'required|string|max:255',
             'attachments.*.file' => 'nullable|file',
             'deleted_attachments' => 'nullable|array',
             'deleted_attachments.*' => 'exists:attachments,id',
@@ -176,26 +175,23 @@ class CriterionController extends Controller
                 }
             }
 
-            // Delete removed attachments
             if ($request->has('deleted_attachments')) {
                 $criterion->attachments()->whereIn('id', $request->deleted_attachments)->delete();
             }
 
-            // Handle attachments
             if (isset($validated['attachments'])) {
                 foreach ($validated['attachments'] as $attachmentData) {
+
                     if (isset($attachmentData['id'])) {
                         $attachment = $criterion->attachments()->find($attachmentData['id']);
                         if ($attachment) {
                             $updateData = [
-                                'name_ar' => $attachmentData['name_ar'],
-                                'name_en' => $attachmentData['name_en'],
+                                'name_ar'       => $attachmentData['name_ar'],
+                                'name_en'       => $attachmentData['name_en'],
                                 'evidence_code' => $attachmentData['evidence_code'],
                             ];
 
-                            // Check if a new file is provided
                             if (isset($attachmentData['file']) && $attachmentData['file']->isValid()) {
-                                // Store the new file and update the file_path
                                 $filePath = $attachmentData['file']->store('attachments', 'public');
                                 $updateData['file_path'] = $filePath;
                             }
@@ -203,7 +199,6 @@ class CriterionController extends Controller
                             $attachment->update($updateData);
                         }
                     } elseif (isset($attachmentData['file']) && $attachmentData['file']->isValid()) {
-                        // Create new attachment
                         $filePath = $attachmentData['file']->store('attachments', 'public');
                         $criterion->attachments()->create([
                             'name_ar' => $attachmentData['name_ar'],
@@ -216,7 +211,7 @@ class CriterionController extends Controller
             }
         });
 
-        return redirect()->route('criteria.index')->with('success', 'Criterion updated successfully.');
+        return redirect()->back()->with('success', 'Criterion updated successfully.');
     }
     /**
      * Remove the specified resource from storage.

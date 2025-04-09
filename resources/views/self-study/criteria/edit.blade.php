@@ -449,6 +449,7 @@
                                                 @foreach ($criterion->attachments as $index => $attachment)
                                                     <tr class="attachment-row">
                                                         <td>
+                                                            <input type="hidden" name="attachments[{{ $index }}][id]" value="{{ $attachment->id }}">
                                                             {{ Form::text("attachments[$index][name_ar]", $attachment->name_ar, ['class' => 'form-control', 'placeholder' => __('Evidence Name (Arabic)')]) }}
                                                         </td>
                                                         <td>
