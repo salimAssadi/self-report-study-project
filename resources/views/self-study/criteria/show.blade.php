@@ -12,7 +12,7 @@
         <a href="{{ route('criteria.index') }}">{{ __('Criteria') }}</a>
     </li>
     <li class="breadcrumb-item active" aria-current="page">
-        {{ $criteria->sequence }} - {{ $criteria->name_en }}
+        {{ $criteria->name }}
     </li>
 @endsection
 
@@ -26,8 +26,7 @@
                     <div>
                         <h3 class="mb-1">{{ $criteria->sequence }}</h3>
                         <div class="d-flex gap-4">
-                            <h4 class="text-muted mb-0">{{ $criteria->name_ar }}</h4>
-                            <h4 class="text-muted mb-0">{{ $criteria->name_en }}</h4>
+                            <h4 class="text-muted mb-0">{{ $criteria->name }}</h4>
                         </div>
                     </div>
                     <div class="d-flex gap-2">
