@@ -250,6 +250,7 @@ if ($(".summernote").length) {
         plugins: ' image  table   preview anchor    visualblocks visualchars code  tinymcespellchecker link ',
         toolbar: ' undo redo  link |  emoticons styleselect  |fontfamily backcolor fontsize |alignleft aligncenter alignright alignjustify | preview  ',
         table_toolbar: 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol link  ',
+        link_default_target: '_blank', 
         content_langs: [
             { title: 'English ', code: 'en_US' },
             { title: 'Arabic', code: 'ar' }
