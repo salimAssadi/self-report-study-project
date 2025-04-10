@@ -279,7 +279,7 @@
                                         $criterion->is_met ?? null,
                                         ['class' => 'form-control hidesearch'],
                                     ) }}
-                                    @error('completion_status')
+                                    @error('is_met')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>

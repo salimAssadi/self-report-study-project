@@ -129,12 +129,15 @@ class CriterionController extends Controller
             'attachments.*.file' => 'nullable|file',
             'deleted_attachments' => 'nullable|array',
             'deleted_attachments.*' => 'exists:attachments,id',
+            'is_met' => 'required|boolean:in,1,0',
+            'fulfillment_status' => 'required|integer:in,1,2,3,4,5',
         ]);
         if (isset($request->sub_standard_id)) {
             $validated['standard_id'] = $request->sub_standard_id;
         } else {
             $validated['standard_id'] = $request->main_standard_id;
         }
+       
         // Update criterion details
         $criterion->update([
             'standard_id' => $validated['standard_id'],

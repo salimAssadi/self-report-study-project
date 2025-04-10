@@ -69,7 +69,7 @@ $profile = asset(Storage::url('upload/profile/'));
                                 <td>{{ $criterion->sequence }}</td>
                                 <td>{{ $criterion->name }}</td>
                                 <td>
-                                    {{ $criterion->standard?->name_ar ?? ($criterion->standard?->name_en ?? '-') }}
+                                    {{ $criterion->standard?->name ?? ($criterion->standard?->name ?? '-') }}
                                 </td>
                                 <td>
                                     @switch($criterion->is_met)

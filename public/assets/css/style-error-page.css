@@ -4763,9 +4763,9 @@ textarea.is-invalid.dataTable-input {
     --bs-card-cap-padding-x: 25px;
     --bs-card-cap-bg: transparent;
     --bs-card-cap-color: ;
-  --bs-card-height:;
+     --bs-card-height:auto;
     --bs-card-color: ;
-  --bs-card-bg: #ffffff;
+    --bs-card-bg: #ffffff;
     --bs-card-img-overlay-padding: 1.25rem;
     --bs-card-group-margin: 0.75rem;
     position: relative;
@@ -5110,7 +5110,7 @@ textarea.is-invalid.dataTable-input {
     --bs-breadcrumb-padding-y: 0;
     --bs-breadcrumb-margin-bottom: 1rem;
     --bs-breadcrumb-bg: ;
-  --bs-breadcrumb-border-radius:;
+    --bs-breadcrumb-border-radius: 5;
     --bs-breadcrumb-divider-color: #6c757d;
     --bs-breadcrumb-item-padding-x: 0.5rem;
     --bs-breadcrumb-item-active-color: #6c757d;
