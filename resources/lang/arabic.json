@@ -1477,5 +1477,25 @@
   "Create User":"انشاء مستخدم",
   "Standards to Manage":"المعيار المراد ادارتها",
   "User Profile":"الملف الشخصي",
-  "Evidence Code":"رمز الدليل"
+  "Evidence Code":"رمز الدليل",
+  "Statistical Data":"البيانات الإحصائية",
+  "Education and Training Body":"هيئة التعليم والتدريب",
+  "Classification of the Education and Training Body":"تصنيف هيئة التعليم والتدريب",
+  "Student Classification by Qualification":"تصنيف الطلبة حسب المؤهل",
+  "Discussion of Statistical Data":"مناقشة البيانات الإحصائية",
+  "Key Performance Indicators and Benchmarking":"مؤشرات الأداء الرئيسة والمقارنة المرجعية",
+  "Self-Assessment Based on Quality Assurance Standards":"التقويم الذاتي وفقًا لمعايير ضمان الجودة",
+  "Independent Evaluations (Optional)":"لتقويمات المستقلة (اختياري)  ",
+  "Executive Recommendations":"التوصيات التنفيذية",
+  "Institution Profile":"ملف المؤسسة",
+  "Report Guidelines":"ضوابط إعداد التقرير",
+  "Message Facility (Arabic)":"الرسالة (عربي)",
+  "Message Facility (English)":"الرسالة (إنجليزي)",
+  "Enter Message Facility (Arabic)":"أدخل الرسالة (عربي)",
+  "Enter Message Facility (English)":"أدخل الرسالة (إنجليزي)",
+  "Executive Summary":"الملخص التنفيذي",
+  "Student Information":"معلومات الطلاب"
+
+
+
 }

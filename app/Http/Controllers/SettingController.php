@@ -77,6 +77,271 @@ class SettingController extends Controller
         return redirect()->back()->with('success', 'Your account successfully deleted.');
     }
     
+    public function saveSelfReport(Request $request)
+    {
+        if ($request->section == 'institution_profile') {
+            $validated = $request->validate([
+                'facility_name_ar' => 'nullable|string|max:255',
+                'facility_name_en' => 'nullable|string|max:255',
+                'vision_ar' => 'nullable|string',
+                'vision_en' => 'nullable|string',
+                'goals_ar' => 'nullable|string',
+                'goals_en' => 'nullable|string',
+                'messages_ar' => 'nullable|string',
+                'messages_en' => 'nullable|string',
+                'contact_name_ar' => 'nullable|string|max:255',
+                'contact_name_en' => 'nullable|string|max:255',
+                'contact_position_ar' => 'nullable|string|max:255',
+                'contact_position_en' => 'nullable|string|max:255',
+                'report_date' => 'nullable|date',
+                'report_preparer_name' => 'nullable|string|max:255',
+                'contact_email' => 'nullable|email|max:255',
+                'contact_phone' => 'nullable|string|max:20',
+            ]);
+            foreach ($validated as $key => $value) {
+                $value = $value ?? '';
+                DB::insert(
+                    'INSERT INTO settings (`value`, `name`,`parent_id`) VALUES (?, ?, ?) 
+                    ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)',
+                    [
+                        $value,
+                        $key,
+                        parentId()
+                    ]
+                );
+            }
+            return redirect()->back()->with('success', __('Settings successfully updated.'));
+        }
+        if($request->section=='report_guidelines'){
+            $validated = $request->validate([
+                'report_guidelines_ar' => 'nullable|string',
+                'report_guidelines_en' => 'nullable|string',
+            ]);
+            foreach ($validated as $key => $value) {
+                $value = $value ?? '';
+                DB::insert(
+                    'INSERT INTO settings (`value`, `name`,`parent_id`) VALUES (?, ?, ?) 
+                    ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)',
+                    [
+                        $value,
+                        $key,
+                        parentId()
+                    ]
+                );
+            }
+            return redirect()->back()->with('success', __('Settings successfully updated.'));
+        }
+
+        if ($request->section == 'statistical_data') {
+            $validated = $request->validate([
+                'statistical_data' => 'nullable|string',
+            ]);
+            foreach ($validated as $key => $value) {
+                $value = $value ?? '';
+                DB::insert(
+                    'INSERT INTO settings (`value`, `name`,`parent_id`) VALUES (?, ?, ?) 
+                    ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)',
+                    [
+                        $value,
+                        $key,
+                        parentId()
+                    ]
+                );
+            }
+            return redirect()->back()->with('success', __('Settings successfully updated.'));
+        }
+
+        if ($request->section == 'education_training') {
+            $validated = $request->validate([
+                'education_training' => 'nullable|string',
+            ]);
+            foreach ($validated as $key => $value) {
+                $value = $value ?? '';
+                DB::insert(
+                    'INSERT INTO settings (`value`, `name`,`parent_id`) VALUES (?, ?, ?) 
+                    ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)',
+                    [
+                        $value,
+                        $key,
+                        parentId()
+                    ]
+                );
+            }
+            return redirect()->back()->with('success', __('Settings successfully updated.'));
+        }
+
+        if ($request->section == 'kpi_benchmarking') {
+            $validated = $request->validate([
+                'kpi_info' => 'nullable|string',
+            ]);
+            foreach ($validated as $key => $value) {
+                $value = $value ?? '';
+                DB::insert(
+                    'INSERT INTO settings (`value`, `name`,`parent_id`) VALUES (?, ?, ?) 
+                    ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)',
+                    [
+                        $value,
+                        $key,
+                        parentId()
+                    ]
+                );
+            }
+            return redirect()->back()->with('success', __('Settings successfully updated.'));
+        }
+
+        if ($request->section == 'executive_summary') {
+            $validated = $request->validate([
+                'executive_summary' => 'nullable|string',
+            ]);
+            foreach ($validated as $key => $value) {
+                $value = $value ?? '';
+                DB::insert(
+                    'INSERT INTO settings (`value`, `name`,`parent_id`) VALUES (?, ?, ?) 
+                    ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)',
+                    [
+                        $value,
+                        $key,
+                        parentId()
+                    ]
+                );
+            }
+            return redirect()->back()->with('success', __('Settings successfully updated.'));
+        }
+
+        if ($request->section == 'classification') {
+            $validated = $request->validate([
+                'classification' => 'nullable|string',
+            ]);
+            foreach ($validated as $key => $value) {
+                $value = $value ?? '';
+                DB::insert(
+                    'INSERT INTO settings (`value`, `name`,`parent_id`) VALUES (?, ?, ?) 
+                    ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)',
+                    [
+                        $value,
+                        $key,
+                        parentId()
+                    ]
+                );
+            }
+            return redirect()->back()->with('success', __('Settings successfully updated.'));
+        }
+
+        if ($request->section == 'independent_evaluations') {
+            $validated = $request->validate([
+                'evaluation_info' => 'nullable|string',
+            ]);
+            foreach ($validated as $key => $value) {
+                $value = $value ?? '';
+                DB::insert(
+                    'INSERT INTO settings (`value`, `name`,`parent_id`) VALUES (?, ?, ?) 
+                    ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)',
+                    [
+                        $value,
+                        $key,
+                        parentId()
+                    ]
+                );
+            }
+            return redirect()->back()->with('success', __('Settings successfully updated.'));
+        }
+
+        if($request->section == 'students'){
+            $validated = $request->validate([
+                'student_info' => 'nullable|string',
+            ]);
+            foreach ($validated as $key => $value) {
+                $value = $value ?? '';
+                DB::insert(
+                    'INSERT INTO settings (`value`, `name`,`parent_id`) VALUES (?, ?, ?) 
+                    ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)',
+                    [
+                        $value,
+                        $key,
+                        parentId()
+                    ]
+                );
+            }
+            return redirect()->back()->with('success', __('Settings successfully updated.'));
+        }
+
+        if ($request->section == 'attachments') {
+            $validated = $request->validate([
+                'attachments' => 'nullable|string',
+            ]);
+            foreach ($validated as $key => $value) {
+                $value = $value ?? '';
+                DB::insert(
+                    'INSERT INTO settings (`value`, `name`,`parent_id`) VALUES (?, ?, ?) 
+                    ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)',
+                    [
+                        $value,
+                        $key,
+                        parentId()
+                    ]
+                );
+            }
+            return redirect()->back()->with('success', __('Settings successfully updated.'));
+        }
+
+        if ($request->section == 'student_classification') {
+            $validated = $request->validate([
+                'qualification_info' => 'nullable|string',
+            ]);
+            foreach ($validated as $key => $value) {
+                $value = $value ?? '';
+                DB::insert(
+                    'INSERT INTO settings (`value`, `name`,`parent_id`) VALUES (?, ?, ?) 
+                    ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)',
+                    [
+                        $value,
+                        $key,
+                        parentId()
+                    ]
+                );
+            }
+            return redirect()->back()->with('success', __('Settings successfully updated.'));
+        }
+
+        if ($request->section == 'statistical_discussion') {
+            $validated = $request->validate([
+                'data_discussion' => 'nullable|string',
+            ]);
+            foreach ($validated as $key => $value) {
+                $value = $value ?? '';
+                DB::insert(
+                    'INSERT INTO settings (`value`, `name`,`parent_id`) VALUES (?, ?, ?) 
+                    ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)',
+                    [
+                        $value,
+                        $key,
+                        parentId()
+                    ]
+                );
+            }
+            return redirect()->back()->with('success', __('Settings successfully updated.'));
+        }
+
+        if ($request->section == 'executive_recommendations') {
+            $validated = $request->validate([
+                'recommendation_info' => 'nullable|string',
+            ]);
+            foreach ($validated as $key => $value) {
+                $value = $value ?? '';
+                DB::insert(
+                    'INSERT INTO settings (`value`, `name`,`parent_id`) VALUES (?, ?, ?) 
+                    ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)',
+                    [
+                        $value,
+                        $key,
+                        parentId()
+                    ]
+                );
+            }
+            return redirect()->back()->with('success', __('Settings successfully updated.'));
+        }
+
+    }
     public function accountData(Request $request)
     {
         $loginUser = \Auth::user();

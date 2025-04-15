@@ -76,6 +76,7 @@ Route::middleware(['auth', 'XSS'])->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('facility-Info', 'facilityInfo')->name('facilityInfo');
             Route::post('facility-Info', 'savefacilityInfo')->name('savefacilityInfo');
+            Route::post('self-report', 'saveSelfReport')->name('saveSelfReport');
             Route::post('account', 'accountData')->name('account');
             Route::delete('account/delete', 'accountDelete')->name('account.delete');
             Route::post('password', 'passwordData')->name('password');
