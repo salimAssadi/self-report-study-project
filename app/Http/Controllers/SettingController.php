@@ -134,7 +134,8 @@ class SettingController extends Controller
 
         if ($request->section == 'statistical_data') {
             $validated = $request->validate([
-                'statistical_data' => 'nullable|string',
+                'statistical_data_ar' => 'nullable|string',
+                'statistical_data_en' => 'nullable|string',
             ]);
             foreach ($validated as $key => $value) {
                 $value = $value ?? '';
@@ -191,7 +192,8 @@ class SettingController extends Controller
 
         if ($request->section == 'executive_summary') {
             $validated = $request->validate([
-                'executive_summary' => 'nullable|string',
+                'executive_summary_en' => 'nullable|string',
+                'executive_summary_ar' => 'nullable|string',
             ]);
             foreach ($validated as $key => $value) {
                 $value = $value ?? '';

@@ -203,6 +203,21 @@ if (!function_exists('getSettingsValByName')) {
     }
 }
 
+if (!function_exists('getSettingsValByNameWithLang')) {
+    function getSettingsValByNameWithLang($key)
+    {
+        $userLang = auth()->user()->lang ?? 'english';
+
+        $setting = settings();
+        if ($userLang === 'arabic') {
+            $key = $key . '_ar';
+        } else {
+            $key = $key . '_en';
+        }
+
+        return isset($setting[$key]) && !empty($setting[$key]) ? $setting[$key] : '';
+    }
+}
 if (!function_exists('getSettingsValByIdName')) {
     function getSettingsValByIdName($id, $key)
     {

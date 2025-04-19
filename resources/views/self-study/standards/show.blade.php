@@ -38,248 +38,66 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <!-- Standard Information -->
-                        <div class="col-md-8">
-                            <div class="card shadow-none border">
-                                <div class="card-header bg-transparent row">
-                                    <h5 class="mb-0 col">
-                                        <i class="ti ti-info-circle me-2"></i>{{ __('Basic Information') }}
-                                    </h5>
-                                    <div class="col-auto">
-                                        @switch($standard->completion_status)
-                                            @case('incomplete')
-                                                <span class="badge rounded p-2 f-w-600 bg-light-danger">{{ __('Incomplete') }}</span>
-                                            @break
+                        <table class="table table-bordered text-center table-striped" style="border-collapse: separate">
+                            <thead style="background-color: #0a178d; color:white !important;">
+                                <tr style="color:white !important;">
+                                    <td style="width: 600px; text-wrap: wrap" colspan="2" rowspan="3">المحكات</td>
+                                    <td style="width: 15px; " rowspan="3">ينطبق لاينطبق</td>
+                                    <td colspan="2">غير مرضي</td>
+                                    <td colspan="3">مرضي</td>
 
-                                            @case('partially_completed')
-                                                <span
-                                                    class="badge rounded p-2 f-w-600 bg-light-warning">{{ __('Partially Complete') }}</span>
-                                            @break
+                                </tr>
 
-                                            @case('completed')
-                                                <span class="badge rounded p-2 f-w-600 bg-light-success">{{ __('Complete') }}</span>
-                                            @break
-                                        @endswitch
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <label class="form-label text-muted">{{ __('Standard Name') }}</label>
-                                            <p class="mb-0 fw-bold">{{ $standard->name }}</p>
-                                        </div>
-                                       
-                                        <div class="col-12 mb-3">
-                                            <label class="form-label text-muted">{{ __('Introduction') }}</label>
-                                            <p class="mb-0">
-                                                {!! $standard->introduction ?? 'No Introduction available' !!}
-                                            </p>
-                                        </div>
+                                <tr style="color:white !important;">
 
-                                        <div class="col-12 mb-3">
-                                            <label class="form-label text-muted">{{ __('Description') }}</label>
-                                            <p class="mb-0">
-                                                {!! $standard->description ?? 'No description available' !!}
-                                            </p>
-                                        </div>
+                                    <td colspan=""> غير مستوفى</td>
+                                    <td colspan=""> جرزي مستوفى</td>
+                                    <td colspan="">مستوفى</td>
+                                    <td colspan="">مستوفى بامتياز</td>
+                                    <td colspan="">مستوفى باتقان</td>
 
-                                        <div class="col-12 mb-3">
-                                            <label class="form-label text-muted">{{ __('Summary') }}</label>
-                                            <p class="mb-0">
-                                                {!! $standard->summary ?? 'No summary available' !!}
-                                            </p>
-                                        </div>
-                                       
-                                    </div>
-                                </div>
-                            </div>
+                                </tr>
+                                <tr style="color:white !important;">
 
-                            <!-- Criteria List -->
-                            <div class="card shadow-none border mt-4">
-                                <div class="card-header bg-transparent">
-                                    <h5 class="mb-0">
-                                        <i class="ti ti-list-check me-2"></i>{{ __('Criteria') }}
-                                    </h5>
-                                </div>
-                                <div class="card-body p-0">
-                                    <div class="table-responsive">
-                                        <table class="table mb-0">
-                                            <thead class="table-light">
-                                                <tr>
-                                                    <th>{{ __('Name') }}</th>
-                                                    <th>{{ __('Compliance') }}</th>
-                                                    <th>{{ __('Fulfillment Status') }}</th>
-                                                    <th>{{ __('Actions') }}</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @forelse($standard->criteria as $criterion)
-                                                    <tr>
-                                                        <td>
-                                                            <div class="d-flex align-items-center">
-                                                                <div>
-                                                                    <h6 class="mb-0">{{ $criterion->name }}</h6>
-                                                                    <small
-                                                                        class="text-muted">{{ Str::limit($criterion->description, 50) }}</small>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            @switch($criterion->is_met)
-                                                                @case(1)
-                                                                    <span class="badge rounded p-2 f-w-600 bg-light-success">
-                                                                        {{ __('Matching') }}
-                                                                    </span>
-                                                                @break
-                                    
-                                                                @case(0)
-                                                                    <span class="badge rounded p-2 f-w-600 bg-light-danger">
-                                                                        {{ __('Not Matching') }}
-                                                                    </span>
-                                                                @break
-                                                            @endswitch
-                                                        </td>
-                                                        <td>
-                                                            @switch($criterion->fulfillment_status)
-                                                                @case('1')
-                                                                    <span class="badge rounded p-2 f-w-600 bg-light-danger">
-                                                                        {{ __('Not Fulfilled') }}
-                                                                    </span>
-                                                                @break
+                                    <td colspan="">1</td>
+                                    <td colspan="">2</td>
+                                    <td colspan="">3</td>
+                                    <td colspan="">4</td>
+                                    <td colspan="">5</td>
 
-                                                                @case('2')
-                                                                    <span
-                                                                        class="badge rounded p-2 f-w-600 bg-light-warning">{{ __('Partially Fulfilled') }}</span>
-                                                                @break
+                                </tr>
 
-                                                                @case('3')
-                                                                    <span class="badge rounded p-2 f-w-600 bg-light-info">{{ __('Fulfilled') }}</span>
-                                                                @break
+                            </thead>
+                            <tbody>
 
-                                                                @case('4')
-                                                                    <span class="badge rounded p-2 f-w-600 bg-light-primary">{{ __('Fulfilled with Excellence') }}</span>
-                                                                @break
+                                <tr style="background-color: #52B5C2;">
+                                    <td style="width: 10px;" class="sequence">{{ $standard->sequence }}</td>
+                                    <td style=" text-align: right; text-wrap: wrap" colspan="7">{{ $standard->name }} <br>
+                                        {!! $standard->introduction !!} </td>
 
-                                                                @case('5')
-                                                                    <span class="badge rounded p-2 f-w-600 bg-light-success">{{ __('Fulfilled with Distinction') }}</span>
-                                                                @break
-                                                            @endswitch
-                                                        </td>
-                                                        <td>
-                                                            <div class="d-flex gap-2">
-                                                                <a href="{{ route('criteria.show', $criterion->id) }}"
-                                                                    class="btn btn-sm btn-light"
-                                                                    title="{{ __('View Details') }}">
-                                                                    <i class="ti ti-eye"></i>
-                                                                </a>
-                                                                @can('Edit Criteria')
-                                                                    <a href="{{ route('criteria.edit', $criterion->id) }}"
-                                                                        class="btn btn-sm btn-light"
-                                                                        title="{{ __('Edit') }}">
-                                                                        <i class="ti ti-edit"></i>
-                                                                    </a>
-                                                                @endcan
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                @empty
-                                                    <tr>
-                                                        <td colspan="4" class="text-center py-4">
-                                                            <img src="{{ asset('assets/images/empty.svg') }}"
-                                                                alt="Empty" class="mb-3" style="max-width: 120px;">
-                                                            <h6 class="text-muted">{{ __('No Criteria Found') }}</h6>
-                                                        </td>
-                                                    </tr>
-                                                @endforelse
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Sidebar Information -->
-                        <div class="col-md-4">
-                            <!-- Assigned Users -->
-                            <div class="card shadow-none border mb-4">
-                                <div class="card-header bg-transparent">
-                                    <h5 class="mb-0">
-                                        <i class="ti ti-users me-2"></i>{{ __('Assigned Users') }}
-                                    </h5>
-                                </div>
-                                <div class="card-body">
-                                    @if ($standard->users->count() > 0)
-                                        <div class="list-group list-group-flush">
-                                            @foreach ($standard->users as $user)
-                                                <div class="list-group-item px-0">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="avatar avatar-sm me-3">
-                                                            @if ($user->profile)
-                                                                <img src="{{ asset(Storage::url('upload/profile/' . $user->profile)) }}"
-                                                                    class="rounded-circle">
-                                                            @else
-                                                                <span class="avatar-text rounded-circle bg-primary">
-                                                                    {{ strtoupper(substr($user->full_name, 0, 1)) }}
-                                                                </span>
-                                                            @endif
-                                                        </div>
-                                                        <div>
-                                                            <h6 class="mb-0">{{ $user->full_name }}</h6>
-                                                            <small class="text-muted">{{ $user->email }}</small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    @else
-                                        <div class="text-center py-3">
-                                            <img src="{{ asset('assets/images/empty.svg') }}" class="mb-3"
-                                                style="max-width: 120px;">
-                                            <h6 class="text-muted">{{ __('No Users Assigned') }}</h6>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <!-- Statistics Card -->
-                            <div class="card shadow-none border">
-                                <div class="card-header bg-transparent">
-                                    <h5 class="mb-0">
-                                        <i class="ti ti-chart-bar me-2"></i>{{ __('Statistics') }}
-                                    </h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row g-3">
-                                        <div class="col-6">
-                                            <div class="p-3 bg-light rounded">
-                                                <h6 class="mb-1">{{ $standard->criteria->count() }}</h6>
-                                                <small class="text-muted">{{ __('Total Criteria') }}</small>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="p-3 bg-light rounded">
-                                                <h6 class="mb-1">{{ $standard->users->count() }}</h6>
-                                                <small class="text-muted">{{ __('Assigned Users') }}</small>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="p-3 bg-light rounded">
-                                                <h6 class="mb-1">
-                                                    {{ $standard->criteria->where('is_met', 1)->count() }}</h6>
-                                                <small class="text-muted">{{ __('Matching') }}</small>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="p-3 bg-light rounded">
-                                                <h6 class="mb-1">
-                                                    {{ $standard->criteria->where('is_met', 0)->count() }}</h6>
-                                                <small class="text-muted">{{ __('Not Matching') }}</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                </tr>
+                                @foreach ($standard->children as $child)
+                                    <tr style="background-color: #52B5C2;">
+                                        <td style="width: 10px;" class="sequence">{{ $child->sequence }}</td>
+                                        <td style="width: 15px; text-align: right; text-wrap: wrap" colspan="7">{{ $child->name }} <br>
+                                            {!! $child->introduction !!} </td>
+                                    </tr>
+                                    @foreach ($child->criteria as $criterion)
+                                        <tr style="background-color: #c3c5c5;">
+                                            <td style="width: 10px; " class="sequence">{{ $criterion->sequence }}</td>
+                                            <td style="width: 15px; text-align: right; text-wrap: wrap">{!! $criterion->content !!}</td>
+                                            <td style="width: 15px;">{{ $criterion->is_met  ? __('Yes') : __('No') }}</td>
+                                            <td style="width: 15px;">{{ $criterion->fulfillment_status =='1' ? '1' : '' }}</td>
+                                            <td style="width: 15px;">{{ $criterion->fulfillment_status =='2' ? '2' : '' }}</td>
+                                            <td style="width: 15px;">{{ $criterion->fulfillment_status =='3' ? '3' : '' }}</td>
+                                            <td style="width: 15px;">{{ $criterion->fulfillment_status =='4' ? '4' : '' }}</td>
+                                            <td style="width: 15px;">{{ $criterion->fulfillment_status =='5' ? '5' : '' }}</td>
+                                          
+                                        </tr>
+                                    @endforeach
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -311,6 +129,17 @@
 
         .list-group-item:last-child {
             border-bottom: 0;
+        }
+        .sequence{
+            width: 10px;
+            max-width: 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding: 0;
+        }
+        thead td {
+            color: #ffffff !important;
         }
     </style>
 @endpush

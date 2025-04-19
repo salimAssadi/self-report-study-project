@@ -246,7 +246,8 @@ if ($(".summernote").length) {
         path_absolute: window.location.origin + "/",  // Use the current domain
         document_base_url: window.location.origin + "/",  // Use the current domain
         selector: "textarea.summernote",
-        theme: 'silver', // Specify your custom theme name
+        font_formats:
+        "Cairo=cairo,sans-serif; Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Oswald=oswald; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats",        theme: 'silver', // Specify your custom theme name
         plugins: ' image  table   preview anchor    visualblocks visualchars code  tinymcespellchecker link ',
         toolbar: ' undo redo  link |  emoticons styleselect  |fontfamily backcolor fontsize |alignleft aligncenter alignright alignjustify | preview  ',
         table_toolbar: 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol link  ',
@@ -255,6 +256,12 @@ if ($(".summernote").length) {
             { title: 'English ', code: 'en_US' },
             { title: 'Arabic', code: 'ar' }
         ],
+        setup: function (editor) {
+            editor.on('init', function () {
+                editor.getDoc().body.style.fontFamily = 'Cairo, sans-serif';
+            });
+        },
+       
         promotion: false,
         convert_urls: true,
         remove_script_host: false,

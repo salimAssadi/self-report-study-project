@@ -169,9 +169,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Alexusmai\LaravelFileManager\FileManagerServiceProvider::class,
-
+        Meneses\LaravelMpdf\LaravelMpdfServiceProvider::class,
     ])->toArray(),
-
+    
     /*
     |--------------------------------------------------------------------------
     | Class Aliases

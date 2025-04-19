@@ -212,6 +212,12 @@
                             <span class="pc-mtext">{{ __('Settings') }}</span>
                         </a>
                     </li>
+                    <li class="pc-item {{ in_array($routeName, ['report.show']) ? 'active' : '' }} ">
+                        <a href="{{ route('report.show') }}" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-settings"></i></span>
+                            <span class="pc-mtext">{{ __('Report') }}</span>
+                        </a>
+                    </li>
                 {{-- @endif --}}
 
                 {{-- <li

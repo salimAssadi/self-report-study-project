@@ -33,6 +33,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\StandardController;
 use App\Http\Controllers\SubStandardController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CommentController;
 
 /*
@@ -95,6 +96,8 @@ Route::middleware(['auth', 'XSS'])->group(function () {
             Route::post('theme/settings', 'themeSettings')->name('theme.settings');
         });
 
+
+        Route::get('report', [ReportController::class, 'index'])->name('report.show');
         Route::get('allComments', [CommentController::class, 'allComments'])->name('comments.all');
         Route::get('comments/create', [CommentController::class, 'create'])->name('comments.create');
         Route::get('criterion/{criterion}/comments', [CommentController::class, 'index'])->name('criterion.comments.index');

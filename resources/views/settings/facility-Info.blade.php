@@ -187,13 +187,45 @@
                                 <div id="collapse10" class="accordion-collapse collapse" aria-labelledby="heading10"
                                     data-bs-parent="#selfReportAccordion">
                                     <div class="accordion-body">
-                                        <form method="POST" action="{{ route('setting.saveSelfReport') }}">
-                                            @csrf
+                                        <!-- Language Tabs -->
+                                        <ul class="nav nav-tabs w-100" id="reportGuidelinesTabs" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link active" id="english10-tab" data-bs-toggle="tab"
+                                                    data-bs-target="#english10" type="button" role="tab"
+                                                    aria-controls="english10" aria-selected="true">
+                                                    {{ __('English') }}
+                                                </button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="arabic10-tab" data-bs-toggle="tab"
+                                                    data-bs-target="#arabic10" type="button" role="tab"
+                                                    aria-controls="arabic10" aria-selected="false">
+                                                    {{ __('Arabic') }}
+                                                </button>
+                                            </li>
+                                        </ul>
+                                        <form method="POST" class="mt-3"
+                                            action="{{ route('setting.saveSelfReport') }}">
                                             <input type="hidden" name="section" value="executive_summary">
-                                            <div class="mb-3">
-                                                <label for="executive_summary"
-                                                    class="form-label">{{ __('Executive Summary') }}</label>
-                                                <textarea class="form-control summernote" id="executive_summary" name="executive_summary" rows="4">{{ old('executive_summary') ?? ($settings['executive_summary'] ?? '') }}</textarea>
+                                            @csrf
+                                            <div class="tab-content" id="reportGuidelinesTabContent">
+                                                <div class="tab-pane fade show active" id="english10" role="tabpanel"
+                                                    aria-labelledby="english10-tab">
+                                                    <div class="mb-3">
+                                                        <label for="executive_summary"
+                                                            class="form-label">{{ __('Executive Summary') }}</label>
+                                                        <textarea class="form-control summernote" id="executive_summary" name="executive_summary_en" rows="4">{{ old('executive_summary_en') ?? ($settings['executive_summary_en'] ?? '') }}</textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="arabic10" role="tabpanel"
+                                                    aria-labelledby="arabic10-tab">
+                                                    <div class="mb-3">
+                                                        <label for="executive_summary"
+                                                            class="form-label">{{ __('Executive Summary') }}</label>
+
+                                                        <textarea class="form-control summernote" id="executive_summary" name="executive_summary_ar" rows="4">{{ old('executive_summary_ar') ?? ($settings['executive_summary_ar'] ?? '') }}</textarea>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
                                         </form>
@@ -277,16 +309,45 @@
                                 <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3"
                                     data-bs-parent="#selfReportAccordion">
                                     <div class="accordion-body">
-                                        <form method="POST" action="{{ route('setting.saveSelfReport') }}"
-                                            class="statistical-data-form">
-                                            @csrf
-                                            <input type="hidden" name="section" value="statistical_data">
-                                            <div class="mb-3">
-                                                <label for="statisticalData"
-                                                    class="form-label">{{ __('Statistical Information') }}</label>
-                                                <textarea class="form-control summernote" id="statisticalData" name="statistical_data" rows="4">{{ old('statistical_data') ?? ($settings['statistical_data'] ?? '') }}</textarea>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
+                                        <ul class="nav nav-tabs w-100" id="reportGuidelinesTabs" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link active" id="english3-tab" data-bs-toggle="tab"
+                                                    data-bs-target="#english3" type="button" role="tab"
+                                                    aria-controls="english3" aria-selected="true">
+                                                    {{ __('English') }}
+                                                </button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="arabic3-tab" data-bs-toggle="tab"
+                                                    data-bs-target="#arabic3" type="button" role="tab"
+                                                    aria-controls="arabic3" aria-selected="false">
+                                                    {{ __('Arabic') }}
+                                                </button>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content mt-3" id="reportGuidelinesTabsContent">
+                                            <form method="POST" action="{{ route('setting.saveSelfReport') }}"
+                                                class="statistical-data-form">
+                                                @csrf
+                                                <input type="hidden" name="section" value="statistical_data">
+                                                <div class="tab-pane fade show active" id="english3" role="tabpanel"
+                                                    aria-labelledby="english3-tab">
+                                                    <div class="mb-3">
+                                                        <label for="statisticalData"
+                                                            class="form-label">{{ __('Statistical Information') }}</label>
+                                                        <textarea class="form-control summernote" id="statisticalData" name="statistical_data_en" rows="4">{{ old('statistical_data_en') ?? ($settings['statistical_data_en'] ?? '') }}</textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="arabic3" role="tabpanel"
+                                                    aria-labelledby="arabic3-tab">
+                                                    <div class="mb-3">
+                                                        <label for="statisticalDataArabic"
+                                                            class="form-label">{{ __('Statistical Information (Arabic)') }}</label>
+                                                        <textarea class="form-control summernote" id="statisticalDataArabic" name="statistical_data_ar" rows="4">{{ old('statistical_data_ar') ?? ($settings['statistical_data_ar'] ?? '') }}</textarea>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
                                         </form>
                                     </div>
                                 </div>
