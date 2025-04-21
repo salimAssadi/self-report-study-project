@@ -1,6 +1,6 @@
 <div>
     <h3 class="my-2">{{ __('The institution\'s self-study report') }}</h3>
-    <table class="table table-bordered"  cellpadding="10"  >
+    <table class="table table-bordered info"  cellpadding="10"  >
         <tr>
             <td style="width: 30%;">{{ __('Organization Name') }}</td>
             <td>{{ getSettingsValByNameWithLang('facility_name')?? null }}</td>
@@ -10,7 +10,7 @@
             <td>{{ getSettingsValByName('report_date')?? null }}</td>
         </tr>
         <tr>
-            <td>{{ __('Contact Information') }}</td>
+            <td colspan="2">{{ __('Contact Information') }}</td>
         </tr>
         <tr>
             <td>{{ __('Name') }}</td>

@@ -249,7 +249,7 @@ if ($(".summernote").length) {
         font_formats:
         "Cairo=cairo,sans-serif; Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Oswald=oswald; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats",        theme: 'silver', // Specify your custom theme name
         plugins: ' image  table   preview anchor    visualblocks visualchars code  tinymcespellchecker link ',
-        toolbar: ' undo redo  link |  emoticons styleselect  |fontfamily backcolor fontsize |alignleft aligncenter alignright alignjustify | preview  ',
+        toolbar: 'undo redo | styleselect | fontselect fontsizeselect | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | link | preview',
         table_toolbar: 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol link  ',
         link_default_target: '_blank', 
         content_langs: [

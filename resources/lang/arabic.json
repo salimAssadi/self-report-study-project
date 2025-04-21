@@ -1485,7 +1485,7 @@
   "Discussion of Statistical Data": "مناقشة البيانات الإحصائية",
   "Key Performance Indicators and Benchmarking": "مؤشرات الأداء الرئيسة والمقارنة المرجعية",
   "Self-Assessment Based on Quality Assurance Standards": "التقويم الذاتي وفقًا لمعايير ضمان الجودة",
-  "Independent Evaluations (Optional)": "لتقويمات المستقلة (اختياري)  ",
+  "Independent Evaluations (Optional)": "التقويمات المستقلة (اختياري)",
   "Executive Recommendations": "التوصيات التنفيذية",
   "Institution Profile": "ملف المؤسسة",
   "Report Guidelines": "ضوابط إعداد التقرير",
@@ -1502,5 +1502,15 @@
   "Phone, Mobile":"الهاتف, المحمول",
   "Facility Vision": "رؤية المؤسسة",
   "Facility Goals": "أهداف المؤسسة",
-  "Facility Message": "رسالة المؤسسة"
+  "Facility Message": "رسالة المؤسسة",
+  "Overall Standard Evaluation":"التقيم الكلي للمعيار",
+  "Total Score of Criteria":"مجموع تقييم المحكات",
+  "Number of Matching Criteria":"عدد المحكات المنطبقة",
+  "Average Standard Evaluation":"متوسط تقييم المعيار",
+  "Total Standard Evaluation":"درجة التقويم الإجمالي للمعيار",
+  "Satisfactory":"مرضي",
+  "Not Satisfactory":"غير مرضي",
+  "Report":"تقرير الداسة الذاتية",
+  "on the level of study":"(على مستوى الدراسة)"
+  
 }

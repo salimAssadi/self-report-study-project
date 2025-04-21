@@ -41,24 +41,24 @@
                         <table class="table table-bordered text-center table-striped" style="border-collapse: separate">
                             <thead style="background-color: #0a178d; color:white !important;">
                                 <tr style="color:white !important;">
-                                    <td style="width: 600px; text-wrap: wrap" colspan="2" rowspan="3">المحكات</td>
-                                    <td style="width: 15px; " rowspan="3">ينطبق لاينطبق</td>
-                                    <td colspan="2">غير مرضي</td>
-                                    <td colspan="3">مرضي</td>
+                                    <td rowspan="3">{{ __('Sequence') }}</td>
+                                    <td style="width: 600px; text-wrap: wrap"  rowspan="3">{{ __('Criteria') }}</td>
+                                    <td style="width: 15px; " rowspan="3">{{ __('Compliance') }}</td>
+                                    <td colspan="2">{{ __('Not Satisfactory') }}</td>
+                                    <td colspan="3">{{ __('Satisfactory') }}</td>
 
                                 </tr>
 
                                 <tr style="color:white !important;">
-
-                                    <td colspan=""> غير مستوفى</td>
-                                    <td colspan=""> جرزي مستوفى</td>
-                                    <td colspan="">مستوفى</td>
-                                    <td colspan="">مستوفى بامتياز</td>
-                                    <td colspan="">مستوفى باتقان</td>
-
+                                    
+                                    <td colspan=""> {{ __('Not Fulfilled') }} </td>
+                                    <td colspan=""> {{ __('Partially Fulfilled') }} </td>
+                                    <td colspan=""> {{ __('Fulfilled') }} </td>
+                                    <td colspan=""> {{ __('Fulfilled with Excellence') }} </td>
+                                    <td colspan=""> {{ __('Fulfilled with Distinction') }} </td>
                                 </tr>
                                 <tr style="color:white !important;">
-
+                                    
                                     <td colspan="">1</td>
                                     <td colspan="">2</td>
                                     <td colspan="">3</td>
@@ -76,6 +76,12 @@
                                         {!! $standard->introduction !!} </td>
 
                                 </tr>
+                                @php 
+                                $totalScore = 0;
+                                $matchingCriteria = 0;
+                                $averageScore = 0;
+                                $totalEvaluation = 0;
+                                @endphp
                                 @foreach ($standard->children as $child)
                                     <tr style="background-color: #52B5C2;">
                                         <td style="width: 10px;" class="sequence">{{ $child->sequence }}</td>
@@ -94,8 +100,62 @@
                                             <td style="width: 15px;">{{ $criterion->fulfillment_status =='5' ? '5' : '' }}</td>
                                           
                                         </tr>
+                                        @php 
+                                        if($criterion->is_met){
+                                            $totalScore += $criterion->fulfillment_status;
+                                            $matchingCriteria++;
+                                        }
+                                        @endphp
                                     @endforeach
+
                                 @endforeach
+                                @php
+                                    $averageScore = $matchingCriteria > 0 ? $totalScore / $matchingCriteria : 0;
+                                @endphp
+
+                                <tr style="background-color: #52B5C2; text-align: start">
+                                    <td colspan="8">{{ __('Overall Standard Evaluation') }}</td>
+                                </tr>
+                                <tr style="background-color: #3e6ba5;">
+                                    <td style="width: 15px; text-align: right; text-wrap: wrap" colspan="2">{{ __('Total Score of Criteria') }}</td>
+                                    <td style="width: 15px;">{{ $totalScore }}</td>
+                                    <td style="width: 15px;"></td>
+                                    <td style="width: 15px;"></td>
+                                    <td style="width: 15px;"></td>
+                                    <td style="width: 15px;"></td>
+                                    <td style="width: 15px;"></td>
+                                  
+                                </tr>
+                                <tr style="background-color: #3e6ba5;">
+                                    <td style="width: 15px; text-align: right; text-wrap: wrap" colspan="2">{{ __('Number of Matching Criteria') }}</td>
+                                    <td style="width: 15px;">{{ $matchingCriteria }}</td>
+                                    <td style="width: 15px;"></td>
+                                    <td style="width: 15px;"></td>
+                                    <td style="width: 15px;"></td>
+                                    <td style="width: 15px;"></td>
+                                    <td style="width: 15px;"></td>
+                                  
+                                </tr>
+                                <tr style="background-color: #3e6ba5;">
+                                    <td style="width: 15px; text-align: right; text-wrap: wrap" colspan="2">{{ __('Average Standard Evaluation') }}</td>
+                                    <td style="width: 15px;">{{ $averageScore }}</td>
+                                    <td style="width: 15px;"></td>
+                                    <td style="width: 15px;"></td>
+                                    <td style="width: 15px;"></td>
+                                    <td style="width: 15px;"></td>
+                                    <td style="width: 15px;"></td>
+                                  
+                                </tr>
+                                <tr style="background-color: #3e6ba5;">
+                                    <td style="width: 15px; text-align: right; text-wrap: wrap" colspan="2">{{ __('Total Standard Evaluation') }}</td>
+                                    <td style="width: 15px;">{{ round($totalScore) }}</td>
+                                    <td style="width: 15px;"></td>
+                                    <td style="width: 15px;"></td>
+                                    <td style="width: 15px;"></td>
+                                    <td style="width: 15px;"></td>
+                                    <td style="width: 15px;"></td>
+                                  
+                                </tr>
                             </tbody>
                         </table>
                     </div>
