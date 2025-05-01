@@ -43,6 +43,7 @@
                                 <tr>
                                     <th>{{ __('Profile') }}</th>
                                     <th>{{ __('Email') }}</th>
+                                    <th>{{ __('Username') }}</th>
                                     <th>{{ __('Role') }}</th>
                                     <th>{{ __('Status') }}</th>
                                     <th>{{ __('Action') }}</th>
@@ -71,6 +72,7 @@
                                         </td>
 
                                         <td>{{ $user->email }} </td>
+                                        <td>{{ $user->user_name }} </td>
 
                                         <td>{{ ucfirst($user->type) }} </td>
                                         <td>

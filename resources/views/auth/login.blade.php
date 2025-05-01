@@ -16,7 +16,17 @@
     @endphp
     <div class="card">
         <div class="card-body">
+            <div class="text-center">
+                <div class="mb-2">
+                    <img  src="{{ asset(Storage::url('upload/logo/')) . '/' . getSettingsValByName('company_logo')??'' }}" alt="image"
+                        class=" brand-logo" style="max-width: 178px;" />
+                </div>
+                <h3>
+                    {{getSettingsValByName('app_name')}}
+                </h3>
+            </div>
             <div class="row">
+                
                 <div class="d-flex justify-content-center">
                     <div class="auth-header">
                         <h2 class="text-secondary"><b>{{ __('Hi, Welcome Back') }} </b></h2>
@@ -33,11 +43,11 @@
                 <div class="alert alert-success" role="alert">{{ session('success') }}</div>
             @endif
             <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="email" name="email"
-                    placeholder="{{ __('Email address') }}" />
-                <label for="email">{{ __('Email address') }}</label>
-                @error('email')
-                    <span class="invalid-email text-danger" role="alert">
+                <input type="text" class="form-control @error('user_name') is-invalid @enderror" id="user_name" name="user_name"
+                    placeholder="{{ __('User Name') }}" />
+                <label for="user_name">{{ __('User Name ') }}</label>
+                @error('user_name')
+                    <span class="text-danger" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
@@ -72,11 +82,7 @@
                         </span>
                     @enderror
                 </div>
-                @if ($errors->has('g-recaptcha-response'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
-                    </span>
-                @endif
+              
             @endif
             <div class="d-grid mt-4">
                 <button type="submit" class="btn btn-secondary p-2">{{ __('Login') }}</button>

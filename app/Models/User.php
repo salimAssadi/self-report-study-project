@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Traits\HasRoles;
 use Lab404\Impersonate\Models\Impersonate;
 use App\Models\Role;
-use App\Models\Standard;
+use App\Models\Standard; 
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable 
 {
     use HasRoles;
     use Notifiable;
@@ -26,6 +26,8 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'name',
+        'full_name',
+        'user_name',
         'email',
         'password',
         'type',
@@ -33,6 +35,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'lang',
         'parent_id',
         'is_active',
+        'is_enable_login',
     ];
 
     /**

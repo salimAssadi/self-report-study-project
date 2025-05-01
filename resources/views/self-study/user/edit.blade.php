@@ -44,7 +44,7 @@
                                 <div class="form-group mb-3">
                                     <label class="form-label">{{ __('Email') }}</label>
                                     <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" 
-                                        value="{{ old('email', $user->email) }}" required>
+                                        value="{{ old('email', $user->email) }}" >
                                     @error('email')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror

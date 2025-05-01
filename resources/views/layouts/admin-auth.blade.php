@@ -38,7 +38,10 @@
     <meta property="twitter:image"
         content="{{ asset(Storage::url('upload/seo')) . '/' . $settings['meta_seo_image'] }}">
 
-    <link rel="icon" href="{{ asset(Storage::url('upload/logo')) . '/favicon.png' }}" type="image/x-icon" />
+        <link rel="icon" href="{{ asset(Storage::url('upload/logo')) . '/' . $settings['company_favicon'] }}"
+        type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset(Storage::url('upload/logo')) . '/' . $settings['company_favicon'] }}"
+        type="image/x-icon">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
         id="main-font-link" />
     <link rel="stylesheet" href="{{ asset('assets/fonts/phosphor/duotone/style.css') }}" />
@@ -62,10 +65,7 @@
     <div class="auth-main">
         <div class="auth-wrapper v2" >
             <div class="auth-form">
-                {{-- <div class="logo">
-                    <img src="{{ asset(Storage::url('upload/logo/')) . '/logo.png' }}" alt="image"
-                        class="img-fluid brand-logo" />
-                </div> --}}
+                
                 @yield('content')
             </div>
             {{-- @if (!empty($authPage) && $authPage->section == 1) --}}

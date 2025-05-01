@@ -48,7 +48,7 @@ class UserController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'nullable|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'role' => 'required|exists:roles,id',
             'standards' => 'nullable|array',
@@ -56,14 +56,21 @@ class UserController extends Controller
         ]);
 
         DB::transaction(function () use ($validated, $request) {
+            // Generate a random unique username
+            $username = generateUniqueUsername();
+            
             $user = User::create([
                 'full_name' => $validated['name'],
-                'email' => $validated['email'],
+                'email' => $validated['email'] ?? null,
+                'user_name' => $username, // Add the generated username
                 'password' => Hash::make($validated['password']),
+                'email_verified_at' => now(),
                 'is_enable_login' => true,
             ]);
-
-            $user->assignRole($validated['role']);
+            $role = Role::find($validated['role']);
+            if ($role) {
+                $user->assignRole($role->name);
+            }
             if ($request->has('standards')) {
                 $user->standards()->attach($request->standards);
             }
@@ -100,7 +107,7 @@ class UserController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'email' => 'nullable|string|email|max:255|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8|confirmed',
             'role' => 'required|exists:roles,id',
             'standards' => 'nullable|array',
@@ -110,8 +117,11 @@ class UserController extends Controller
         DB::transaction(function () use ($validated, $request, $user) {
             $updateData = [
                 'full_name' => $validated['name'],
-                'email' => $validated['email'],
             ];
+            
+            if (isset($validated['email'])) {
+                $updateData['email'] = $validated['email'];
+            }
 
             if (!empty($validated['password'])) {
                 $updateData['password'] = Hash::make($validated['password']);
@@ -120,8 +130,10 @@ class UserController extends Controller
             // $user->update($updateData);
             $userRole = Role::findById($request->role);
             $user = User::findOrFail($user->id);
-            $user->name = $request->name;
-            $user->email = $request->email;
+            $user->full_name = $request->name;
+            if (isset($request->email)) {
+                $user->email = $request->email;
+            }
             $user->type = $userRole->name;
             $user->save();
             $user->roles()->sync($userRole);
