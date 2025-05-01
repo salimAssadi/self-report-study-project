@@ -45,7 +45,7 @@
             <div class="form-floating mb-3">
                 <input type="text" class="form-control @error('user_name') is-invalid @enderror" id="user_name" name="user_name"
                     placeholder="{{ __('User Name') }}" />
-                <label for="user_name">{{ __('User Name ') }}</label>
+                <label for="user_name">{{ __('User Name') }}</label>
                 @error('user_name')
                     <span class="text-danger" role="alert">
                         <strong>{{ $message }}</strong>
