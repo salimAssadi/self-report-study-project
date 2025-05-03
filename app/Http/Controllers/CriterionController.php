@@ -82,7 +82,7 @@ class CriterionController extends Controller
      */
     public function show(Criterion $criterion)
     {
-        $criteria = Criterion::with(['standard'])->first();
+        $criteria = Criterion::with(['standard'])->where('id', $criterion->id)->first();
         return view('self-study.criteria.show', compact('criteria'));
     }
 
@@ -225,6 +225,7 @@ class CriterionController extends Controller
             $criterion = Criterion::findOrFail($id);
             $criterion->links()->delete();
             $criterion->attachments()->delete();
+            $criterion->comments()->get()->each->delete();
             $criterion->delete();
             return redirect()->back()->with('success', 'Criterion deleted successfully.');
         } else {

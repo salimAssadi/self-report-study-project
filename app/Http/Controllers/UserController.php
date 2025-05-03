@@ -154,15 +154,25 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        if (\Auth::user()->can('delete user')) {
-            $user = User::find($id);
+        if (\Auth::user()->can('Delete User')) {
+            $user = User::findOrFail($id);
+    
+            // Detach many-to-many relationships
+            $user->standards()->detach();
+            $user->roles()->detach();
+    
+            // Delete direct owned data (if not handled by cascade or set null)
+            $user->comments()->delete(); // Or nullify if needed
+    
+            // Delete the user
             $user->delete();
-
+    
             return redirect()->route('users.index')->with('success', __('User successfully deleted.'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
+    
 
     public function loggedHistory()
     {

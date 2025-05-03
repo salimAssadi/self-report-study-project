@@ -153,7 +153,10 @@ class User extends Authenticatable
         'company settings',
     ];
 
-
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 
     public function standards()
     {
