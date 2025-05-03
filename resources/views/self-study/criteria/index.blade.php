@@ -127,20 +127,24 @@ $profile = asset(Storage::url('upload/profile/'));
                                 <td>
                                     <div class="d-flex">
                                         <!-- View Button -->
+                                        @if (Gate::check('Show Criteria'))
                                         <a class="btn btn-sm btn-icon bg-light-secondary me-2"
                                             href="{{ route('criteria.show', $criterion->id) }}"
                                             data-bs-toggle="tooltip" data-bs-placement="top"
                                             title="{{ __('View') }}">
                                             <i class="ti ti-eye f-20"></i>
                                         </a>
+                                        @endif
 
                                         <!-- Edit Button -->
+                                        @if (Gate::check('Edit Criteria'))
                                         <a class="btn btn-sm btn-icon bg-light-secondary me-2"
                                             href="{{ route('criteria.edit', $criterion->id) }}"
                                             data-bs-toggle="tooltip" data-bs-placement="top"
                                             title="{{ __('Edit') }}">
                                             <i class="ti ti-edit f-20"></i>
                                         </a>
+                                        @endif
 
                                         <!-- Delete Button -->
                                         {!! Form::open([
@@ -148,6 +152,7 @@ $profile = asset(Storage::url('upload/profile/'));
                                             'route' => ['criteria.destroy', $criterion->id],
                                             'id' => 'delete-form-' . $criterion->id,
                                         ]) !!}
+                                        @if (Gate::check('Delete Criteria'))
                                         <a class="show_confirm btn btn-sm btn-icon bg-light-secondary me-2 confirm_dialog"
                                         href="#" data-bs-toggle="tooltip" title="{{ __('Delete') }}"
                                         data-confirm="{{ __('Are You Sure?') }}"
@@ -155,6 +160,7 @@ $profile = asset(Storage::url('upload/profile/'));
                                         data-confirm-yes="delete-form-{{ $criterion->id }}">
                                         <i class="ti ti-trash f-20"></i>
                                         </a>
+                                        @endif
                                         @if(Gate::check('Show Comments'))
                                         <a class="avtar avtar-xs btn-link-danger text-danger me-2 vibrate"
                                            href="{{ route('criterion.comments.index', $criterion->id) }}"
