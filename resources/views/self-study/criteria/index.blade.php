@@ -148,10 +148,12 @@ $profile = asset(Storage::url('upload/profile/'));
                                             'route' => ['criteria.destroy', $criterion->id],
                                             'id' => 'delete-form-' . $criterion->id,
                                         ]) !!}
-                                        <a class="show_confirm btn btn-sm btn-icon bg-light-secondary me-2"
-                                            href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-                                            title="{{ __('Delete') }}">
-                                            <i class="ti ti-trash f-20"></i>
+                                        <a class="show_confirm btn btn-sm btn-icon bg-light-secondary me-2 confirm_dialog"
+                                        href="#" data-bs-toggle="tooltip" title="{{ __('Delete') }}"
+                                        data-confirm="{{ __('Are You Sure?') }}"
+                                        data-text="{{ __('This action can not be undone. Do you want to continue?') }}"
+                                        data-confirm-yes="delete-form-{{ $criterion->id }}">
+                                        <i class="ti ti-trash f-20"></i>
                                         </a>
                                         @if(Gate::check('Show Comments'))
                                         <a class="avtar avtar-xs btn-link-danger text-danger me-2 vibrate"
