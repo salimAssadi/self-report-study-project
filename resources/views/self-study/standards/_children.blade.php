@@ -61,9 +61,11 @@
                                             'route' => ['standards.destroy', $child->id],
                                             'id' => 'delete-form-' . $child->id,
                                         ]) !!}
-                                        <a class="show_confirm btn btn-sm btn-icon bg-light-secondary me-2"
+                                        <a class="show_confirm btn btn-sm btn-icon bg-light-secondary me-2 confirm_dialog"
                                             href="#" data-bs-toggle="tooltip" title="{{ __('Delete') }}"
-                                            onclick="event.preventDefault(); if(confirm('{{ __('Are you sure?') }}')) document.getElementById('delete-form-{{ $child->id }}').submit();">
+                                            data-confirm="{{ __('Are You Sure?') }}"
+                                            data-text="{{ __('This action can not be undone. Do you want to continue?') }}"
+                                            data-confirm-yes="delete-form-{{ $child->id }}">
                                             <i class="ti ti-trash f-20"></i>
                                         </a>
                                         {!! Form::close() !!}

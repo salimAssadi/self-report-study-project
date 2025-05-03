@@ -38,6 +38,16 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">{{ __('User Name') }}</label>
+                                    <input type="text" name="user_name" class="form-control @error('user_name') is-invalid @enderror" 
+                                        value="{{ old('user_name') }}" required>
+                                    @error('user_name')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
 
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
@@ -79,6 +89,20 @@
                                         @endforeach
                                     </select>
                                     @error('role')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">{{ __('User Status') }}</label>
+                                    <select name="is_active" class="form-control @error('user_name') is-invalid @enderror" required>
+                                        <option value="">{{ __('Select a user status') }}</option>
+                                        <option value="1">{{ __('Enable') }}</option>
+                                        <option value="0">{{ __('Disable') }}</option>
+                                    </select>
+                                    @error('is_active')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>

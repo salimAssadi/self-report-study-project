@@ -30,7 +30,7 @@
                             <div class="col-auto">
                                 <a href="{{ route('users.create') }}" class="btn btn-secondary ">
                                     <i class="ti ti-circle-plus align-text-bottom"></i>
-                                    {{ __('Add User') }}
+                                    {{ __('Create User') }}
                                 </a>
                             </div>
                         @endif
@@ -76,15 +76,15 @@
 
                                         <td>{{ ucfirst($user->type) }} </td>
                                         <td>
-                                            @switch($user->is_disable)
-                                            @case(1)
+                                            @switch($user->is_active)
+                                            @case(0)
                                             <span class="badge rounded p-2 f-w-600 bg-light-danger">
                                                 {{ __('Disable') }}
                                             </span>
                                             
                                             @break
         
-                                            @case(0)
+                                            @case(1)
                                             <span class="badge rounded p-2 f-w-600 bg-light-success">
                                                 {{ __('Enable') }}
                                             </span>

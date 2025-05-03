@@ -11,19 +11,27 @@ class StandardController extends Controller
     public function index(Request $request)
     {
         $filter = $request->query('filter', 'all');
-        $query = Standard::whereNull('parent_id')
-            ->with([
-                'children' => function ($childQuery) use ($filter) {
-                    if ($filter !== 'all') {
-                        $childQuery->where('completion_status', $filter);
-                    }
-                    $childQuery->orderBy('sequence', 'asc');
-                },
-                'criteria' => function ($query) {
-                    $query->orderBy('sequence', 'asc');
+        $query = Standard::whereNull('parent_id');
+        
+        // Check if user is super admin
+        if (!auth()->user()->hasRole('super admin')) {
+            $query->whereHas('users', function($q) {
+                $q->where('users.id', auth()->id());
+            });
+        }
+        
+        $query->with([
+            'children' => function ($childQuery) use ($filter) {
+                if ($filter !== 'all') {
+                    $childQuery->where('completion_status', $filter);
                 }
-            ])
-            ->orderBy('sequence', 'asc');
+                $childQuery->orderBy('sequence', 'asc');
+            },
+            'criteria' => function ($query) {
+                $query->orderBy('sequence', 'asc');
+            }
+        ])
+        ->orderBy('sequence', 'asc');
 
         if ($filter !== 'all') {
             $query->where(function ($q) use ($filter) {
@@ -188,8 +196,18 @@ class StandardController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    
     public function destroy(string $id)
     {
-        //
+        $standard = Standard::findOrFail($id);
+        
+        if ($standard->children()->count() > 0) {
+            return redirect()->route('standards.index')->with('error', __('Cannot delete a standard that has sub-standards. Please delete all sub-standards first.'));
+        }
+
+        $standard->criteria()->delete();
+        $standard->users()->detach();
+        $standard->delete();
+        return redirect()->route('standards.index')->with('success', __('Standard deleted successfully.'));
     }
 }

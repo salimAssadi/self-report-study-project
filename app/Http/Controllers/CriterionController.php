@@ -221,7 +221,15 @@ class CriterionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        if (\Auth::user()->can('Delete Criteria')) {
+            $criterion = Criterion::findOrFail($id);
+            $criterion->links()->delete();
+            $criterion->attachments()->delete();
+            $criterion->delete();
+            return redirect()->back()->with('success', 'Criterion deleted successfully.');
+        } else {
+            return redirect()->back()->with('error', 'You do not have permission to delete this criterion.');
+        }
     }
 
 

@@ -51,21 +51,24 @@ class UserController extends Controller
             'email' => 'nullable|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'role' => 'required|exists:roles,id',
+            'user_name' => 'required|string|max:255|unique:users,user_name',
             'standards' => 'nullable|array',
             'standards.*' => 'exists:standards,id',
+            'is_active' => 'required|in:0,1',
         ]);
 
         DB::transaction(function () use ($validated, $request) {
             // Generate a random unique username
-            $username = generateUniqueUsername();
+            // $username = generateUniqueUsername();
             
             $user = User::create([
                 'full_name' => $validated['name'],
                 'email' => $validated['email'] ?? null,
-                'user_name' => $username, // Add the generated username
+                'user_name' => $validated['user_name'],
                 'password' => Hash::make($validated['password']),
                 'email_verified_at' => now(),
                 'is_enable_login' => true,
+                'is_active' => $validated['is_active'],
             ]);
             $role = Role::find($validated['role']);
             if ($role) {
@@ -110,8 +113,10 @@ class UserController extends Controller
             'email' => 'nullable|string|email|max:255|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8|confirmed',
             'role' => 'required|exists:roles,id',
+            'user_name' => 'required|string|max:255|unique:users,user_name,' . $user->id,
             'standards' => 'nullable|array',
             'standards.*' => 'exists:standards,id',
+            'is_active' => 'required|in:0,1',
         ]);
 
         DB::transaction(function () use ($validated, $request, $user) {
@@ -134,7 +139,9 @@ class UserController extends Controller
             if (isset($request->email)) {
                 $user->email = $request->email;
             }
+            $user->user_name = $request->user_name;
             $user->type = $userRole->name;
+            $user->is_active = $request->is_active;
             $user->save();
             $user->roles()->sync($userRole);
 

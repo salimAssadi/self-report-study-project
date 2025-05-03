@@ -29,11 +29,11 @@
                             <div class="col-auto">
                                 <a href="#" class="btn btn-secondary customModal" data-size="lg"
                                     data-url="{{ route('role.create') }}"
-                                    data-title=" {{ __('Add Role') }} ">
+                                    data-title=" {{ __('Create Role') }} ">
                                    
                                     <i class="ti ti-circle-plus align-text-bottom"></i>
                                   
-                                        {{ __('Add Role') }}
+                                        {{ __('Create Role') }}
                                 </a>
                             </div>
                         @endif
@@ -76,8 +76,14 @@
                                                     @endcan
 
                                                     @can('Delete Role')
+                                                    @if( $role->name != 'super admin')
                                                         <div class="action-btn ms-2">
-                                                            <a class="bs-pass-para btn btn-sm btn-icon bg-light-secondary "
+                                                            {!! Form::open([
+                                                                'method' => 'DELETE',
+                                                                'route' => ['role.destroy', $role->id],
+                                                                'id' => 'delete-form-' . $role->id,
+                                                            ]) !!}
+                                                            <a class="bs-pass-para btn btn-sm btn-icon bg-light-secondary confirm_dialog"
                                                                 href="#" data-title="{{ __('Delete Role') }}"
                                                                 data-confirm="{{ __('Are You Sure?') }}"
                                                                 data-text="{{ __('This action can not be undone. Do you want to continue?') }}"
@@ -86,13 +92,9 @@
                                                                 title="{{ __('Delete') }}">
                                                                 <i class="ti ti-trash f-20"></i>
                                                             </a>
-                                                            {!! Form::open([
-                                                                'method' => 'DELETE',
-                                                                'route' => ['role.destroy', $role->id],
-                                                                'id' => 'delete-form-' . $role->id,
-                                                            ]) !!}
                                                             {!! Form::close() !!}
                                                         </div>
+                                                        @endif
                                                     @endcan
                                                 </span>
                                             </td>

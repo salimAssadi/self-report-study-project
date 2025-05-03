@@ -232,19 +232,33 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    // public function destroy(Role $role)
+    // {
+    //     if(\Auth::user()->can('Delete Role'))
+    //     {
+    //         $role->delete();
+
+    //         return redirect()->route('role.index')->with(
+    //             'success', 'Role successfully deleted.'
+    //         );
+    //     }
+    //     else
+    //     {
+    //         return redirect()->back()->with('error', 'Permission denied.');
+    //     }
+    // }
+
     public function destroy(Role $role)
     {
-        if(\Auth::user()->can('Delete Role'))
-        {
+        if (\Auth::user()->can('Delete Role')) {
+            $role->permissions()->detach();
+            \DB::table('model_has_roles')->where('role_id', $role->id)->delete();
             $role->delete();
 
-            return redirect()->route('roles.index')->with(
-                'success', 'Role successfully deleted.'
-            );
-        }
-        else
-        {
+            return redirect()->route('role.index')->with('success', 'Role successfully deleted.');
+        } else {
             return redirect()->back()->with('error', 'Permission denied.');
         }
     }
+
 }
