@@ -13,8 +13,8 @@
 @endsection
 
 @push('script-page')
-    <script src="{{ asset('assets/js/plugins/tinymce/tinymce.min.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('assets/js/plugins/tinymce/tinymce.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             const mainStandardDropdown = $('#main_standard_id');
@@ -88,25 +88,26 @@
             const newRow = document.createElement('tr');
             newRow.classList.add('link-row');
             newRow.innerHTML = `
-                        <td>
-                            <input type="text" name="links[\${linkIndex}][name_ar]" 
-                                class="form-control"
-                                placeholder="{{ __('Link Name (Arabic)') }}">
-                        </td>
-                        <td>
-                            <input type="text" name="links[\${linkIndex}][name_en]" 
-                                class="form-control"
-                                placeholder="{{ __('Link Name (English)') }}">
-                        </td>
-                        <td>
-                            <input type="text" name="links[\${linkIndex}][url]" 
-                                class="form-control"
-                                placeholder="{{ __('Link URL') }}">
-                        </td>
-                        <td class="w-10 text-center">
-                            <button type="button" class="btn btn-sm btn-danger remove-link"><i class="fa fa-minus"></i></button>
-                        </td>
-                    `;
+                    <td>
+                        <input type="text" name="links[${linkIndex}][name_ar]" 
+                            class="form-control"
+                            placeholder="{{ __('Link Name (Arabic)') }}">
+                    </td>
+                    <td>
+                        <input type="text" name="links[${linkIndex}][name_en]" 
+                            class="form-control"
+                            placeholder="{{ __('Link Name (English)') }}">
+                    </td>
+                    <td>
+                        <input type="text" name="links[${linkIndex}][url]" 
+                            class="form-control"
+                            placeholder="{{ __('Link URL') }}">
+                    </td>
+                    <td class="w-10 text-center">
+                        <button type="button" class="btn btn-sm btn-danger remove-link"><i class="fa fa-minus"></i></button>
+                    </td>
+                `;
+
             tableBody.appendChild(newRow);
             linkIndex++;
         });
@@ -116,13 +117,13 @@
             if (e.target && e.target.classList.contains('remove-link')) {
                 const row = e.target.closest('tr');
                 const linkId = row.querySelector('input[name$="[id]"]')?.value;
-                
+
                 if (linkId) {
                     // If this is an existing link, add it to deleted links
                     deletedLinks.push(linkId);
                     // Update hidden input
                     const deletedLinksContainer = document.getElementById('deleted-links');
-                    deletedLinksContainer.innerHTML = deletedLinks.map(id => 
+                    deletedLinksContainer.innerHTML = deletedLinks.map(id =>
                         `<input type="hidden" name="deleted_links[]" value="${id}">`
                     ).join('');
                 }
@@ -161,13 +162,13 @@
             if (e.target && e.target.classList.contains('remove-attachment')) {
                 const row = e.target.closest('tr');
                 const attachmentId = row.querySelector('input[name$="[id]"]')?.value;
-                
+
                 if (attachmentId) {
                     // If this is an existing attachment, add it to deleted attachments
                     deletedAttachments.push(attachmentId);
                     // Update hidden input
                     const deletedAttachmentsContainer = document.getElementById('deleted-attachments');
-                    deletedAttachmentsContainer.innerHTML = deletedAttachments.map(id => 
+                    deletedAttachmentsContainer.innerHTML = deletedAttachments.map(id =>
                         `<input type="hidden" name="deleted_attachments[]" value="${id}">`
                     ).join('');
                 }
@@ -188,7 +189,7 @@
                 navigator.clipboard.writeText(url).then(() => {
                     // Change button text temporarily to show success
                     const originalText = this.innerHTML;
-                    this.innerHTML = '<i class="fas fa-check"></i> {{ __("Copied!") }}';
+                    this.innerHTML = '<i class="fas fa-check"></i> {{ __('Copied!') }}';
                     setTimeout(() => {
                         this.innerHTML = originalText;
                     }, 2000);
@@ -196,7 +197,7 @@
                     console.error('Failed to copy URL:', err);
                     // Show error message
                     const originalText = this.innerHTML;
-                    this.innerHTML = '<i class="fas fa-times"></i> {{ __("Failed to copy") }}';
+                    this.innerHTML = '<i class="fas fa-times"></i> {{ __('Failed to copy') }}';
                     setTimeout(() => {
                         this.innerHTML = originalText;
                     }, 2000);
@@ -235,7 +236,7 @@
                         </div>
                         <div class="card-body">
 
-                           
+
 
                             <div class="form-group  col-md-12">
                                 {{ Form::label('main_standard_id', __('Parent Standard'), ['class' => 'form-label']) }}
@@ -265,13 +266,13 @@
                                     @endif
                                 </select>
                             </div>
-                             <!-- Completion Status -->
-                             <div class="form-group row">
+                            <!-- Completion Status -->
+                            <div class="form-group row">
                                 <div class="form-group col-6">
                                     {{ Form::label('is_met', __('Compliance'), ['class' => 'form-label']) }}
                                     {{ Form::select(
                                         'is_met',
-                                        [   
+                                        [
                                             '' => __('Select a Compliance Status'),
                                             '1' => __('Matching'),
                                             '0' => __('Not Matching'),
@@ -289,9 +290,10 @@
                                         'fulfillment_status',
                                         [
                                             '' => __('Select a Fulfillment Status'),
-                                        ] + collect(\App\Constants\Status::FULFILLMENT_STATUS)->mapWithKeys(function ($value, $key) {
-                                            return [$key => __($value)];
-                                        })->toArray(),
+                                        ] +
+                                            collect(\App\Constants\Status::FULFILLMENT_STATUS)->mapWithKeys(function ($value, $key) {
+                                                    return [$key => __($value)];
+                                                })->toArray(),
                                         $criterion->fulfillment_status ?? null,
                                         ['class' => 'form-control hidesearch'],
                                     ) }}
@@ -308,7 +310,7 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            
+
                             <!-- Tabbed Interface for AR and EN Fields -->
                             <ul class="nav nav-tabs nav-fill w-25" id="languageTabs" role="tablist">
                                 <li class="nav-item" role="presentation">
@@ -449,7 +451,9 @@
                                                 @foreach ($criterion->attachments as $index => $attachment)
                                                     <tr class="attachment-row">
                                                         <td>
-                                                            <input type="hidden" name="attachments[{{ $index }}][id]" value="{{ $attachment->id }}">
+                                                            <input type="hidden"
+                                                                name="attachments[{{ $index }}][id]"
+                                                                value="{{ $attachment->id }}">
                                                             {{ Form::text("attachments[$index][name_ar]", $attachment->name_ar, ['class' => 'form-control', 'placeholder' => __('Evidence Name (Arabic)')]) }}
                                                         </td>
                                                         <td>
@@ -460,9 +464,10 @@
                                                         </td>
                                                         <td>
                                                             {{ Form::file("attachments[$index][file]", ['class' => 'form-control']) }}
-                                                            @if($attachment->file_path)
+                                                            @if ($attachment->file_path)
                                                                 <div class="mt-2">
-                                                                    <button type="button" class="btn btn-sm btn-info copy-url" 
+                                                                    <button type="button"
+                                                                        class="btn btn-sm btn-info copy-url"
                                                                         data-url="{{ asset('storage/' . $attachment->file_path) }}">
                                                                         <i class="fas fa-copy"></i> {{ __('Copy URL') }}
                                                                     </button>

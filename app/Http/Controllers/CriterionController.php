@@ -155,7 +155,7 @@ class CriterionController extends Controller
             if ($request->has('deleted_links')) {
                 $criterion->links()->whereIn('id', $request->deleted_links)->delete();
             }
-
+            
             // Handle links
             if (isset($validated['links'])) {
                 foreach ($validated['links'] as $linkData) {
