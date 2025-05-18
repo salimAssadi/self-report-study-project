@@ -9,7 +9,6 @@ use App\Models\Custom;
 use App\Models\Document;
 use App\Models\FAQ;
 use App\Models\HomePage;
-use App\Models\LoggedHistory;
 use App\Models\Notification;
 use App\Models\Page;
 use App\Models\Reminder;
@@ -440,30 +439,30 @@ if (!function_exists('setup')) {
 if (!function_exists('userLoggedHistory')) {
     function userLoggedHistory()
     {
-        $serverip = $_SERVER['REMOTE_ADDR'];
-        $data = @unserialize(file_get_contents('http://ip-api.com/php/' . $serverip));
-        if (isset($data['status']) && $data['status'] == 'success') {
-            $browser = new \WhichBrowser\Parser($_SERVER['HTTP_USER_AGENT']);
-            if ($browser->device->type == 'bot') {
-                return redirect()->intended(RouteServiceProvider::HOME);
-            }
-            $referrerData = isset($_SERVER['HTTP_REFERER']) ? parse_url($_SERVER['HTTP_REFERER']) : null;
-            $data['browser'] = $browser->browser->name ?? null;
-            $data['os'] = $browser->os->name ?? null;
-            $data['language'] = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? mb_substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2) : null;
-            $data['device'] = User::getDevice($_SERVER['HTTP_USER_AGENT']);
-            $data['referrer_host'] = !empty($referrerData['host']);
-            $data['referrer_path'] = !empty($referrerData['path']);
-            $result = json_encode($data);
-            $details = new LoggedHistory();
-            $details->type = Auth::user()->type;
-            $details->user_id = Auth::user()->id;
-            $details->date = date('Y-m-d H:i:s');
-            $details->Details = $result;
-            $details->ip = $serverip;
-            $details->parent_id = parentId();
-            $details->save();
-        }
+        // $serverip = $_SERVER['REMOTE_ADDR'];
+        // $data = @unserialize(file_get_contents('http://ip-api.com/php/' . $serverip));
+        // if (isset($data['status']) && $data['status'] == 'success') {
+        //     $browser = new \WhichBrowser\Parser($_SERVER['HTTP_USER_AGENT']);
+        //     if ($browser->device->type == 'bot') {
+        //         return redirect()->intended(RouteServiceProvider::HOME);
+        //     }
+        //     $referrerData = isset($_SERVER['HTTP_REFERER']) ? parse_url($_SERVER['HTTP_REFERER']) : null;
+        //     $data['browser'] = $browser->browser->name ?? null;
+        //     $data['os'] = $browser->os->name ?? null;
+        //     $data['language'] = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? mb_substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2) : null;
+        //     $data['device'] = User::getDevice($_SERVER['HTTP_USER_AGENT']);
+        //     $data['referrer_host'] = !empty($referrerData['host']);
+        //     $data['referrer_path'] = !empty($referrerData['path']);
+        //     $result = json_encode($data);
+        //     $details = new LoggedHistory();
+        //     $details->type = Auth::user()->type;
+        //     $details->user_id = Auth::user()->id;
+        //     $details->date = date('Y-m-d H:i:s');
+        //     $details->Details = $result;
+        //     $details->ip = $serverip;
+        //     $details->parent_id = parentId();
+        //     $details->save();
+        // }
     }
 }
 if (!function_exists('settingsById')) {
