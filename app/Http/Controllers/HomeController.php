@@ -46,11 +46,12 @@ class HomeController extends Controller
             $totalUsers = User::count();
             $totalMainStandards = Standard::main()->count();
             $totalSubStandards = Standard::sub()->count();
-            $totalCriteria = Criterion::whereNull('deleted_at')->count();
+            $totalCriteria = Criterion::count();
 
             // Fetch fulfillment statuses
             $fulfillmentStatuses = DB::table('criteria')
                 ->select('fulfillment_status', DB::raw('count(*) as count'))
+                ->whereNull('deleted_at')
                 ->groupBy('fulfillment_status')
                 ->get()
                 ->keyBy('fulfillment_status'); 
