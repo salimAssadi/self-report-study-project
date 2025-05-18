@@ -46,7 +46,7 @@ class HomeController extends Controller
             $totalUsers = User::count();
             $totalMainStandards = Standard::main()->count();
             $totalSubStandards = Standard::sub()->count();
-            $totalCriteria = \App\Models\Criterion::count();
+            $totalCriteria = Criterion::whereNull('deleted_at')->count();
 
             // Fetch fulfillment statuses
             $fulfillmentStatuses = DB::table('criteria')
