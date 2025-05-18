@@ -20,6 +20,7 @@ use App\Models\SubStandard;
 use App\Models\Support;
 use App\Models\User;
 use Carbon\Carbon;
+use App\Models\Criterion;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
