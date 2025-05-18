@@ -49,12 +49,10 @@ class HomeController extends Controller
             $totalCriteria = Criterion::count();
 
             // Fetch fulfillment statuses
-            $fulfillmentStatuses = DB::table('criteria')
-                ->select('fulfillment_status', DB::raw('count(*) as count'))
-                ->whereNull('deleted_at')
-                ->groupBy('fulfillment_status')
-                ->get()
-                ->keyBy('fulfillment_status'); 
+            $fulfillmentStatuses = Criterion::select('fulfillment_status', DB::raw('count(*) as count'))
+            ->groupBy('fulfillment_status')
+            ->get()
+            ->keyBy('fulfillment_status'); 
 
             // Default values for fulfillment statuses
             $notFulfilled = $fulfillmentStatuses['1']->count ?? 0;
