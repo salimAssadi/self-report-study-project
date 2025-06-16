@@ -1,14 +1,14 @@
 <!-- Standards Hierarchical View -->
-<div class="report-section">
+<div class="standards-details-section">
     <!-- المعيار الرئيسي -->
     <div class="standard-block">
         <table class="standard-table" width="100%">
             <tr>
-                <td width="5%" class="sequence-main">{{ $standard->sequence }}</td>
-                <td width="95%"><strong>{{ $standard->name }}</strong></td>
+                <td width="5%" class="sequence-main">{{ $standard->sequence }}-</td>
+                <td width="95%" class="title-main">{{ $standard->name }}</td>
             </tr>
         </table>
-        <div class="text-block">
+        <div class="text-block main-text">
             {!! $standard->introduction !!}
             {!! $standard->description !!}
         </div>
@@ -20,10 +20,10 @@
                     <table class="standard-table" width="100%">
                         <tr>
                             <td width="5%" class="sequence-sub">{{ $child->sequence }}</td>
-                            <td width="95%"><strong>{{ $child->name }}</strong></td>
+                            <td width="95%" class="title-sub">{{ $child->name }}</td>
                         </tr>
                     </table>
-                    <div class="text-block">
+                    <div class="text-block sub-text">
                         {!! $child->introduction !!}
                         {!! $child->description !!}
                     </div>
@@ -35,10 +35,10 @@
                                 <table class="standard-table" width="100%">
                                     <tr>
                                         <td width="5%" class="sequence-criterion">{{ $criterion->sequence }}</td>
-                                        <td width="95%">{{ $criterion->name }}</td>
+                                        <td width="95%" class="title-criterion">{{ $criterion->name }}</td>
                                     </tr>
                                 </table>
-                                <div class="text-block">
+                                <div class="text-block criterion-text">
                                     {!! $criterion->content !!}
                                 </div>
                             </div>
@@ -46,7 +46,7 @@
                     </div>
 
                     @if($child->summary)
-                        <div class="summary-block">
+                        <div class="summary-block sub-summary">
                             {!! $child->summary !!}
                         </div>
                     @endif
@@ -63,242 +63,122 @@
 </div>
 
 <style>
-/* تنسيقات عامة للطباعة */
-.report-section {
+/* تنسيقات خاصة بقسم تفاصيل المعايير */
+.standards-details-section {
     font-family: 'Traditional Arabic', Arial, sans-serif;
-    line-height: 1.6;
-    margin: 20px 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 /* تنسيق الجداول */
-.standard-table {
+.standards-details-section .standard-table {
     border-collapse: collapse;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     width: 100%;
 }
 
-.standard-table td {
-    padding: 3px;
+.standards-details-section .standard-table td {
+    padding: 2px;
     vertical-align: top;
 }
 
-/* تنسيق التسلسلات */
-.sequence-main {
-    color: #000;
-    font-size: 16pt;
+/* تنسيق العناوين */
+.standards-details-section .title-main {
+    font-size: 13px;
     font-weight: bold;
-    padding-left: 0;
+    color: #000000;
 }
 
-.sequence-sub {
-    color: #000;
-    font-size: 14pt;
+.standards-details-section .title-sub {
+    font-size: 12px;
     font-weight: bold;
-    padding-left: 0;
-    padding-right: 15px;
+    color: #1143e7;
 }
 
-.sequence-criterion {
-    color: #000;
-    font-size: 12pt;
-    padding-left: 0;
-    padding-right: 25px;
-}
-
-/* تنسيق النصوص */
-.text-block {
-    margin: 10px 0;
-    padding-right: 10px;
-    text-align: justify;
-}
-
-/* تنسيق المستويات */
-.sub-standards-block {
-    margin-right: 20px;
-}
-
-.sub-standard-item {
-    margin: 15px 0;
-}
-
-.criteria-block {
-    margin-right: 20px;
-}
-
-.criterion-item {
-    margin: 10px 0;
-}
-
-/* تنسيق الملخصات */
-.summary-block {
-    margin: 10px 0;
-    padding: 10px 0;
-    border-top: 1px solid #000;
-}
-
-.main-summary {
-    margin-top: 20px;
-}
-
-/* تنسيقات خاصة للطباعة */
-@media print {
-    .report-section {
-        page-break-inside: avoid;
-    }
-
-    .sub-standard-item {
-        page-break-inside: avoid;
-    }
-
-    .criterion-item {
-<!-- Standards Hierarchical View -->
-<div class="report-section">
-    <!-- المعيار الرئيسي -->
-    <div class="standard-block">
-        <table class="standard-table" width="100%">
-            <tr>
-                <td width="10%" class="sequence-main">{{ $standard->sequence }}</td>
-                <td width="90%"><strong>{{ $standard->name }}</strong></td>
-            </tr>
-        </table>
-        <div class="text-block">
-            {!! $standard->introduction !!}
-            {!! $standard->description !!}
-        </div>
-
-        <!-- المعايير الفرعية -->
-        <div class="sub-standards-block">
-            @foreach ($standard->children as $child)
-                <div class="sub-standard-item">
-                    <table class="standard-table" width="100%">
-                        <tr>
-                            <td width="10%" class="sequence-sub">{{ $child->sequence }}</td>
-                            <td width="90%"><strong>{{ $child->name }}</strong></td>
-                        </tr>
-                    </table>
-                    <div class="text-block">
-                        {!! $child->introduction !!}
-                        {!! $child->description !!}
-                    </div>
-
-                    <!-- المحكات -->
-                    <div class="criteria-block">
-                        @foreach ($child->criteria as $criterion)
-                            <div class="criterion-item">
-                                <table class="standard-table" width="100%">
-                                    <tr>
-                                        <td width="10%" class="sequence-criterion">{{ $criterion->sequence }}</td>
-                                        <td width="90%">{{ $criterion->name }}</td>
-                                    </tr>
-                                </table>
-                                <div class="text-block">
-                                    {!! $criterion->content !!}
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-
-                    @if($child->summary)
-                        <div class="summary-block">
-                            {!! $child->summary !!}
-                        </div>
-                    @endif
-                </div>
-            @endforeach
-        </div>
-
-        @if($standard->summary)
-            <div class="summary-block main-summary">
-                {!! $standard->summary !!}
-            </div>
-        @endif
-    </div>
-</div>
-
-<style>
-/* تنسيقات عامة للطباعة */
-.report-section {
-    font-family: 'Traditional Arabic', Arial, sans-serif;
-    line-height: 1.6;
-    margin: 20px 0;
-}
-
-/* تنسيق الجداول */
-.standard-table {
-    border-collapse: collapse;
-    margin-bottom: 10px;
+.standards-details-section .title-criterion {
+    font-size: 11px;
+    color: #000000;
 }
 
 /* تنسيق التسلسلات */
-.sequence-main {
-    color: #000;
-    font-size: 16pt;
+.standards-details-section .sequence-main {
+    font-size: 13px;
     font-weight: bold;
-    padding: 5px;
+    color: #000000;
 }
 
-.sequence-sub {
-    color: #000;
-    font-size: 14pt;
+.standards-details-section .sequence-sub {
+    font-size: 12px;
     font-weight: bold;
-    padding: 5px;
-    padding-right: 25px;
+    color: #1143e7;
 }
 
-.sequence-criterion {
-    color: #000;
-    font-size: 12pt;
-    padding: 5px;
-    padding-right: 45px;
+.standards-details-section .sequence-criterion {
+    font-size: 11px;
+    color: #000000;
 }
 
 /* تنسيق النصوص */
-.text-block {
-    margin: 10px 0;
-    padding-right: 10px;
+.standards-details-section .text-block {
+    margin: 6px 0;
     text-align: justify;
+    color: #000000;
+}
+
+.standards-details-section .main-text {
+    font-size: 11px;
+    padding-right: 0;
+}
+
+.standards-details-section .sub-text {
+    font-size: 11px;
+    padding-right: 25px;
+    margin-right: 15px;
+}
+
+.standards-details-section .criterion-text {
+    font-size: 11px;
+    padding-right: 35px;
+    margin-right: 25px;
 }
 
 /* تنسيق المستويات */
-.sub-standards-block {
-    margin-right: 20px;
+.standards-details-section .sub-standards-block {
+    margin-top: 15px;
 }
 
-.sub-standard-item {
-    margin: 15px 0;
+.standards-details-section .sub-standard-item {
+    margin: 12px 0;
+    margin-right: 15px;
+    padding-top: 6px;
 }
 
-.criteria-block {
-    margin-right: 20px;
+.standards-details-section .criteria-block {
+    margin-top: 8px;
 }
 
-.criterion-item {
-    margin: 10px 0;
+.standards-details-section .criterion-item {
+    margin: 8px 0;
+    margin-right: 25px;
+    padding-top: 4px;
 }
 
 /* تنسيق الملخصات */
-.summary-block {
-    margin: 10px 0;
-    padding: 10px 0;
-    border-top: 1px solid #000;
+.standards-details-section .summary-block {
+    margin: 6px 0;
+    padding: 6px 0;
+    font-size: 11px;
+    color: #000000;
 }
 
-.main-summary {
-    margin-top: 20px;
+.standards-details-section .main-summary {
+    margin-top: 10px;
+    color: #000000;
 }
 
-/* تنسيقات خاصة للطباعة */
-@media print {
-    .report-section {
-        page-break-inside: avoid;
-    }
-
-    .sub-standard-item {
-        page-break-inside: avoid;
-    }
-
-    .criterion-item {
-        page-break-inside: avoid;
-    }
+.standards-details-section .sub-summary {
+    padding-right: 25px;
+    margin-right: 15px;
+    color: #000000;
 }
 </style>
