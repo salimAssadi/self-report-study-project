@@ -66,7 +66,7 @@
             text-align: center;">
                                         {{ $standard->sequence }}</td>
                                     <td style=" text-align: start; text-wrap: wrap" colspan="7">{{ $standard->name }}
-                                        {!! $standard->introduction !!} </td>
+                                        {{-- {!! $standard->introduction !!} </td> --}}
 
                                 </tr>
                                 @foreach ($standard->children as $child)
@@ -82,7 +82,7 @@
                                             {{ $child->sequence }}</td>
                                         <td style="width: 15px; text-align: start; text-wrap: wrap" colspan="7">
                                             {{ $child->name }} <br>
-                                            {!! $child->introduction !!} </td>
+                                            {{-- {!! $child->introduction !!} </td> --}}
                                     </tr>
                                     @foreach ($child->criteria as $criterion)
                                         <tr style="background-color: #c3c5c5; color:black !important;">
