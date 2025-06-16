@@ -95,7 +95,7 @@
             padding: 0;"
                                                 class="sequence">{{ $criterion->sequence }}</td>
                                             <td style="width: 15px; text-align: start; text-wrap: wrap; color:black !important">
-                                                {!! $criterion->content !!}</td>
+                                                {!! $criterion->name !!}</td>
                                             <td style="width: 15px; color:black !important">{{ $criterion->is_met ? __('Yes') : __('No') }}
                                             </td>
                                             <td style="width: 15px; color:black !important">
@@ -110,14 +110,14 @@
                                                 {{ $criterion->fulfillment_status == '5' ? '5' : '' }}</td>
 
                                         </tr>
-                                        @php 
+                                        @php
                                         if($criterion->is_met){
                                             $totalScore += $criterion->fulfillment_status;
                                             $matchingCriteria++;
                                         }
                                         @endphp
                                     @endforeach
-                                   
+
                                 @endforeach
                                 @php
                                     $averageScore = $matchingCriteria > 0 ? $totalScore / $matchingCriteria : 0;
@@ -134,7 +134,7 @@
                                     <td style="width: 15px;"></td>
                                     <td style="width: 15px;"></td>
                                     <td style="width: 15px;"></td>
-                                  
+
                                 </tr>
                                 <tr style="background-color: #3e6ba5;">
                                     <td style="width: 15px; text-align: start; text-wrap: wrap" colspan="2">{{ __('Number of Matching Criteria') }}</td>
@@ -144,7 +144,7 @@
                                     <td style="width: 15px;"></td>
                                     <td style="width: 15px;"></td>
                                     <td style="width: 15px;"></td>
-                                  
+
                                 </tr>
                                 <tr style="background-color: #3e6ba5;">
                                     <td style="width: 15px; text-align: start; text-wrap: wrap" colspan="2">{{ __('Average Standard Evaluation') }}</td>
@@ -154,7 +154,7 @@
                                     <td style="width: 15px;"></td>
                                     <td style="width: 15px;"></td>
                                     <td style="width: 15px;"></td>
-                                  
+
                                 </tr>
                                 <tr style="background-color: #3e6ba5;">
                                     <td style="width: 15px; text-align: start; text-wrap: wrap" colspan="2">{{ __('Total Standard Evaluation') }}</td>
@@ -164,7 +164,7 @@
                                     <td style="width: 15px;"></td>
                                     <td style="width: 15px;"></td>
                                     <td style="width: 15px;"></td>
-                                  
+
                                 </tr>
                             </tbody>
                         </table>
@@ -174,6 +174,6 @@
         </div>
     </div>
     <div class="row">
-        {!! $standard->summary !!}
+        @include('self-report.partials.standard-details', ['standard' => $standard])
     </div>
 @endforeach
