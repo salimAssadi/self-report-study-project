@@ -4,7 +4,7 @@
 @endphp
 <html lang="en">
 <!-- [Head] start -->
-@include('admin.head')
+@include('partials.head')
 
 <!-- [Head] end -->
 <!-- [Body] Start -->
@@ -20,10 +20,10 @@
     </div>
     <!-- [ Pre-loader ] End -->
     <!-- [ Sidebar Menu ] start -->
-    @include('partials.iso-dic-menu')
+    @include('partials.menu')
     <!-- [ Sidebar Menu ] end -->
     <!-- [ Header Topbar ] start -->
-    @include('partials.iso-dic-header')
+    @include('partials.header')
     <!-- [ Header ] end -->
     <!-- [ Main Content ] start -->
     <div class="pc-container">
@@ -49,15 +49,15 @@
 
 
             <!-- [ Main Content ] start -->
-            
-            @include('admin.content')
+
+            @include('partials.content')
 
             <!-- [ Main Content ] end -->
         </div>
     </div>
 
     <!-- [ Main Content ] end -->
-    @include('partials.iso-dic-footer')
+    @include('partials.footer')
 
     <div class="modal fade" id="customModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-xl">
