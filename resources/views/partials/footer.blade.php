@@ -395,13 +395,13 @@
 @if ($statusMessage = Session::get('success'))
     <script>
         notifier.show('Success!', '{!! $statusMessage !!}', 'success',
-            successImg, 5000);
+            successImg, 8000);
     </script>
 @endif
 @if ($statusMessage = Session::get('error'))
     <script>
         notifier.show('Error!', '{!! $statusMessage !!}', 'error',
-            errorImg, 5000);
+            errorImg, 8000);
     </script>
 @endif
 
