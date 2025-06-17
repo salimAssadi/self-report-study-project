@@ -1512,6 +1512,7 @@
   "Not Satisfactory":"غير مرضي",
   "Report":"تقرير الداسة الذاتية",
   "on the level of study":"(على مستوى الدراسة)",
-  "username":"اسم المستخدم"
-  
+  "username":"اسم المستخدم",
+  "Cannot delete a standard that has sub-standards. Please delete all sub-standards first.":"لا يمكن حذف معيار له معايير فرعية. يرجى حذف جميع المعايير الفرعية أولاً."
+
 }
