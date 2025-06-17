@@ -25,7 +25,7 @@ class UserController extends Controller
             if (\Auth::user()->type == 'super admin') {
                 $users = User::get();
                 return view('self-study.user.index', compact('users'));
-            
+
             } else {
                 return redirect()->back()->with('error', __('Permission Denied.'));
             }
@@ -60,7 +60,7 @@ class UserController extends Controller
         DB::transaction(function () use ($validated, $request) {
             // Generate a random unique username
             // $username = generateUniqueUsername();
-            
+
             $user = User::create([
                 'full_name' => $validated['name'],
                 'email' => $validated['email'] ?? null,
@@ -84,7 +84,7 @@ class UserController extends Controller
 
 
     public function show(User $user)
-    {   
+    {
         if (!\Auth::user()->can('Show User')) {
             return redirect()->back()->with('error', __('Permission Denied.'));
         } else {
@@ -120,21 +120,10 @@ class UserController extends Controller
         ]);
 
         DB::transaction(function () use ($validated, $request, $user) {
-            $updateData = [
-                'full_name' => $validated['name'],
-            ];
-            
-            if (isset($validated['email'])) {
-                $updateData['email'] = $validated['email'];
-            }
-
-            if (!empty($validated['password'])) {
-                $updateData['password'] = Hash::make($validated['password']);
-            }
-
-            // $user->update($updateData);
+            // Get the user role
             $userRole = Role::findById($request->role);
-            $user = User::findOrFail($user->id);
+
+            // Update user details
             $user->full_name = $request->name;
             if (isset($request->email)) {
                 $user->email = $request->email;
@@ -142,9 +131,16 @@ class UserController extends Controller
             $user->user_name = $request->user_name;
             $user->type = $userRole->name;
             $user->is_active = $request->is_active;
-            $user->save();
-            $user->roles()->sync($userRole);
 
+            // Update password if provided
+            if (!empty($validated['password'])) {
+                $user->password = Hash::make($validated['password']);
+            }
+
+            $user->save();
+
+            // Sync role and standards
+            $user->roles()->sync($userRole);
             $user->standards()->sync($request->standards ?? []);
         });
 
@@ -156,23 +152,23 @@ class UserController extends Controller
     {
         if (\Auth::user()->can('Delete User')) {
             $user = User::findOrFail($id);
-    
+
             // Detach many-to-many relationships
             $user->standards()->detach();
             $user->roles()->detach();
-    
+
             // Delete direct owned data (if not handled by cascade or set null)
             $user->comments()->delete(); // Or nullify if needed
-    
+
             // Delete the user
             $user->delete();
-    
+
             return redirect()->route('users.index')->with('success', __('User successfully deleted.'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
-    
+
 
     public function loggedHistory()
     {

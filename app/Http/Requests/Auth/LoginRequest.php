@@ -46,21 +46,22 @@ class LoginRequest extends FormRequest
     public function authenticate()
     {
         $this->ensureIsNotRateLimited();
-    
+
         \Log::info('Attempting to authenticate user with username: ' . $this->input('user_name'));
-    
+
         if (! Auth::attempt($this->only('user_name', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
-    
+
             \Log::error('Authentication failed for username: ' . $this->input('user_name'));
-    
+
             throw ValidationException::withMessages([
                 'user_name' => trans('auth.failed'),
             ]);
         }
-    
+
         RateLimiter::clear($this->throttleKey());
     }
+    
     /**
      * Ensure the login request is not rate limited.
      *
