@@ -271,19 +271,19 @@ if (!function_exists('priceFormat')) {
         return $settings['CURRENCY_SYMBOL'] . $price;
     }
 }
-    if (!function_exists('parentId')) {
-        function parentId()
-        {
-            // if (\Auth::user()->type == 'user' || \Auth::user()->type == 'super admin') {
-            //     return \Auth::user()->id;
-            // } else {
-              
-            // }
+if (!function_exists('parentId')) {
+    function parentId()
+    {
+        // if (\Auth::user()->type == 'user' || \Auth::user()->type == 'super admin') {
+        //     return \Auth::user()->id;
+        // } else {
 
-            $user = User::where('type', 'super admin')->first();
-            return $user->id;
-        }
+        // }
+
+        $user = User::where('type', 'super admin')->first();
+        return $user->id;
     }
+}
 if (!function_exists('assignSubscription')) {
     function assignSubscription($id)
     {
@@ -470,7 +470,7 @@ if (!function_exists('settingsById')) {
     function settingsById($userId)
     {
         $data = DB::table('settings');
-        $data = $data->where('parent_id',  $userId);
+        $data = $data->where('parent_id', $userId);
         $data = $data->get();
         $settings = settingsKeys();
 
@@ -724,7 +724,7 @@ if (!function_exists('MessageReplace')) {
             if ($notification->module == 'user_create') {
                 $user = User::find($id);
                 $search = ['{company_name}', '{company_email}', '{company_phone_number}', '{company_address}', '{company_currency}', '{new_user_name}', '{app_link}', '{username}', '{password}'];
-                $replace = [$settings['company_name'], $settings['company_email'], $settings['company_phone'], $settings['company_address'], $settings['CURRENCY_SYMBOL'],  $user->name, env('APP_URL'), $user->email, $notification['password']];
+                $replace = [$settings['company_name'], $settings['company_email'], $settings['company_phone'], $settings['company_address'], $settings['CURRENCY_SYMBOL'], $user->name, env('APP_URL'), $user->email, $notification['password']];
             }
             if ($notification->module == 'reminder_create') {
                 $reminder = Reminder::find($id);
@@ -901,7 +901,7 @@ if (!function_exists('HomePageSection')) {
                 'section' => 'Section 3',
                 'content_value' => '{"name":"AboutUs","section_enabled":"active","Box1_title":"Empower Your Business to Thrive with Us","Box1_info":"Unlock growth, streamline operations, and achieve success with our innovative solutions.","Box1_list":["Simplify and automate your business processes for maximum efficiency.","Receive tailored strategies to meet business needs and unlock potential.","Grow confidently with flexible solutions that adapt to your business needs.","Make smarter decisions with real-time analytics and performance tracking.","Rely on 24\/7 expert assistance to keep your business running smoothly."],"Box2_title":"Eliminate Paperwork, Elevate Productivity","Box2_info":"Simplify your operations with seamless digital solutions and focus on what truly matters.","Box2_list":["Replace manual paperwork with automated workflows.","Secure cloud storage lets you manage documents on the go.","Streamlined processes save time and reduce errors.","Keep your information safe with encrypted storage.","Reduce printing, storage, and administrative expenses.","Go green by minimizing paper use and waste."],"section_footer_image_path":"","section_main_image_path":"","box_image_1_path":"","box_image_2_path":"","box_image_3_path":"","Box1_image_path":"upload\/homepage\/img-customize-1_Section 33_image_120250113052054am.png","Box2_image_path":"upload\/homepage\/img-customize-2_Section 33_image_220250113052054am.png","Sec4_box1_image_path":"","Sec4_box2_image_path":"","Sec4_box3_image_path":"","Sec4_box4_image_path":"","Sec4_box5_image_path":"","Sec4_box6_image_path":"","Sec7_box1_image_path":"","Sec7_box2_image_path":"","Sec7_box3_image_path":"","Sec7_box4_image_path":"","Sec7_box5_image_path":"","Sec7_box6_image_path":"","Sec7_box7_image_path":"","Sec7_box8_image_path":""}',
                 'content' =>
-                '<section class="bg-body">
+                    '<section class="bg-body">
                         <div class="container">
                             <div class="row align-items-center g-4">
                                 <div class="col-md-6 text-center mb-md-5">
@@ -1916,12 +1916,28 @@ if (!function_exists('authPage')) {
     }
 
 
+
+    if (!function_exists('toArabicNumbers')) {
+        function toArabicNumbers($number)
+        {
+            $western = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            $eastern = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+
+            if (auth()->check()) {
+                if (auth()->user()->lang === 'arabic') {
+                    return str_replace($western, $eastern, $number);
+                }
+            }
+            return $number;
+        }
+    }
+
     function fileUploader($file, $location, $size = null, $old = null, $thumb = null, $filename = null)
     {
-        $fileManager        = new FileManager($file);
-        $fileManager->path  = $location;
-        $fileManager->size  = $size;
-        $fileManager->old   = $old;
+        $fileManager = new FileManager($file);
+        $fileManager->path = $location;
+        $fileManager->size = $size;
+        $fileManager->old = $old;
         $fileManager->thumb = $thumb;
         $fileManager->filename = $filename;
         $fileManager->upload();
@@ -1964,26 +1980,26 @@ if (!function_exists('generateUniqueUsername')) {
     {
         $attempts = 0;
         $maxAttempts = 10;
-    
+
         do {
             // Generate a random number with random length between 1 and 10 digits
             $length = rand(1, 10);
             $min = (int) str_pad('1', $length, '0', STR_PAD_RIGHT) / 10; // e.g., 1, 10, 100
             $max = (int) str_pad('', $length, '9'); // e.g., 9, 99, 999
-            
+
             $username = (string) rand($min, $max);
-    
+
             $exists = \App\Models\User::where('user_name', $username)->exists();
             $attempts++;
-    
+
             // After too many attempts, append a random number to make it more unique
             if ($attempts >= $maxAttempts && $exists) {
                 $username .= rand(0, 9);
                 $exists = \App\Models\User::where('user_name', $username)->exists();
             }
         } while ($exists);
-    
+
         return $username;
     }
-    
+
 }

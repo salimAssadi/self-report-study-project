@@ -87,7 +87,7 @@
                             </div>
                             <!-- Parent Main Standard (Visible only for Sub-Standards) -->
                             <div id="sub-standard-field" class="form-group {{ old('type') === 'sub' ? '' : 'd-none' }}">
-                                {{ Form::label('parent_id', __('Parent Main Standard'), ['class' => 'form-label']) }}
+                                {{ Form::label('parent_id', __('Parent Standard'), ['class' => 'form-label']) }}
                                 {{ Form::select('parent_id', $mainStandards, old('parent_id'), ['class' => 'form-control showsearch']) }}
                                 @error('parent_id')
                                     <span class="text-danger">{{ $message }}</span>

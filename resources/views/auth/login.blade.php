@@ -21,16 +21,16 @@
                     <img  src="{{ asset(Storage::url('upload/logo/')) . '/' . getSettingsValByName('company_logo')??'' }}" alt="image"
                         class=" brand-logo" style="max-width: 178px;" />
                 </div>
-                <h3>
+                <h3 class="my-3">
                     {{getSettingsValByName('app_name')}}
                 </h3>
             </div>
             <div class="row">
-                
+
                 <div class="d-flex justify-content-center">
                     <div class="auth-header">
-                        <h2 class="text-secondary"><b>{{ __('Hi, Welcome Back') }} </b></h2>
-                        <p class="f-16 mt-2">{{ __('Enter your credentials to continue') }}</p>
+                        {{-- <h2 class="text-secondary"><b>{{ __('Hi, Welcome Back') }} </b></h2>
+                        <p class="f-16 mt-2">{{ __('Enter your credentials to continue') }}</p> --}}
                     </div>
                 </div>
             </div>
@@ -82,7 +82,7 @@
                         </span>
                     @enderror
                 </div>
-              
+
             @endif
             <div class="d-grid mt-4">
                 <button type="submit" class="btn btn-secondary p-2">{{ __('Login') }}</button>

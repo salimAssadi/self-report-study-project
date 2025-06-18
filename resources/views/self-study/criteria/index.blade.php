@@ -66,7 +66,7 @@ $profile = asset(Storage::url('upload/profile/'));
                         <tbody>
                             @foreach ($criteria as $criterion)
                             <tr>
-                                <td>{{ $criterion->sequence }}</td>
+                                <td>{{ toArabicNumbers($criterion->sequence) }}</td>
                                 <td>{{ $criterion->name }}</td>
                                 <td>
                                     {{ $criterion->standard?->name ?? ($criterion->standard?->name ?? '-') }}
@@ -123,7 +123,7 @@ $profile = asset(Storage::url('upload/profile/'));
 
 
 
-                               
+
                                 <td>
                                     <div class="d-flex">
                                         <!-- View Button -->

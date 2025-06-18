@@ -65,7 +65,7 @@
     <div class="auth-main">
         <div class="auth-wrapper v2" >
             <div class="auth-form">
-                
+
                 @yield('content')
             </div>
             {{-- @if (!empty($authPage) && $authPage->section == 1) --}}
@@ -92,7 +92,7 @@
                                 @endforeach --}}
                             </div>
                         </div>
-                        <img  src="{{ asset('assets/images/pages/common.svg') }}" alt="images"
+                        <img  src="{{ asset(Storage::url('upload/logo/')) . '/' . getSettingsValByName('company_logo')??'' }}" alt="images"
                             class="img-fluid mt-3 w-100" />
                     </div>
                 </div>

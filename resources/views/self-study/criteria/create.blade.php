@@ -36,7 +36,7 @@
             </div>
             <div class="form-group  col-md-12">
                 {{ Form::label('name_en', __('Name (English)'), ['class' => 'form-label']) }}
-                {{ Form::textarea('name_en', null, ['class' => 'form-control', 'rows' => 2, 'placeholder' => __('Enter Name (English)'), 'required']) }}
+                {{ Form::textarea('name_en', null, ['class' => 'form-control', 'rows' => 2, 'placeholder' => __('Enter Name (English)')]) }}
 
             </div>
 

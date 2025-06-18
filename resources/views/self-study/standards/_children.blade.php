@@ -16,9 +16,9 @@
                 <tbody>
                     @foreach ($standard->children as $child)
                         <tr>
-                            <td>{{ $child->sequence }}</td>
+                            <td>{{ toArabicNumbers($child->sequence) }}</td>
                             <td>{{ $child->name }}</td>
-                            <td>{{ $child->criteria->count() }}</td>
+                            <td>{{ toArabicNumbers($child->criteria->count()) }}</td>
                             <td>
                                 @switch($child->completion_status)
                                     @case('incomplete')

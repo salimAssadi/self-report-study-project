@@ -27,12 +27,12 @@
                     <form method="POST" action="{{ route('users.update', $user->id) }}">
                         @csrf
                         @method('PUT')
-                        
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label class="form-label">{{ __('Name') }}</label>
-                                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" 
+                                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
                                         value="{{ old('name', $user->full_name) }}" required>
                                     @error('name')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -42,7 +42,7 @@
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label class="form-label">{{ __('User Name') }}</label>
-                                    <input type="text" name="user_name" class="form-control @error('user_name') is-invalid @enderror" 
+                                    <input type="text" name="user_name" class="form-control @error('user_name') is-invalid @enderror"
                                         value="{{ old('user_name', $user->user_name) }}" required>
                                     @error('user_name')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -52,7 +52,7 @@
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label class="form-label">{{ __('Email') }}</label>
-                                    <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" 
+                                    <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
                                         value="{{ old('email', $user->email) }}" >
                                     @error('email')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -81,9 +81,9 @@
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label class="form-label">{{ __('Role') }}</label>
-                                    <select name="role" class="form-control hidesearch" required>
+                                    <select name="role" class="form-control  @error('role') is-invalid @enderror">
                                         <option value="">{{ __('Select a role') }}</option>
-                                        @foreach($roles as $role)  
+                                        @foreach($roles as $role)
                                         <option value="{{ $role->id }}" {{ $user->roles->first() && $user->roles->first()->id == $role->id ? 'selected' : '' }}>
                                             {{ $role->name }}
                                         </option>
@@ -117,9 +117,9 @@
                                                 <div class="card border">
                                                     <div class="card-header bg-light">
                                                         <div class="form-check">
-                                                            <input type="checkbox" class="form-check-input main-standard" 
+                                                            <input type="checkbox" class="form-check-input main-standard"
                                                                 id="main_{{ $mainStandard->id }}"
-                                                                name="standards[]" 
+                                                                name="standards[]"
                                                                 value="{{ $mainStandard->id }}"
                                                                 {{ in_array($mainStandard->id, $userStandards) ? 'checked' : '' }}>
                                                             <label class="form-check-label" for="main_{{ $mainStandard->id }}">
@@ -133,7 +133,7 @@
                                                                 <div class="form-check mb-2">
                                                                     <input type="checkbox" class="form-check-input sub-standard"
                                                                         id="sub_{{ $subStandard->id }}"
-                                                                        name="standards[]" 
+                                                                        name="standards[]"
                                                                         value="{{ $subStandard->id }}"
                                                                         data-parent="{{ $mainStandard->id }}"
                                                                         {{ in_array($subStandard->id, $userStandards) ? 'checked' : '' }}>

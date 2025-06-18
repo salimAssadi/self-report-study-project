@@ -171,7 +171,7 @@ return [
         Alexusmai\LaravelFileManager\FileManagerServiceProvider::class,
         Meneses\LaravelMpdf\LaravelMpdfServiceProvider::class,
     ])->toArray(),
-    
+
     /*
     |--------------------------------------------------------------------------
     | Class Aliases

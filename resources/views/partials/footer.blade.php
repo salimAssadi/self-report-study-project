@@ -357,10 +357,10 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="layout_font"
                                             id="layoutfontPoppins"
-                                            {{ $settings['layout_font'] == 'Poppins' ? 'checked' : '' }}
-                                            value="Poppins" onclick="font_change('Poppins')" />
+                                            {{ $settings['layout_font'] == 'NotoNaskhArabic' ? 'checked' : '' }}
+                                            value="NotoNaskhArabic" onclick="font_change('NotoNaskhArabic')" />
                                         <label class="form-check-label"
-                                            for="layoutfontPoppins">{{ __('Poppins') }}</label>
+                                            for="layoutfontPoppins">{{ __('Noto Naskh Arabic') }}</label>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="layout_font"
@@ -370,6 +370,7 @@
                                         <label class="form-check-label"
                                             for="layoutfontInter">{{ __('Cairo') }}</label>
                                     </div>
+
 
                                 </div>
                             </li>

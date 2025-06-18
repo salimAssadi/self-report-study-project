@@ -13,7 +13,7 @@
         <tbody>
             @foreach ($criteria as $criterion)
                 <tr>
-                    <td>{{ $criterion->sequence }}</td>
+                    <td>{{ toArabicNumbers($criterion->sequence) }}</td>
                     <td>{{ $criterion->name }}</td>
                     <td>
                         {{ $criterion->standard?->name ?? '-' }}

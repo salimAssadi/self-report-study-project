@@ -12,6 +12,7 @@ class ReportController extends Controller
         $coverimg = public_path('assets/images/coverimg1.jpg');
         $watermarkImage  = public_path('assets/images/coverimg1.jpg');
         $coverimg2 = public_path('assets/images/coverimg2.jpg');
+
         if (file_exists($imagePath)) {
             $imageData = file_get_contents($imagePath);
             $base64 = base64_encode($imageData);
@@ -19,15 +20,16 @@ class ReportController extends Controller
         if (file_exists($coverimg)) {
             $coverimgData = file_get_contents($coverimg);
             $coverimgBase64 = base64_encode($coverimgData);
-        } 
+        }
         if (file_exists($coverimg2)) {
             $coverimg2Data = file_get_contents($coverimg2);
             $coverimg2Base64 = base64_encode($coverimg2Data);
-        }       
+        }
+
         $watermarkBase64 = file_exists($watermarkImage) ? base64_encode(file_get_contents($watermarkImage)) : null;
 
         $standards = Standard::with(['children','criteria'])->orderBy('sequence', 'asc')->get();
-        
+
         $pageTitle = "التقرير الذاتي";
         $pdf = LaravelMpdf::loadView('self-report.index', compact('standards', 'pageTitle', 'base64', 'coverimgBase64', 'coverimg2Base64'));
 

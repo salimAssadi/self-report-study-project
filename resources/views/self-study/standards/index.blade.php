@@ -29,7 +29,7 @@
                         <div class="col-auto">
                             @if (Gate::check('Create Standard'))
                                 <a href="{{ route('standards.create') }}" class="btn btn-secondary"
-                                  
+
                                    >
                                     <i class="ti ti-circle-plus align-text-bottom"></i>
                                     {{ __('Create Standard') }}
@@ -57,10 +57,10 @@
                                 @foreach ($standards as $standard)
                                     <!-- Parent Row -->
                                     <tr>
-                                        <td>{{ $standard->sequence }}</td>
+                                        <td>{{ toArabicNumbers($standard->sequence) }}</td>
                                         <td>{{ $standard->name }}</td>
-                                        <td>{{ $standard->children->count() }}</td>
-                                        <td>{{ $standard->criteria->count() }}</td>
+                                        <td>{{ toArabicNumbers($standard->children->count()) }}</td>
+                                        <td>{{ toArabicNumbers($standard->criteria->count()) }}</td>
                                         <td>
                                             @switch($standard->completion_status)
                                                 @case('incomplete')

@@ -41,12 +41,46 @@
                 <img src="data:image/jpeg;base64,{{$coverimg2Base64}}" alt="Cover Image" class="cover-img">
             @endif
         </div>
-    @include('self-report.partials.footer')
+    {{-- @include('self-report.partials.footer') --}}
 
-    <main>
-        @include('self-report.partials.report_start')
+    {{-- <div style="page-break-before: always;"></div> --}}
+    {{-- info --}}
+    {{-- <main>
+        @include('self-report.partials.info')
     </main>
     <div style="page-break-before: always;"></div>
+
+    {{-- report guidelines --}}
+    <main>
+        @include('self-report.partials.report_guidelines')
+    </main>
+    <div style="page-break-before: always;"></div>
+
+    {{-- executive summary --}}
+    <main>
+        @include('self-report.partials.executive_sammary')
+    </main>
+    <div style="page-break-before: always;"></div>
+
+    {{-- profile --}}
+    <main>
+        @include('self-report.partials.profile')
+    </main>
+    <div style="page-break-before: always;"></div>
+
+    {{-- statistics data --}}
+    <main>
+        @include('self-report.partials.statistics_data')
+    </main>
+    <div style="page-break-before: always;"></div>
+
+    {{-- kpis --}}
+    <main>
+        @include('self-report.partials.kpis')
+    </main>
+    <div style="page-break-before: always;"></div>
+
+    standards --}}
     <main>
         @include('self-report.partials.standard')
     </main>
@@ -54,9 +88,20 @@
 
     {{-- independent evaluations --}}
     <main>
-        @include('self-report.partials.report_end')
+        @include('self-report.partials.Independent_evaluations')
     </main>
+    <div style="page-break-before: always;"></div>
 
+    {{-- executive recommendations --}}
+    <main>
+        @include('self-report.partials.recommendation_info')
+    </main>
+    <div style="page-break-before: always;"></div>
+
+    {{-- attachments --}}
+    <main>
+        @include('self-report.partials.attachment')
+    </main>
 
 
 

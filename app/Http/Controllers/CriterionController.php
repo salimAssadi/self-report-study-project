@@ -17,10 +17,10 @@ class CriterionController extends Controller
     public function index(Request $request)
     {
         $filter = $request->query('filter', 'all');
-        $status = $request->query('status', 'all'); 
+        $status = $request->query('status', 'all');
 
         $query = Criterion::with(['standard']);
-        
+
         if ($filter === 'matching') {
             $query->where('is_met', true);
         } elseif ($filter === 'non_matching') {
@@ -50,13 +50,19 @@ class CriterionController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validator = \Validator::make($request->all(), [
             'main_standard_id' => 'required',
             'name_ar' => 'required|string',
-            'name_en' => 'required|string',
+            'name_en' => 'nullable|string',
             'sequence' => 'required|string|regex:/^\d+(\.\d+)*$/',
-
         ]);
+
+        if ($validator->fails()) {
+            $messages = $validator->getMessageBag();
+            return redirect()->back()->withErrors($messages)->withInput();
+        }
+
+        $validated = $validator->validated();
 
         if (isset($request->sub_standard_id)) {
             $validated['standard_id'] = $request->sub_standard_id;
@@ -68,7 +74,7 @@ class CriterionController extends Controller
             'standard_id' => $validated['standard_id'],
             'sequence' => $validated['sequence'],
             'name_ar' => $validated['name_ar'],
-            'name_en' => $validated['name_en'],
+            'name_en' => $validated['name_en'] ?? null,
             'is_met' => false,
             'fulfillment_status' => 1,
         ]);
@@ -106,12 +112,11 @@ class CriterionController extends Controller
      */
     public function update(Request $request, Criterion $criterion)
     {
-        // Validate the request
-        $validated = $request->validate([
+        $validator = \Validator::make($request->all(), [
             'main_standard_id' => 'required',
             'sequence' => 'required|string|regex:/^\d+(\.\d+)*$/',
             'name_ar' => 'required|string|max:255',
-            'name_en' => 'required|string|max:255',
+            'name_en' => 'nullable|string|max:255',
             'content_ar' => 'nullable|string',
             'content_en' => 'nullable|string',
             'links' => 'nullable|array',
@@ -132,18 +137,26 @@ class CriterionController extends Controller
             'is_met' => 'required|boolean:in,1,0',
             'fulfillment_status' => 'required|integer:in,1,2,3,4,5',
         ]);
+
+        if ($validator->fails()) {
+            $messages = $validator->getMessageBag();
+            return redirect()->back()->withErrors($messages)->withInput();
+        }
+
+        $validated = $validator->validated();
+
         if (isset($request->sub_standard_id)) {
             $validated['standard_id'] = $request->sub_standard_id;
         } else {
             $validated['standard_id'] = $request->main_standard_id;
         }
-       
+
         // Update criterion details
         $criterion->update([
             'standard_id' => $validated['standard_id'],
             'sequence' => $validated['sequence'],
             'name_ar' => $validated['name_ar'],
-            'name_en' => $validated['name_en'],
+            'name_en' => $validated['name_en'] ?? null,
             'content_ar' => $validated['content_ar'] ?? null,
             'content_en' => $validated['content_en'] ?? null,
             'is_met' => $validated['is_met'] ?? 0,
@@ -155,7 +168,7 @@ class CriterionController extends Controller
             if ($request->has('deleted_links')) {
                 $criterion->links()->whereIn('id', $request->deleted_links)->delete();
             }
-            
+
             // Handle links
             if (isset($validated['links'])) {
                 foreach ($validated['links'] as $linkData) {

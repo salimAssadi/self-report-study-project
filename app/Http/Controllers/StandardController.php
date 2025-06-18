@@ -7,19 +7,19 @@ use Illuminate\Http\Request;
 
 class StandardController extends Controller
 {
-   
+
     public function index(Request $request)
     {
         $filter = $request->query('filter', 'all');
         $query = Standard::whereNull('parent_id');
-        
+
         // Check if user is super admin
         if (!auth()->user()->hasRole('super admin')) {
             $query->whereHas('users', function($q) {
                 $q->where('users.id', auth()->id());
             });
         }
-        
+
         $query->with([
             'children' => function ($childQuery) use ($filter) {
                 if ($filter !== 'all') {
@@ -52,8 +52,16 @@ class StandardController extends Controller
      */
     public function create()
     {
-        $mainStandards = Standard::where('type', 'main')->pluck('name_ar', 'id'); // Fetch all main standards
-        $mainStandards->prepend('Select Main Standard', null);
+        $mainStandards = Standard::where('type', 'main')
+            ->get()
+            ->map(function($standard) {
+                return [
+                    'id' => $standard->id,
+                    'text' => $standard->sequence . ' - ' . ($standard->name)
+                ];
+            })
+            ->pluck('text', 'id');
+        $mainStandards->prepend(__('Select Main Standard'), null);
         return view('self-study.standards.create', compact('mainStandards'));
     }
 
@@ -63,12 +71,12 @@ class StandardController extends Controller
     public function store(Request $request)
     {
         // Validate the request
-        $validated = $request->validate([
+        $validated = \Validator::make($request->all(), [
             'type' => 'required|in:main,sub', // Type: 'main' for Main Standard, 'sub' for Sub-Standard
             'parent_id' => 'nullable|required_if:type,sub|exists:standards,id', // Parent ID required for sub-standards
             'sequence' => 'required|string|regex:/^\d+(\.\d+)*$/',
             'name_ar' => 'required|string',
-            'name_en' => 'required|string',
+            'name_en' => 'nullable|string',
             'introduction_ar' => 'nullable|string',
             'introduction_en' => 'nullable|string',
             'description_ar' => 'nullable|string',
@@ -79,13 +87,21 @@ class StandardController extends Controller
 
         ]);
 
+        if ($validated->fails()) {
+            return redirect()->back()->withErrors($validated)->withInput();
+        }
+
+        $validated = $validated->validated();
+
+
+
         // Create the standard
         Standard::create([
             'type' => $validated['type'],
             'parent_id' => $validated['parent_id'] ?? null,
             'sequence' => $validated['sequence'],
             'name_ar' => $validated['name_ar'],
-            'name_en' => $validated['name_en'],
+            'name_en' => $validated['name_en'] ?? null,
             'introduction_ar' => $validated['introduction_ar'],
             'introduction_en' => $validated['introduction_en'],
             'description_ar' => $validated['description_ar'],
@@ -117,11 +133,19 @@ class StandardController extends Controller
     {
         // Fetch the standard by ID
         $standard = Standard::with(['children', 'criteria'])->findOrFail($id);
-        $mainStandards = Standard::whereNot('id', $id)->pluck('name_ar', 'id');
+        $mainStandards = Standard::whereNot('id', $id)
+            ->get()
+            ->map(function($standard) {
+                return [
+                    'id' => $standard->id,
+                    'text' => $standard->sequence . ' - ' . ($standard->name)
+                ];
+            })
+            ->pluck('text', 'id');
         if ($mainStandards->isNotEmpty()) {
-            $mainStandards->prepend('Select Main Standard', null);
+            $mainStandards->prepend(__('Select Main Standard'), null);
         } else {
-            $mainStandards->prepend('Not Found', null);
+            $mainStandards->prepend(__('Not Found Main Standard'), null);
         }
         return view('self-study.standards.edit', compact('mainStandards', 'standard'));
     }
@@ -148,12 +172,12 @@ class StandardController extends Controller
     public function update(Request $request, $id)
     {
         // Validate the request
-        $validated = $request->validate([
+        $validated = \Validator::make($request->all(), [
             'type' => 'required|in:main,sub', // Type: 'main' for Main Standard, 'sub' for Sub-Standard
             'parent_id' => 'nullable|required_if:type,sub|exists:standards,id', // Parent ID required for sub-standards
             'sequence' => 'required|string|regex:/^\d+(\.\d+)*$/',
             'name_ar' => 'required|string',
-            'name_en' => 'required|string',
+            'name_en' => 'nullable|string',
             'introduction_ar' => 'nullable|string',
             'introduction_en' => 'nullable|string',
             'description_ar' => 'nullable|string',
@@ -162,6 +186,12 @@ class StandardController extends Controller
             'summary_en' => 'nullable|string',
             'completion_status' => 'required|in:incomplete,partially_completed,completed' // Validate completion status
         ]);
+
+        if ($validated->fails()) {
+            return redirect()->back()->withErrors($validated)->withInput();
+        }
+
+        $validated = $validated->validated();
 
 
         // Find the standard by ID
@@ -178,7 +208,7 @@ class StandardController extends Controller
             'parent_id' => $validated['parent_id'] ?? null,
             'sequence' => $validated['sequence'],
             'name_ar' => $validated['name_ar'],
-            'name_en' => $validated['name_en'],
+            'name_en' => $validated['name_en'] ?? null,
             'introduction_ar' => $validated['introduction_ar'],
             'introduction_en' => $validated['introduction_en'],
             'description_ar' => $validated['description_ar'],
@@ -196,11 +226,11 @@ class StandardController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    
+
     public function destroy(string $id)
     {
         $standard = Standard::findOrFail($id);
-        
+
         if ($standard->children()->count() > 0) {
             return redirect()->route('standards.index')->with('error', __('Cannot delete a standard that has sub-standards. Please delete all sub-standards first.'));
         }

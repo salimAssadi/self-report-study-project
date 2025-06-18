@@ -46,16 +46,22 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validated = \Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'nullable|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|exists:roles,id',
+            'role' =>   'required|exists:roles,id',
             'user_name' => 'required|string|max:255|unique:users,user_name',
             'standards' => 'nullable|array',
             'standards.*' => 'exists:standards,id',
             'is_active' => 'required|in:0,1',
         ]);
+
+        if ($validated->fails()) {
+            return redirect()->back()->withErrors($validated)->withInput();
+        }
+
+        $validated = $validated->validated();
 
         DB::transaction(function () use ($validated, $request) {
             // Generate a random unique username
@@ -108,7 +114,7 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        $validated = $request->validate([
+        $validated = \Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'nullable|string|email|max:255|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8|confirmed',
@@ -118,6 +124,12 @@ class UserController extends Controller
             'standards.*' => 'exists:standards,id',
             'is_active' => 'required|in:0,1',
         ]);
+
+        if ($validated->fails()) {
+            return redirect()->back()->withErrors($validated)->withInput();
+        }
+
+        $validated = $validated->validated();
 
         DB::transaction(function () use ($validated, $request, $user) {
             // Get the user role

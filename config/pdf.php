@@ -11,6 +11,7 @@ return [
     'margin_header'        => 0,
     'margin_footer'        => 0,
 
+
     'orientation'          => 'P',
     'title'                => 'RCAT',
     'author'               => 'RCAT',
@@ -19,13 +20,19 @@ return [
     'watermark_font'       => 'Arial',
     'display_mode'         => 'fullpage',
     'watermark_text_alpha' => 0.1,
-    'custom_font_dir' => base_path('resources/fonts/'), // don't forget the trailing slash!
+    'custom_font_dir' => resource_path('fonts/'), // don't forget the trailing slash!
     'custom_font_data' => [
-        'arial' => [
+        'arabic' => [
             "R"  => "arial.ttf",
             "B"  => "arialbd.ttf",
             "I"  => "ariali.ttf",
             "BI" => "arialbi.ttf",
+            'useOTL' => 0xFF,
+            'useKashida' => 75,
+        ],
+        'icons' => [
+            "R" => "fa-regular-400.ttf",
+            "B" => "fa-solid-900.ttf",
             'useOTL' => 0xFF,
             'useKashida' => 75,
         ],
@@ -45,8 +52,8 @@ return [
         //     'useOTL' => 0xFF,
         //     'useKashida' => 75,
         // ],
-        
-        
+
+
     ],
     'auto_language_detection'  => true,
     'temp_dir'               => base_path('temp'),

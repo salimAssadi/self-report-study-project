@@ -9,7 +9,7 @@
         <div class="m-header">
             <a href="#" class="b-brand text-primary m-auto">
                 <img src="{{ asset(Storage::url('upload/logo')) . '/' . (isset($admin_logo) && !empty($admin_logo) ? $admin_logo : '') }}"
-                    alt="" class="logo logo-lg" />
+                    alt="" class="logo logo-lg" style="max-width: 70px !important;" />
             </a>
         </div>
         <div class="navbar-content mt-2">
@@ -38,7 +38,7 @@
                                 class="pc-item {{ request()->query('filter') === null || request()->query('filter') === 'all' ? 'active' : '' }}">
                                 <a class="pc-link" href="{{ route('standards.index', ['filter' => 'all']) }}">
                                     {{ __('All') }}
-                                    <span class="badge bg-light-primary ms-2">{{ $counts['all'] ?? 0 }}</span>
+                                    <span class="badge bg-light-primary ms-2">{{ toArabicNumbers($counts['all'] ?? 0) }}</span>
                                 </a>
                             </li>
 
@@ -47,7 +47,7 @@
                                 <a class="pc-link"
                                     href="{{ route('standards.index', ['filter' => 'completed']) }}">
                                     {{ __('Completed') }}
-                                    <span class="badge bg-light-success ms-2">{{ $counts['completed'] ?? 0 }}</span>
+                                    <span class="badge bg-light-success ms-2">{{ toArabicNumbers($counts['completed'] ?? 0) }}</span>
                                 </a>
                             </li>
 
@@ -58,7 +58,7 @@
                                     href="{{ route('standards.index', ['filter' => 'partially_completed']) }}">
                                     {{ __('Partially Completed') }}
                                     <span
-                                        class="badge bg-light-warning ms-2">{{ $counts['partially_completed'] ?? 0 }}</span>
+                                        class="badge bg-light-warning ms-2">{{ toArabicNumbers($counts['partially_completed'] ?? 0) }}</span>
                                 </a>
                             </li>
 
@@ -67,7 +67,7 @@
                                 <a class="pc-link"
                                     href="{{ route('standards.index', ['filter' => 'incomplete']) }}">
                                     {{ __('Incomplete') }}
-                                    <span class="badge bg-light-danger ms-2">{{ $counts['incomplete'] ?? 0 }}</span>
+                                    <span class="badge bg-light-danger ms-2">{{ toArabicNumbers($counts['incomplete'] ?? 0) }}</span>
                                 </a>
                             </li>
 
@@ -94,7 +94,7 @@
                                 class="pc-item {{ request()->query('filter') === null || request()->query('filter') === 'all' ? 'active' : '' }}">
                                 <a class="pc-link" href="{{ route('criteria.index', ['filter' => 'all']) }}">
                                     {{ __('All') }}
-                                    <span class="badge bg-light-primary ms-2">{{ $counts['criteria_all'] ?? 0 }}</span>
+                                    <span class="badge bg-light-primary ms-2">{{ toArabicNumbers($counts['criteria_all'] ?? 0) }}</span>
                                 </a>
                             </li>
 
@@ -104,7 +104,7 @@
                                     href="{{ route('criteria.index', ['filter' => 'matching']) }}">
                                     {{ __('Matching') }}
                                     <span
-                                        class="badge bg-light-success ms-2">{{ $counts['criteria_matching'] ?? 0 }}</span>
+                                        class="badge bg-light-success ms-2">{{ toArabicNumbers($counts['criteria_matching'] ?? 0) }}</span>
                                 </a>
                             </li>
 
@@ -114,7 +114,7 @@
                                     href="{{ route('criteria.index', ['filter' => 'non_matching']) }}">
                                     {{ __('Not Matching') }}
                                     <span
-                                        class="badge bg-light-danger ms-2">{{ $counts['criteria_non_matching'] ?? 0 }}</span>
+                                        class="badge bg-light-danger ms-2">{{ toArabicNumbers($counts['criteria_non_matching'] ?? 0) }}</span>
                                 </a>
                             </li>
                         </ul>
@@ -185,7 +185,7 @@
                         </ul>
                     </li>
                 @endif
-                
+
                 @if (Gate::check('Manage Comments'))
                     <li class="pc-item {{ in_array($routeName, ['comments']) ? 'active' : '' }} ">
                         <a href="{{ route('comments.all') }}" class="pc-link">
@@ -291,7 +291,7 @@
                     </a>
                 </li>
 
-                
+
                 <li class="pc-item {{ Request::route()->getName() == 'category.index' ? 'active' : '' }}">
                     <a href="{{ route('category.index') }}" class="pc-link">
                         <span class="pc-micon"><i data-feather="list"></i></span>

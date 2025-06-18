@@ -98,17 +98,13 @@
                                                 {!! $criterion->name !!}</td>
                                             <td style="width: 15px; color:black !important">{{ $criterion->is_met ? __('Yes') : __('No') }}
                                             </td>
-                                            <td style="width: 15px; color:black !important">
-                                                {{ $criterion->fulfillment_status == '1' ? '1' : '' }}</td>
-                                            <td style="width: 15px; color:black !important">
-                                                {{ $criterion->fulfillment_status == '2' ? '2' : '' }}</td>
-                                            <td style="width: 15px; color:black !important">
-                                                {{ $criterion->fulfillment_status == '3' ? '3' : '' }}</td>
-                                            <td style="width: 15px; color:black !important">
-                                                {{ $criterion->fulfillment_status == '4' ? '4' : '' }}</td>
-                                            <td style="width: 15px; color:black !important">
-                                                {{ $criterion->fulfillment_status == '5' ? '5' : '' }}</td>
-
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <td style="width: 15px; text-align: center; vertical-align: middle; color: #28a745;">
+                                                    @if($criterion->fulfillment_status == "$i")
+                                                        <span style="font-family: icons; font-size: 15px;">&#xf00c;</span>
+                                                    @endif
+                                                </td>
+                                            @endfor
                                         </tr>
                                         @php
                                         if($criterion->is_met){
@@ -126,44 +122,28 @@
                                 <tr style="background-color: #52B5C2; text-align: start">
                                     <td colspan="8">{{ __('Overall Standard Evaluation') }}</td>
                                 </tr>
-                                <tr style="background-color: #3e6ba5;">
+                                <tr  style="background-color: #3e6ba5;">
                                     <td style="width: 15px; text-align: start; text-wrap: wrap" colspan="2">{{ __('Total Score of Criteria') }}</td>
-                                    <td style="width: 15px;">{{ $totalScore }}</td>
-                                    <td style="width: 15px;"></td>
-                                    <td style="width: 15px;"></td>
-                                    <td style="width: 15px;"></td>
-                                    <td style="width: 15px;"></td>
-                                    <td style="width: 15px;"></td>
+                                    <td style="" colspan="6">{{ $totalScore }}</td>
+
 
                                 </tr>
-                                <tr style="background-color: #3e6ba5;">
+                                <tr  style="background-color: #3e6ba5;">
                                     <td style="width: 15px; text-align: start; text-wrap: wrap" colspan="2">{{ __('Number of Matching Criteria') }}</td>
-                                    <td style="width: 15px;">{{ $matchingCriteria }}</td>
-                                    <td style="width: 15px;"></td>
-                                    <td style="width: 15px;"></td>
-                                    <td style="width: 15px;"></td>
-                                    <td style="width: 15px;"></td>
-                                    <td style="width: 15px;"></td>
+                                    <td  colspan="6">{{ $matchingCriteria }}</td>
+
 
                                 </tr>
-                                <tr style="background-color: #3e6ba5;">
+                                <tr  style="background-color: #3e6ba5;">
                                     <td style="width: 15px; text-align: start; text-wrap: wrap" colspan="2">{{ __('Average Standard Evaluation') }}</td>
-                                    <td style="width: 15px;">{{ $averageScore }}</td>
-                                    <td style="width: 15px;"></td>
-                                    <td style="width: 15px;"></td>
-                                    <td style="width: 15px;"></td>
-                                    <td style="width: 15px;"></td>
-                                    <td style="width: 15px;"></td>
+                                    <td  colspan="6">{{ $averageScore }}</td>
+
 
                                 </tr>
-                                <tr style="background-color: #3e6ba5;">
+                                <tr  style="background-color: #3e6ba5;">
                                     <td style="width: 15px; text-align: start; text-wrap: wrap" colspan="2">{{ __('Total Standard Evaluation') }}</td>
-                                    <td style="width: 15px;">{{ $totalEvaluation}}</td>
-                                    <td style="width: 15px;"></td>
-                                    <td style="width: 15px;"></td>
-                                    <td style="width: 15px;"></td>
-                                    <td style="width: 15px;"></td>
-                                    <td style="width: 15px;"></td>
+                                    <td  colspan="6">{{ $totalEvaluation}}</td>
+
 
                                 </tr>
                             </tbody>

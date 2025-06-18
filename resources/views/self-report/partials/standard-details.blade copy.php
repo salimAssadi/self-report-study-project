@@ -2,8 +2,14 @@
 <div class="standards-details-section">
     <!-- المعيار الرئيسي -->
     <div class="standard-block">
-
+        <table class="standard-table" width="100%">
+            <tr>
+                <td width="5%" class="sequence-main">{{ $standard->sequence }}-</td>
+                <td width="95%" class="title-main">{{ $standard->name }}</td>
+            </tr>
+        </table>
         <div class="text-block main-text">
+            {!! $standard->introduction !!}
             {!! $standard->description !!}
         </div>
 
@@ -11,8 +17,14 @@
         <div class="sub-standards-block">
             @foreach ($standard->children as $child)
                 <div class="sub-standard-item">
-
+                    <table class="standard-table" width="100%">
+                        <tr>
+                            <td width="5%" class="sequence-sub">{{ $child->sequence }}</td>
+                            <td width="95%" class="title-sub">{{ $child->name }}</td>
+                        </tr>
+                    </table>
                     <div class="text-block sub-text">
+                        {!! $child->introduction !!}
                         {!! $child->description !!}
                     </div>
 
@@ -20,7 +32,12 @@
                     <div class="criteria-block">
                         @foreach ($child->criteria as $criterion)
                             <div class="criterion-item">
-
+                                <table class="standard-table" width="100%">
+                                    <tr>
+                                        <td width="5%" class="sequence-criterion">{{ $criterion->sequence }}</td>
+                                        <td width="95%" class="title-criterion">{{ $criterion->name }}</td>
+                                    </tr>
+                                </table>
                                 <div class="text-block criterion-text">
                                     {!! $criterion->content !!}
                                 </div>
@@ -45,10 +62,10 @@
     </div>
 </div>
 
-{{-- <style>
+<style>
 /* تنسيقات خاصة بقسم تفاصيل المعايير */
 .standards-details-section {
-    font-family: 'Almarai', 'Traditional Arabic', Arial, sans-serif;
+    font-family: 'Traditional Arabic', Arial, sans-serif;
     margin-top: 5px;
     margin-bottom: 5px;
 }
@@ -164,4 +181,4 @@
     margin-right: 15px;
     color: #000000;
 }
-</style> --}}
+</style>

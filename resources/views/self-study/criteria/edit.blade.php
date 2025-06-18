@@ -89,17 +89,17 @@
             newRow.classList.add('link-row');
             newRow.innerHTML = `
                     <td>
-                        <input type="text" name="links[${linkIndex}][name_ar]" 
+                        <input type="text" name="links[${linkIndex}][name_ar]"
                             class="form-control"
                             placeholder="{{ __('Link Name (Arabic)') }}">
                     </td>
                     <td>
-                        <input type="text" name="links[${linkIndex}][name_en]" 
+                        <input type="text" name="links[${linkIndex}][name_en]"
                             class="form-control"
                             placeholder="{{ __('Link Name (English)') }}">
                     </td>
                     <td>
-                        <input type="text" name="links[${linkIndex}][url]" 
+                        <input type="text" name="links[${linkIndex}][url]"
                             class="form-control"
                             placeholder="{{ __('Link URL') }}">
                     </td>
