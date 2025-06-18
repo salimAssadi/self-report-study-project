@@ -276,7 +276,7 @@ class SettingController extends Controller
                 );
             }
             if ($request->logo) {
-                $ownerLogoName = parentId() . '_logo.png';
+                $ownerLogoName = 'logo.png';
                 $dir = storage_path('uploads/logo/');
                 $image_path1 = $dir . $ownerLogoName;
                 if (File::exists($image_path1)) {
@@ -294,7 +294,7 @@ class SettingController extends Controller
             }
 
             if ($request->favicon) {
-                $ownerFaviconName = parentId() . '_favicon.png';
+                $ownerFaviconName = 'favicon.png';
                 $dir = storage_path('uploads/logo/');
                 $image_path = $dir . $ownerFaviconName;
                 if (File::exists($image_path)) {
@@ -313,7 +313,7 @@ class SettingController extends Controller
             }
 
             if ($request->light_logo) {
-                $ownerLightLogoName = parentId() . '_light_logo.png';
+                $ownerLightLogoName = 'light_logo.png';
                 $dir = storage_path('uploads/logo/');
                 $image_path = $dir . $ownerLightLogoName;
                 if (File::exists($image_path)) {
