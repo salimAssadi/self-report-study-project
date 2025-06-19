@@ -12,12 +12,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Noto+Kufi+Arabic:wght@100..900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Majalla:wght@200..1000&family=Noto+Kufi+Arabic:wght@100..900&display=swap"
         rel="stylesheet">
     @if (auth()->user()->lang == 'arabic')
         <style>
             body {
-                font-family: 'Cairo', sans-serif;
+                font-family: 'Majalla', sans-serif;
                 direction: rtl
             }
         </style>

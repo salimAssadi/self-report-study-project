@@ -401,36 +401,36 @@ document.addEventListener('DOMContentLoaded', function () {
 function font_change(name) {
     $('#layout_font').val(name);
     var srcs = '';
-    if (name == 'Roboto') {
-        srcs = 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap';
-    }
-    if (name == 'Poppins') {
-        srcs = 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap';
-    }
-    if (name == 'Inter') {
-        srcs = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap';
-    }
-    if (name == 'Cairo') {
-        srcs = 'https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400..900&family=Noto+Naskh+Arabic:wght@400..700&display=swap';
-    }
-    if (name == 'NotoNaskhArabic') {
-        srcs = 'https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400..700&display=swap';
-    }
-    // if (name == 'Cairo') {
-    //     srcs = 'https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap';
+    // if (name == 'Roboto') {
+    //     srcs = 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap';
+    // }
+    // if (name == 'Poppins') {
+    //     srcs = 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap';
+    // }
+    // if (name == 'Inter') {
+    //     srcs = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap';
+    // }
+    // if (name == 'Majalla') {
+    //     srcs = 'https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400..900&family=Noto+Naskh+Arabic:wght@400..700&display=swap';
     // }
     // if (name == 'NotoNaskhArabic') {
-    //     srcs = 'https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Cairo:wght@200..1000&family=Noto+Kufi+Arabic:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&display=swap';
+    //     srcs = 'https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400..700&display=swap';
     // }
+    // // if (name == 'Majalla') {
+    // //     srcs = 'https://fonts.googleapis.com/css2?family=Majalla:wght@200..1000&display=swap';
+    // // }
+    // // if (name == 'NotoNaskhArabic') {
+    // //     srcs = 'https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Majalla:wght@200..1000&family=Noto+Kufi+Arabic:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&display=swap';
+    // // }
 
-    document.querySelector('#main-font-link').setAttribute('href', srcs);
-    document.querySelector('body').setAttribute('style', 'font-family:"' + name + '", sans-serif');
-    // document.querySelector('body').setAttribute('style', 'font-weight:400');
+    // document.querySelector('#main-font-link').setAttribute('href', srcs);
+    // document.querySelector('body').setAttribute('style', 'font-family:"' + name + '", sans-serif');
+    // // document.querySelector('body').setAttribute('style', 'font-weight:400');
 
-    var control = document.querySelector('.pct-offcanvas');
-    if (control) {
-        document.querySelector('#layoutfont' + name).checked = true;
-    }
+    // var control = document.querySelector('.pct-offcanvas');
+    // if (control) {
+    //     document.querySelector('#layoutfont' + name).checked = true;
+    // }
 }
 
 function layout_caption_change(value) {

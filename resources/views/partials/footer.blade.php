@@ -365,10 +365,10 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="layout_font"
                                             id="layoutfontInter"
-                                            {{ $settings['layout_font'] == 'Cairo' ? 'checked' : '' }} value="Cairo"
-                                            onclick="font_change('Cairo')" />
+                                            {{ $settings['layout_font'] == 'Majalla' ? 'checked' : '' }} value="Majalla"
+                                            onclick="font_change('Majalla')" />
                                         <label class="form-check-label"
-                                            for="layoutfontInter">{{ __('Cairo') }}</label>
+                                            for="layoutfontInter">{{ __('Majalla') }}</label>
                                     </div>
 
 

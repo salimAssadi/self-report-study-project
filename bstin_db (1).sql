@@ -575,7 +575,7 @@ CREATE TABLE `settings` (
 INSERT INTO `settings` (`id`, `name`, `value`, `type`, `parent_id`, `created_at`, `updated_at`) VALUES
 (1, 'theme_layout', 'rtl', NULL, 1, NULL, NULL),
 (2, 'theme_mode', 'light', 'common', 1, NULL, NULL),
-(3, 'layout_font', 'Cairo', 'common', 1, NULL, NULL),
+(3, 'layout_font', 'Majalla', 'common', 1, NULL, NULL),
 (4, 'accent_color', 'preset-1', 'common', 1, NULL, NULL),
 (5, 'sidebar_caption', 'true', 'common', 1, NULL, NULL),
 (7, 'layout_width', 'false', 'common', 1, NULL, NULL),

@@ -51,12 +51,14 @@
     <link rel="stylesheet" href="{{ asset('assets/fonts/material.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" id="main-style-link" />
     <link rel="stylesheet" href="{{ asset('assets/css/style-preset.css') }}" />
+    <link rel="stylesheet" href="{{ asset('custom/css/arabic-fonts.css') }}" />
+
     <link href="{{ asset('css/custom.css') }} " rel="stylesheet">
 </head>
 
 <body data-pc-preset="{{ $settings['accent_color'] }}" data-pc-sidebar-theme="light"
     data-pc-sidebar-caption="{{ $settings['sidebar_caption'] }}" data-pc-direction="{{ $settings['theme_layout'] }}"
-    data-pc-theme="{{ $settings['theme_mode'] }}">
+    data-pc-theme="{{ $settings['theme_mode'] }}"  style="font-family:Majalla, sans-serif; font-size:25px;">
     <div class="loader-bg">
         <div class="loader-track">
             <div class="loader-fill"></div>
@@ -110,7 +112,7 @@
 
     @stack('script-page')
     <script>
-        font_change('Cairo');
+        font_change('Majalla');
     </script>
 </body>
 

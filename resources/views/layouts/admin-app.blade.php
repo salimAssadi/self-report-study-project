@@ -11,7 +11,7 @@
 
 <body data-pc-preset="{{ $settings['accent_color'] }}" data-pc-sidebar-theme="light"
     data-pc-sidebar-caption="{{ $settings['sidebar_caption'] }}" data-pc-direction="{{ $settings['theme_layout'] }}"
-    data-pc-theme="{{ $settings['theme_mode'] }}">
+    data-pc-theme="{{ $settings['theme_mode'] }}" style="font-family:Majalla, sans-serif; font-size:25px;">
     <!-- [ Pre-loader ] start -->
     <div class="loader-bg">
         <div class="loader-track">
