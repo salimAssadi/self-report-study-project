@@ -23,8 +23,8 @@ return [
     'custom_font_dir' => resource_path('fonts/'), // don't forget the trailing slash!
     'custom_font_data' => [
         'arabic' => [
-            "R"  => "arial.ttf",
-            "B"  => "arialbd.ttf",
+            "R"  => "majalla.ttf",
+            "B"  => "majallab.ttf",
             "I"  => "ariali.ttf",
             "BI" => "arialbi.ttf",
             'useOTL' => 0xFF,

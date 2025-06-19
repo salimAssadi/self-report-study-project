@@ -52,6 +52,7 @@
     <link rel="stylesheet" href="{{ asset('assets/fonts/material.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" id="main-style-link" />
     <link rel="stylesheet" href="{{ asset('assets/css/style-preset.css') }}" />
+    <link rel="stylesheet" href="{{ asset('custom/css/arabic-fonts.css') }}" />
     @stack('css-page')
     <link href="{{ asset('css/custom.css') }}"  rel="stylesheet">
     <link href="{{ asset('vendor/file-manager/css/file-manager.css') }}" rel="stylesheet">

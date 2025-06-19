@@ -13,7 +13,7 @@
             <div class="card">
                 <div class="card-header bg-white d-flex justify-content-between align-items-center">
                     <div>
-                        <h5 class="mb-0">{{ $standard->sequence }} - {{ $standard->name }}</h5>
+                        <h5 class="mb-0">{{ toArabicNumbers($standard->sequence) }} - {{ $standard->name }}</h5>
                         <small class="text-muted">{{ __('Standard Details and Information') }}</small>
                     </div>
 
@@ -45,11 +45,11 @@
                                 </tr>
                                 <tr style="color:white !important; background-color: rgb(76, 61, 142) !important">
 
-                                    <td colspan="">1</td>
-                                    <td colspan="">2</td>
-                                    <td colspan="">3</td>
-                                    <td colspan="">4</td>
-                                    <td colspan="">5</td>
+                                    <td colspan="">{{toArabicNumbers(1)}}</td>
+                                    <td colspan="">{{toArabicNumbers(2)}}</td>
+                                    <td colspan="">{{toArabicNumbers(3)}}</td>
+                                    <td colspan="">{{toArabicNumbers(4)}}</td>
+                                    <td colspan="">{{toArabicNumbers(5)}}</td>
 
                                 </tr>
 
@@ -64,7 +64,7 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             text-align: center;">
-                                        {{ $standard->sequence }}</td>
+                                        {{ toArabicNumbers($standard->sequence)}}</td>
                                     <td style=" text-align: start; text-wrap: wrap" colspan="7">{{ $standard->name }}
                                         {{-- {!! $standard->introduction !!} </td> --}}
 
@@ -79,7 +79,7 @@
             white-space: nowrap;
             text-align: center;
             ">
-                                            {{ $child->sequence }}</td>
+                                            {{ toArabicNumbers($child->sequence) }}</td>
                                         <td style="width: 15px; text-align: start; text-wrap: wrap" colspan="7">
                                             {{ $child->name }} <br>
                                             {{-- {!! $child->introduction !!} </td> --}}
@@ -93,7 +93,7 @@
             white-space: nowrap;
             text-align: center;
             padding: 0;"
-                                                class="sequence">{{ $criterion->sequence }}</td>
+                                                class="sequence">{{ toArabicNumbers($criterion->sequence) }}</td>
                                             <td style="width: 15px; text-align: start; text-wrap: wrap; color:black !important">
                                                 {!! $criterion->name !!}</td>
                                             <td style="width: 15px; color:black !important">{{ $criterion->is_met ? __('Yes') : __('No') }}
@@ -124,25 +124,25 @@
                                 </tr>
                                 <tr  style="background-color: #3e6ba5;">
                                     <td style="width: 15px; text-align: start; text-wrap: wrap" colspan="2">{{ __('Total Score of Criteria') }}</td>
-                                    <td style="" colspan="6">{{ $totalScore }}</td>
+                                    <td style="" colspan="6">{{ toArabicNumbers($totalScore) }}</td>
 
 
                                 </tr>
                                 <tr  style="background-color: #3e6ba5;">
                                     <td style="width: 15px; text-align: start; text-wrap: wrap" colspan="2">{{ __('Number of Matching Criteria') }}</td>
-                                    <td  colspan="6">{{ $matchingCriteria }}</td>
+                                    <td  colspan="6">{{ toArabicNumbers($matchingCriteria )}}</td>
 
 
                                 </tr>
                                 <tr  style="background-color: #3e6ba5;">
                                     <td style="width: 15px; text-align: start; text-wrap: wrap" colspan="2">{{ __('Average Standard Evaluation') }}</td>
-                                    <td  colspan="6">{{ $averageScore }}</td>
+                                    <td  colspan="6">{{ toArabicNumbers($averageScore) }}</td>
 
 
                                 </tr>
                                 <tr  style="background-color: #3e6ba5;">
                                     <td style="width: 15px; text-align: start; text-wrap: wrap" colspan="2">{{ __('Total Standard Evaluation') }}</td>
-                                    <td  colspan="6">{{ $totalEvaluation}}</td>
+                                    <td  colspan="6">{{ toArabicNumbers($totalEvaluation)}}</td>
 
 
                                 </tr>

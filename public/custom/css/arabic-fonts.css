@@ -1,0 +1,32 @@
+@font-face {
+    font-family: 'Majalla';
+    src: url('../../assets/fonts/majalla.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Majalla';
+    src: url('../../assets/fonts/majallab.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Apply Majalla font to Arabic text */
+.arabic-text {
+    font-family: 'Majalla', Arial, sans-serif;
+}
+
+/* For elements with Arabic text that should be bold */
+.arabic-text-bold {
+    font-family: 'Majalla', Arial, sans-serif;
+    font-weight: bold;
+}
+
+/* Right-to-left text direction for Arabic */
+[lang="ar"] {
+    font-family: 'Majalla', Arial, sans-serif;
+    direction: rtl;
+} 
