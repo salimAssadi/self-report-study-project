@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use App\Models\Standard;
 
+use Illuminate\Support\Facades\Storage;
 use Meneses\LaravelMpdf\Facades\LaravelMpdf;
 
 class ReportController extends Controller
@@ -12,7 +13,11 @@ class ReportController extends Controller
         $coverimg = public_path('assets/images/coverimg1.jpg');
         $watermarkImage  = public_path('assets/images/coverimg1.jpg');
         $coverimg2 = public_path('assets/images/coverimg2.jpg');
+        $logo = public_path('assets/images/logo.png');
 
+        if($logo){
+            $logoBase64 = base64_encode(file_get_contents($logo));
+        }
         if (file_exists($imagePath)) {
             $imageData = file_get_contents($imagePath);
             $base64 = base64_encode($imageData);
@@ -28,10 +33,10 @@ class ReportController extends Controller
 
         $watermarkBase64 = file_exists($watermarkImage) ? base64_encode(file_get_contents($watermarkImage)) : null;
 
-        $standards = Standard::with(['children','criteria'])->orderBy('sequence', 'asc')->get();
+        $standards = Standard::where('parent_id', null)->with(['children','criteria'])->orderBy('sequence', 'asc')->get();
 
         $pageTitle = "التقرير الذاتي";
-        $pdf = LaravelMpdf::loadView('self-report.index', compact('standards', 'pageTitle', 'base64', 'coverimgBase64', 'coverimg2Base64'));
+        $pdf = LaravelMpdf::loadView('self-report.index', compact('standards', 'pageTitle', 'base64', 'coverimgBase64', 'coverimg2Base64', 'logoBase64'));
 
         if ($watermarkBase64) {
             $style = "

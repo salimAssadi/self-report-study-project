@@ -32,12 +32,18 @@ class Standard extends Model
     {
         return $this->hasMany(Standard::class, 'parent_id');
     }
+    public function criteria()
+    {
+        return $this->hasMany(Criterion::class, 'standard_id');
+    }
+
 
     public function users()
     {
         return $this->belongsToMany(User::class, 'user_standards')
             ->withTimestamps();
     }
+
 
     public function scopeMain($query)
     {
@@ -49,31 +55,39 @@ class Standard extends Model
         return $query->where('type', 'sub');
     }
 
-    public function criteria()
-    {
-        return $this->hasMany(Criterion::class, 'standard_id');
-    }
-    
+
+
     public function getNameAttribute()
     {
         return $this->getLocalizedAttribute('name');
     }
 
-  
+
     public function getIntroductionAttribute()
     {
         return $this->getLocalizedAttribute('introduction');
     }
 
-   
+
     public function getDescriptionAttribute()
     {
         return $this->getLocalizedAttribute('description');
     }
 
-   
+
     public function getSummaryAttribute()
     {
         return $this->getLocalizedAttribute('summary');
+    }
+    public function getTotalCriteriaCountAttribute()
+    {
+        $directCount = $this->criteria()->count();
+        $childrenCount = $this->children->sum('criteria_count');
+        return $directCount + $childrenCount;
+    }
+
+    public function getCriteriaCountAttribute()
+    {
+        return $this->criteria()->count();
     }
 }

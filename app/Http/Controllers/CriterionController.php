@@ -18,19 +18,55 @@ class CriterionController extends Controller
     {
         $filter = $request->query('filter', 'all');
         $status = $request->query('status', 'all');
+        $mainStandardId = $request->query('main_standard_id');
+        $subStandardId = $request->query('sub_standard_id');
 
         $query = Criterion::with(['standard']);
 
+        // Filter by standards
+        if ($mainStandardId) {
+            if ($subStandardId) {
+                // If both main and sub standard are selected
+                $query->whereHas('standard', function ($q) use ($subStandardId) {
+                    $q->where('id', $subStandardId);
+                });
+            } else {
+                // If only main standard is selected, get criteria for all its sub-standards
+                $query->whereHas('standard', function ($q) use ($mainStandardId) {
+                    $q->where('parent_id', $mainStandardId);
+                });
+            }
+        }
+
+        // Additional filters
         if ($filter === 'matching') {
             $query->where('is_met', true);
         } elseif ($filter === 'non_matching') {
             $query->where('is_met', false);
         }
+
         if ($status !== 'all') {
             $query->where('fulfillment_status', $status);
         }
+
         $criteria = $query->orderBy('sequence', 'asc')->paginate(10);
-        return view('self-study.criteria.index', compact('criteria', 'filter','status'));
+        $mainStandards = Standard::whereNull('parent_id')->get();
+
+        // Get sub-standards for the selected main standard
+        $subStandards = [];
+        if ($mainStandardId) {
+            $subStandards = Standard::where('parent_id', $mainStandardId)->get();
+        }
+
+        return view('self-study.criteria.index', compact(
+            'criteria',
+            'filter',
+            'status',
+            'mainStandards',
+            'subStandards',
+            'mainStandardId',
+            'subStandardId'
+        ));
     }
 
     /**

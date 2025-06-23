@@ -428,6 +428,28 @@ if (!function_exists('timeCalculation')) {
     }
 }
 
+if (!function_exists('getDegree')) {
+    function getDegree($points)
+    {
+        if ($points >= 5) {
+            return 'Fulfilled with Distinction';
+        }
+        if ($points == 4) {
+            return 'Fulfilled with Excellence';
+        }
+        if ($points == 3) {
+            return 'Fulfilled';
+        }
+        if ($points == 2) {
+            return 'Partially Fulfilled';
+        }
+        if ($points == 1) {
+            return 'Not Fulfilled';
+        }
+        return '';
+    }
+}
+
 if (!function_exists('setup')) {
     function setup()
     {
@@ -1969,6 +1991,7 @@ if (!function_exists('authPage')) {
         return $data->appends(request()->all())->links();
     }
 }
+
 
 if (!function_exists('generateUniqueUsername')) {
     /**

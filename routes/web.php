@@ -52,26 +52,26 @@ Route::middleware(['XSS'])->group(function () {
     Route::get('/', function () {
         return redirect()->route('login');
     });
-    
+
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 });
 $prefix = 'admin';
 Route::middleware(['auth', 'XSS'])->group(function () {
-   
+
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
-        
+        Route::get('/file-manager', [FileManagerController::class, 'index'])->name('filemanager');
         // Resources
         Route::resource('users', UserController::class);
         Route::resource('role', RoleController::class);
         Route::resource('standards', StandardController::class);
         Route::resource('criteria', CriterionController::class);
-        
+
         // API routes
         Route::get('api/standards', [CriterionController::class, 'getStandard'])->name('api.standards');
         Route::get('/api/standards/children', [StandardController::class, 'getChildren'])->name('api.standards.children');
-        
+
         // Settings
         Route::controller(SettingController::class)->prefix('settings')->name('setting.')->group(function () {
             Route::get('/', 'index')->name('index');
@@ -108,12 +108,12 @@ Route::middleware(['auth', 'XSS'])->group(function () {
             ->name('comments.attachment.download');
 
         // File Manager
-        Route::get('/file-manager', [FileManagerController::class, 'index'])->name('filemanager');
-        
-       
-    });
 
-  
+
+    });
+    // Route::get('/file-manager', [FileManagerController::class, 'index'])->name('filemanager');
+
+
 
 
 //-------------------------------FAQ-------------------------------------------

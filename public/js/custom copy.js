@@ -243,14 +243,14 @@ if ($(".summernote").length) {
     var lang = document.documentElement.lang;
     var directionality = (lang === 'ar') ? 'rtl' : 'ltr';
     var editor_config = {
-        path_absolute: window.location.origin + "/",  // Use the current domain
-        document_base_url: window.location.origin + "/",  // Use the current domain
+        path_absolute: window.location.origin + "/admin",  // Use the current domain
+        document_base_url: window.location.origin + "/admin",  // Use the current domain
         selector: "textarea.summernote",
         font_formats:
         "Majalla=Majalla,sans-serif; Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Oswald=oswald; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats",        theme: 'silver', // Specify your custom theme name
-        plugins: 'advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime  table paste help wordcount pagebreak',
+        plugins: 'advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste help wordcount pagebreak',
         toolbar: [
-            'undo redo | styleselect | fontselect fontsizeselect | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | outdent indent  | pagebreak  | numlist bullist | link | table | hr| preview  | fullscreen '
+            'undo redo | styleselect | fontselect fontsizeselect | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | outdent indent  | pagebreak  | numlist bullist | link image  | table | hr| preview  | fullscreen '
         ].join(' '),
         menubar: 'file edit view insert format tools', // Add menubar options
 
@@ -279,29 +279,34 @@ if ($(".summernote").length) {
         relative_urls: false,
         directionality: directionality,
         file_picker_callback: function (callback, value, meta) {
+            // Determine the type of file being requested
             const isImage = meta.filetype === 'image';
-            const isLink = meta.filetype === 'file';
+            const isLink = meta.filetype === 'file'; // Adjust if you have a specific type for URLs
 
+            // Open the Alexusmai file manager if it's an image or a link
             if (isImage || isLink) {
+                // Get the dimensions of the window
                 const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
                 const height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
+                // Open the file manager with responsive dimensions
                 tinyMCE.activeEditor.windowManager.openUrl({
-                    url: window.location.origin + '/file-manager',
+                    url: 'file-manager', // Adjust this to your file manager route
                     title: 'File Manager',
-                    width: Math.floor(width * 0.8),
-                    height: Math.floor(height * 0.8),
+                    width: Math.floor(width * 0.8), // 80% of window width
+                    height: Math.floor(height * 0.8), // 80% of window height
                     resizable: true,
                     close_previous: false,
                     onMessage: (api, message) => {
-                        // Make sure message.content is valid
+                        // Ensure message.content is valid before calling callback
                         if (message && message.content) {
-                            callback(message.content); // Return the URL to TinyMCE
+                            callback(message.content); // Use the returned URL
                         }
                     }
                 });
             }
         }
+
     };
 
     tinymce.init(editor_config);

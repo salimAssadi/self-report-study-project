@@ -5,9 +5,9 @@ class Status
 {
     // Fulfillment Status
     const FULFILLMENT_STATUS = [
-        '3' => 'Fulfilled',
         '1' => 'Not Fulfilled',
         '2' => 'Partially Fulfilled',
+        '3' => 'Fulfilled',
         '4' => 'Fulfilled with Excellence',
         '5' => 'Fulfilled with Distinction',
     ];

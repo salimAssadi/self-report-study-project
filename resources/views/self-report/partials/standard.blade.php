@@ -1,5 +1,14 @@
 <style>
-
+    .standard, .standard * {
+        font-size: 12px !important;
+    }
+    .standard td {
+        padding: 5px !important;
+    }
+    .standard thead td {
+        font-weight: bold !important;
+        font-size: 12px !important;
+    }
 </style>
 @foreach ($standards as $standard)
     @php
@@ -13,7 +22,7 @@
             <div class="card">
                 <div class="card-header bg-white d-flex justify-content-between align-items-center">
                     <div>
-                        <h5 class="mb-0">{{ toArabicNumbers($standard->sequence) }} - {{ $standard->name }}</h5>
+                        <h5 style="margin-bottom: 0px;">{{ toArabicNumbers($standard->sequence) }} - {{ $standard->name }}</h5>
                         <small class="text-muted">{{ __('Standard Details and Information') }}</small>
                     </div>
 
@@ -29,18 +38,18 @@
                                     <td style=" width: 600px; text-wrap: wrap"  rowspan="3">
                                         {{ __('Criteria') }}</td>
                                         <td style="width: 15px; " rowspan="3">{{ __('Compliance') }}</td>
-                                        <td colspan="2">{{ __('Not Satisfactory') }}</td>
-                                        <td colspan="3">{{ __('Satisfactory') }}</td>
+                                        <td colspan="2" >{{ __('Not Satisfactory') }}</td>
+                                        <td colspan="3" >{{ __('Satisfactory') }}</td>
 
                                 </tr>
 
                                 <tr style="color:white !important; background-color: rgb(76, 61, 142) !important">
 
-                                    <td colspan=""> {{ __('Not Fulfilled') }} </td>
-                                    <td colspan=""> {{ __('Partially Fulfilled') }} </td>
-                                    <td colspan=""> {{ __('Fulfilled') }} </td>
-                                    <td colspan=""> {{ __('Fulfilled with Excellence') }} </td>
-                                    <td colspan=""> {{ __('Fulfilled with Distinction') }} </td>
+                                    <td > {{ __('Not Fulfilled') }} </td>
+                                    <td > {{ __('Partially Fulfilled') }} </td>
+                                    <td > {{ __('Fulfilled') }} </td>
+                                    <td > {{ __('Fulfilled with Excellence') }} </td>
+                                    <td > {{ __('Fulfilled with Distinction') }} </td>
 
                                 </tr>
                                 <tr style="color:white !important; background-color: rgb(76, 61, 142) !important">
@@ -59,40 +68,40 @@
                                 <tr style="background-color: #52B5C2;">
                                     <td
                                         style="width: 10px;
-            max-width: 10px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            text-align: center;">
+                                        max-width: 10px;
+                                        overflow: hidden;
+                                        text-overflow: ellipsis;
+                                        white-space: nowrap;
+                                        text-align: center;">
                                         {{ toArabicNumbers($standard->sequence)}}</td>
                                     <td style=" text-align: start; text-wrap: wrap" colspan="7">{{ $standard->name }}
-                                        {{-- {!! $standard->introduction !!} </td> --}}
+                                        {!! $standard->introduction !!} </td>
 
                                 </tr>
                                 @foreach ($standard->children as $child)
                                     <tr style="background-color: #52B5C2;">
                                         <td
                                             style="width: 15px;
-            max-width: 15px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            text-align: center;
-            ">
+                                            max-width: 15px;
+                                            overflow: hidden;
+                                            text-overflow: ellipsis;
+                                            white-space: nowrap;
+                                            text-align: center;
+                                            ">
                                             {{ toArabicNumbers($child->sequence) }}</td>
                                         <td style="width: 15px; text-align: start; text-wrap: wrap" colspan="7">
                                             {{ $child->name }} <br>
-                                            {{-- {!! $child->introduction !!} </td> --}}
+                                            {!! $child->introduction !!} </td>
                                     </tr>
                                     @foreach ($child->criteria as $criterion)
                                         <tr style="background-color: #c3c5c5; color:black !important;">
                                             <td style="width: 10px; color:black !important;
-            max-width: 10px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            text-align: center;
-            padding: 0;"
+                                            max-width: 10px;
+                                            overflow: hidden;
+                                            text-overflow: ellipsis;
+                                            white-space: nowrap;
+                                            text-align: center;
+                                            padding: 0;"
                                                 class="sequence">{{ toArabicNumbers($criterion->sequence) }}</td>
                                             <td style="width: 15px; text-align: start; text-wrap: wrap; color:black !important">
                                                 {!! $criterion->name !!}</td>
@@ -142,9 +151,7 @@
                                 </tr>
                                 <tr  style="background-color: #3e6ba5;">
                                     <td style="width: 15px; text-align: start; text-wrap: wrap" colspan="2">{{ __('Total Standard Evaluation') }}</td>
-                                    <td  colspan="6">{{ toArabicNumbers($totalEvaluation)}}</td>
-
-
+                                    <td  colspan="6">{{ toArabicNumbers($totalEvaluation).''}} {{__('Points')}} / {{''.__(getDegree($totalEvaluation))}}</td>
                                 </tr>
                             </tbody>
                         </table>

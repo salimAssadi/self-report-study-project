@@ -60,7 +60,8 @@
                                         <td>{{ toArabicNumbers($standard->sequence) }}</td>
                                         <td>{{ $standard->name }}</td>
                                         <td>{{ toArabicNumbers($standard->children->count()) }}</td>
-                                        <td>{{ toArabicNumbers($standard->criteria->count()) }}</td>
+
+                                        <td>{{ toArabicNumbers($standard->total_criteria_count) }}</td>
                                         <td>
                                             @switch($standard->completion_status)
                                                 @case('incomplete')

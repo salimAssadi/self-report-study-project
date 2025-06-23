@@ -1541,5 +1541,8 @@
   "Enter Report Summary (Arabic)":"أدخل ملخص التقرير (عربي)",
   "Enter Report Summary (English)":"أدخل ملخص التقرير (إنجليزي)",
   "Report Conclusion":"ختام التقرير",
-  "Enter Report Conclusion (Arabic)":"أدخل ختام التقرير (عربي)"
+  "Enter Report Conclusion (Arabic)":"أدخل ختام التقرير (عربي)",
+  "Points":"نقاط",
+  "All Sub-Standards":"جميع المعايير الفرعية",
+  "Filter":"تصفية"
 }

@@ -1,48 +1,56 @@
-@extends('layouts.admin-app')
-@php
-    $profile = asset(Storage::url('upload/profile/'));
-@endphp
-@stack('css-page')
+<!DOCTYPE html>
+<html lang="{{ app()->getLocale() }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-<link href="{{ asset('vendor/file-manager/css/file-manager.css') }}" rel="stylesheet">
+    <title>{{ config('app.name', 'File Manager') }}</title>
 
-@section('page-title')
-    {{ __('File Manager') }}
-@endsection
-
-
-@section('content')
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{{ asset('vendor/file-manager/css/file-manager.css') }}">
+</head>
+<body>
+<div class="container-fluid">
     <div class="row">
-
-        <div class="container">
-
-            <div class="row">
-
-                <div class="col-md-12" id="fm-main-block">
-
-                    <div id="fm"></div>
-
-                </div>
-
-            </div>
-
+        <div class="col-md-12" id="fm-main-block">
+            <div id="fm"></div>
         </div>
     </div>
-    <!-- File manager -->
-@endsection
-@push('script-page')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
+</div>
 
-            document.getElementById('fm-main-block').setAttribute('style', 'height:' + window.innerHeight + 'px');
-            fm.$store.commit('fm/setFileCallBack', function(fileUrl) {
-                window.opener.fmSetLink(fileUrl);
+<!-- File manager -->
+<script src="{{ asset('vendor/file-manager/js/file-manager.js') }}"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // set fm height
+    document.getElementById('fm-main-block').setAttribute('style', 'height:' + window.innerHeight + 'px');
 
-                window.close();
+    const FileBrowserDialogue = {
+      init: function() {
+        // Here goes your code for setting your custom things onLoad.
+      },
+      mySubmit: function (URL) {
+        // pass selected file path to TinyMCE
+        parent.postMessage({
+            mceAction: 'insert',
+            content: URL,
+            text: URL.split('/').pop()
+        })
+        // close popup window
+        parent.postMessage({ mceAction: 'close' });
+      }
+    };
 
-            });
+    // Add callback to file manager
+    fm.$store.commit('fm/setFileCallBack', function(fileUrl) {
+      FileBrowserDialogue.mySubmit(fileUrl);
+    });
+  });
+</script>
+</body>
+</html>
 
-        });
-    </script>
-    </script>

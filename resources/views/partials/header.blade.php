@@ -54,7 +54,6 @@
                 <li class="dropdown pc-h-item header-user-profile">
                     <a class="pc-head-link head-link-primary dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown"
                         href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                        <img src="{{(!empty($users->profile)? $profile.'/'.$users->profile : $profile.'/avatar.png')}}" alt="user-image" class="user-avtar" />
                         <span>
                             <i class="ti ti-user-check"></i>
                         </span>
@@ -70,7 +69,7 @@
                             <div class="profile-notification-scroll position-relative"
                                 style="max-height: calc(100vh - 280px)">
                                 <hr />
-                             
+
                                 @impersonating()
                                 <a href="{{ route('impersonate.leave') }}" class="dropdown-item" data-actions="Account">
                                     <i class="ti ti-transfer-out"></i>

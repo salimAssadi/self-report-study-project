@@ -4,6 +4,7 @@
     $authUser = \App\Models\User::find($ids);
     $routeName = \Request::route()->getName();
 @endphp
+
 <nav class="pc-sidebar">
     <div class="navbar-wrapper">
         <div class="m-header">
@@ -345,3 +346,4 @@
         </div>
     </div>
 </nav>
+

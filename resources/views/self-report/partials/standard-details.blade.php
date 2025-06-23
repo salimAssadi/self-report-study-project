@@ -4,7 +4,9 @@
     <div class="standard-block">
 
         <div class="text-block main-text">
-            {!! $standard->description !!}
+            @if($standard->description)
+                {!! $standard->description !!}
+            @endif
         </div>
 
         <!-- المعايير الفرعية -->
@@ -13,17 +15,20 @@
                 <div class="sub-standard-item">
 
                     <div class="text-block sub-text">
-                        {!! $child->description !!}
+                        @if($child->description)
+                            {!! $child->description !!}
+                        @endif
                     </div>
 
                     <!-- المحكات -->
                     <div class="criteria-block">
                         @foreach ($child->criteria as $criterion)
                             <div class="criterion-item">
-
-                                <div class="text-block criterion-text">
-                                    {!! $criterion->content !!}
-                                </div>
+                                @if($criterion->content)
+                                    <div class="text-block criterion-text">
+                                        {!! $criterion->content !!}
+                                    </div>
+                                @endif
                             </div>
                         @endforeach
                     </div>
