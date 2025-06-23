@@ -286,17 +286,14 @@
                                 </div>
                                 <div class="form-group col-6">
                                     {{ Form::label('fulfillment_status', __('Fulfillment Status'), ['class' => 'form-label']) }}
-                                    {{ Form::select(
-                                        'fulfillment_status',
-                                        [
-                                            '' => __('Select a Fulfillment Status'),
-                                        ] +
-                                            collect(\App\Constants\Status::FULFILLMENT_STATUS)->mapWithKeys(function ($value, $key) {
-                                                    return [$key => __($value)];
-                                                })->toArray(),
-                                        $criterion->fulfillment_status ?? null,
-                                        ['class' => 'form-control hidesearch'],
-                                    ) }}
+                                    <select name="fulfillment_status" id="fulfillment_status" class="form-control">
+                                        <option value="">{{ __('Select a Fulfillment Status') }}</option>
+                                        <option value="1" {{ $criterion->fulfillment_status == 1 ? 'selected' : '' }}>{{ __('Not Fulfilled') }}</option>
+                                        <option value="2" {{ $criterion->fulfillment_status == 2 ? 'selected' : '' }}>{{ __('Partially Fulfilled') }}</option>
+                                        <option value="3" {{ $criterion->fulfillment_status == 3 ? 'selected' : '' }}>{{ __('Fulfilled') }}</option>
+                                        <option value="4" {{ $criterion->fulfillment_status == 4 ? 'selected' : '' }}>{{ __('Fulfilled with Excellence') }}</option>
+                                        <option value="5" {{ $criterion->fulfillment_status == 5 ? 'selected' : '' }}>{{ __('Fulfilled with Distinction') }}</option>
+                                    </select>
                                     @error('fulfillment_status')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror

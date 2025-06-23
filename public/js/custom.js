@@ -261,9 +261,12 @@ if ($(".summernote").length) {
 
         link_default_target: '_blank',
         pagebreak_split_block: true,
-        content_style: "table { border: 1px solid #ccc; border-collapse: collapse; }" +
-                   "table th, table td { border: 1px solid #ccc; padding: 10px; }", // Default border style
-        content_langs: [
+        table_default_styles: {
+            border: '1px solid black', // Set border width, style, and color
+            width: '100%', // Set table width to auto
+            'border-collapse': 'collapse' // Use border-collapse for the table
+        },
+            content_langs: [
             { title: 'English ', code: 'en_US' },
             { title: 'Arabic', code: 'ar' }
         ],

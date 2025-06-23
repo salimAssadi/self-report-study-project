@@ -10,10 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     @include('self-report.partials.pdf-styles-advance')
-    <link rel="icon" href="{{ asset(Storage::url('upload/logo')) . '/' . $settings['company_favicon'] }}"
-    type="image/x-icon">
-<link rel="shortcut icon" href="{{ asset(Storage::url('upload/logo')) . '/' . $settings['company_favicon'] }}"
-    type="image/x-icon">
+    <link rel="icon" href="{{ asset('assets/images/logo.png') }}" type="image/x-icon">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,31 +34,23 @@
 
     @include('self-report.partials.header')
 
-        <div class="cover-page">
-            <div style="position: relative; height: 297mm; width: 100%;
-                @if(isset($coverimgBase64))
-                background-image: url('data:image/jpeg;base64,{{$coverimgBase64}}');
-                background-size: cover;
-                background-position: center;
-                background-repeat: no-repeat;
-                @endif
-                ">
-
-                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; text-align: center;">
-                    @if(isset($logoBase64))
-                        <img src="data:image/png;base64,{{$logoBase64}}" alt="Logo" style="width: 120px; height: auto; margin-bottom: 30px;">
-                    @endif
-                    <h1 style="margin-bottom: 30px; color: #ffffff; font-size: 32px; font-weight: bold;">تقرير الدراسة الذاتية</h1>
-                    <h2 style="margin-bottom: 30px; color: #ffffff; font-size: 26px;">لمعهد الدراسات البيئية للقوات البحرية</h2>
-                    <h3 style="color: #ffffff; font-size: 22px;">مايو 2024 م</h3>
-                </div>
+    <div>
+        <div style="background-color: #4C3D8E; padding: 20px; border-radius: 10px; height: 297mm; width: 100%; margin: auto; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+            @if(isset($logoBase64))
+                <img src="data:image/png;base64,{{$logoBase64}}" alt="Logo" style="width: 120px; height: auto; margin-top: 270px;margin-right: 275px;">
+            @endif
+            <div style="text-align: center;">
+                <h1 style="margin: 30px 0;  color: #ffffff; font-size: 32px; font-weight: bold;">تقرير الدراسة الذاتية</h1>
+                <h2 style="margin: 30px 0; color: #ffffff; font-size: 26px;">لمعهد الدراسات الفنية للقوات الجوية</h2>
+                <h3 style="margin: 30px 0; color: #ffffff; font-size: 22px;">مايو ٢٠٢٥ م</h3>
             </div>
         </div>
-        <div class="cover-page">
-            @if(isset($coverimg2Base64))
-                <img src="data:image/jpeg;base64,{{$coverimg2Base64}}" alt="Cover Image" class="cover-img">
-            @endif
-        </div>
+    </div>
+    <div class="cover-page">
+        @if(isset($coverimg2Base64))
+            <img src="data:image/jpeg;base64,{{$coverimg2Base64}}" alt="Cover Image" class="cover-img">
+        @endif
+    </div>
     @include('self-report.partials.footer')
 
     <main>

@@ -1,13 +1,13 @@
 <style>
     /* @import url('https://fonts.googleapis.com/css2?family=Majalla:wght@200..1000&family=Noto+Kufi+Arabic:wght@100..900&display=swap'); */
-   
-   
+
+
 
     /* p {
         color: #666;
         text-align: center;
     } */
-  
+
     body{
         font-size: 18px;
         font-family: 'ArialCE', sans-serif;
@@ -21,7 +21,7 @@
         height: auto;
     }
 
-   
+
 
     table {
         width: 100%;
@@ -50,10 +50,10 @@
         padding: 0;
         /* page-break-after: always; */
     }
-    
+
     .cover-page {
-        margin: 0;
-        padding: 0;
+        /* margin: 0;
+        padding: 0; */
         height: 297mm;
         width: 210mm;
     }
@@ -65,14 +65,14 @@
         bottom: 0;
         height: 80px;
     }*/
-   
+
 
     .sub-number {
         width: 50px !important;
         /* height: fit-content !important; */
 
     }
-    
+
     .number {
         width: 50px !important;
         /* height: fit-content !important; */
@@ -112,7 +112,7 @@
         padding: 10px;
 
     }
-    
+
     .squen{
         width: 30px;
     }
@@ -120,9 +120,9 @@
         header: page-header;
         footer: page-footer;
     }
-   
+
     .standard thead td{
-        
+
         border: 4px double #393bc7;
         font-size: 20px !important;
         text-align: center !important;
@@ -136,7 +136,7 @@
         color: white
     }
    .info td{
-        
+
         border: 1px solid #000000;
         color: rgb(0, 0, 0)
     }
